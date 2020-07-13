@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Question : PFObject
+@interface Question : PFObject<PFSubclassing>
 
 @property (nonatomic, strong) NSDate *createdAt;
 @property (nonatomic, strong) NSString *questionID;

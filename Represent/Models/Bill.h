@@ -7,10 +7,11 @@
 //
 
 #import <Parse/Parse.h>
+#import "User.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Bill : PFObject
+@interface Bill : PFObject<PFSubclassing>
 
 @property (nonatomic, strong) NSDate *createdAt;
 @property (nonatomic, strong) NSString *billID;
