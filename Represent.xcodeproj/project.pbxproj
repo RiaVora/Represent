@@ -19,6 +19,7 @@
 		5864A71A24BCC8BF008EB431 /* RepresentUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5864A71924BCC8BF008EB431 /* RepresentUITests.m */; };
 		5864A72D24BD07E2008EB431 /* Question.m in Sources */ = {isa = PBXBuildFile; fileRef = 5864A72C24BD07E2008EB431 /* Question.m */; };
 		5864A73024BD094C008EB431 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 5864A72F24BD094C008EB431 /* User.m */; };
+		58E9B91C24BD199300263BF6 /* Bill.m in Sources */ = {isa = PBXBuildFile; fileRef = 58E9B91B24BD199300263BF6 /* Bill.m */; };
 		8AE017A4D2FC52FE15A2F9E4 /* Pods_RepresentTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 656B0999F0898C9B8966910B /* Pods_RepresentTests.framework */; };
 		EB6D20F57158E8D3A51EBEAB /* Pods_Represent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3269B73AB2B021CDA142D1DC /* Pods_Represent.framework */; };
 /* End PBXBuildFile section */
@@ -66,6 +67,8 @@
 		5864A72C24BD07E2008EB431 /* Question.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Question.m; sourceTree = "<group>"; };
 		5864A72E24BD094C008EB431 /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		5864A72F24BD094C008EB431 /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		58E9B91A24BD199300263BF6 /* Bill.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bill.h; sourceTree = "<group>"; };
+		58E9B91B24BD199300263BF6 /* Bill.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Bill.m; sourceTree = "<group>"; };
 		656B0999F0898C9B8966910B /* Pods_RepresentTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RepresentTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		69103D1902D55632592DA408 /* Pods_Represent_RepresentUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Represent_RepresentUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BACF980D9B20D94E13080B64 /* Pods-Represent-RepresentUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Represent-RepresentUITests.debug.xcconfig"; path = "Target Support Files/Pods-Represent-RepresentUITests/Pods-Represent-RepresentUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -176,6 +179,8 @@
 				5864A72C24BD07E2008EB431 /* Question.m */,
 				5864A72E24BD094C008EB431 /* User.h */,
 				5864A72F24BD094C008EB431 /* User.m */,
+				58E9B91A24BD199300263BF6 /* Bill.h */,
+				58E9B91B24BD199300263BF6 /* Bill.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -459,6 +464,7 @@
 			files = (
 				5864A6FA24BCC8BD008EB431 /* ViewController.m in Sources */,
 				5864A6F424BCC8BD008EB431 /* AppDelegate.m in Sources */,
+				58E9B91C24BD199300263BF6 /* Bill.m in Sources */,
 				5864A73024BD094C008EB431 /* User.m in Sources */,
 				5864A72D24BD07E2008EB431 /* Question.m in Sources */,
 				5864A70524BCC8BF008EB431 /* main.m in Sources */,
