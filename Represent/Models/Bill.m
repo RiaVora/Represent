@@ -13,7 +13,8 @@
 @dynamic createdAt;
 @dynamic billID;
 @dynamic title;
-@dynamic description;
+@dynamic forDescription;
+@dynamic againstDescription;
 @dynamic passed;
 @dynamic position;
 @dynamic votes;
@@ -22,7 +23,7 @@
 
 
 + (nonnull NSString *)parseClassName {
-    return @"Question";
+    return @"Bill";
 }
 
 @end

@@ -29,13 +29,7 @@
     newQuestion.voteCount = @(0);
     newQuestion.representative = representative;
     
-    [newQuestion saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (succeeded) {
-            NSLog(@"Question successfully saved for representative %@!", representative.username);
-        } else {
-            NSLog(@"Unable to save question: %@", error.localizedDescription);
-        }
-    }];
+    [newQuestion saveInBackgroundWithBlock: completion];
 }
 
 

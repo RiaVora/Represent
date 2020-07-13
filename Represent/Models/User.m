@@ -11,7 +11,7 @@
 @implementation User
 
 @dynamic firstName;
-@dynamic description;
+@dynamic profileDescription;
 @dynamic party;
 @dynamic followedRepresentatives;
 @dynamic zipcode;
