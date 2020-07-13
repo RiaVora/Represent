@@ -21,9 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL *isRepresentative;
 @property (nonatomic, strong) NSString *position;
 
-- (void)signUpUser;
 + (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image;
-
++(User*)user;
 
 @end
 

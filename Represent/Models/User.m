@@ -20,16 +20,19 @@
 @dynamic position;
 
 
-
-- (void)signUpUser {
-    [self signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (!error) {
-            NSLog(@"Success in signing up user");
-        } else {
-            NSLog(@"Error: %@", error.localizedDescription);
-        }
-    }];
++(User*)user {
+    return (User*)[PFUser user];
 }
+
+//- (void)signUpUser {
+//    [self signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//        if (!error) {
+//            NSLog(@"Success in signing up user");
+//        } else {
+//            NSLog(@"Error: %@", error.localizedDescription);
+//        }
+//    }];
+//}
 
 + (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image {
  

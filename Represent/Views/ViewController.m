@@ -7,6 +7,8 @@
 //
 
 #import "ViewController.h"
+#import "Question.h"
+#import <Parse/Parse.h>
 
 @interface ViewController ()
 
@@ -16,8 +18,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    
 }
+
 
 
 @end
