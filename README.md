@@ -250,3 +250,10 @@ Signup Screen
 
 ### External API Calls
 API for Bills and Votes: [ProPublica Congress API](https://projects.propublica.org/api-docs/congress-api/)
+
+### External Resources
+
+- [AFNetworking](https://github.com/AFNetworking/AFNetworking) - networking task library
+- [DateTools](https://cocoapods.org/pods/DateTool) - formatting for Date and Time
+- [Parse](https://cocoapods.org/pods/Parse) - Parse Objects and communication
+
