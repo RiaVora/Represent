@@ -184,7 +184,6 @@ Government and Politics isn't for a specific group of people; it affects every c
 | profilePhoto            | File        | profile photo of user                                      |
 | isRepresentative        | Boolean     | whether the user is a representative                       |
 | position                | String      | if the user is a representative, then role, i.e. "Senator" |
-| bills                   | Array<Bill> | if user is representative, the bills they started          |
 
 
 **Bill**
