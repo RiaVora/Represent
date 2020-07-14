@@ -185,7 +185,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" textContentType="email"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Zipcode" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ius-od-Nc3">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="State (2-Letter Abbreviation)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ius-od-Nc3">
                                 <rect key="frame" x="100" y="434" width="214" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" textContentType="postal-code"/>
@@ -213,7 +213,7 @@
                                     <action selector="pressedSignUp:" destination="ddC-FA-7Zo" eventType="touchUpInside" id="Zyd-0K-cdh"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We use your zipcode to automatically connect you to your local representatives!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JB5-5h-YMW">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We use your state to automatically connect you to your local representatives!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JB5-5h-YMW">
                                 <rect key="frame" x="56" y="471" width="302" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Sga-Gh-2Ao"/>
@@ -273,8 +273,8 @@
                         <outlet property="emailField" destination="L6N-US-iFR" id="xT7-BV-3yx"/>
                         <outlet property="firstNameField" destination="hWb-hK-3zL" id="eNt-Uq-l2B"/>
                         <outlet property="passwordField" destination="nQi-cT-OYZ" id="XeL-83-IbD"/>
+                        <outlet property="stateField" destination="Ius-od-Nc3" id="5az-9E-rVj"/>
                         <outlet property="usernameField" destination="cj7-l7-CDe" id="6Gw-13-K4t"/>
-                        <outlet property="zipcodeField" destination="Ius-od-Nc3" id="5az-9E-rVj"/>
                         <segue destination="7HU-7a-Wpi" kind="presentation" identifier="signInSegue" id="gQy-eT-dt7"/>
                     </connections>
                 </viewController>
@@ -359,6 +359,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="WcP-uz-SUq"/>
+        <segue reference="gQy-eT-dt7"/>
     </inferredMetricsTieBreakers>
 </document>

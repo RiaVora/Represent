@@ -24,10 +24,9 @@ static NSString * const baseURLString = @"https://api.propublica.org/congress/v1
 - (void)fetchRecentBills:(void(^)(NSArray *bills, NSError *error))completion {
     NSString *fullURL = [NSString stringWithFormat:@"%@%@", baseURLString, @"116/both/bills/introduced.json"];
     NSURL *URL = [NSURL URLWithString:fullURL];
-//    NSURLRequest *request = [NSURLRequest requestWithURL:URL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
-    NSMutableURLRequest *request2 = [NSMutableURLRequest requestWithURL:URL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
-    [request2 setValue:@"PQr31zdf3ibsr3mz9neLib2acbI3FhAn4SvN1cBx" forHTTPHeaderField:@"X-API-KEY"];
-    NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request2 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
+    [request setValue:@"PQr31zdf3ibsr3mz9neLib2acbI3FhAn4SvN1cBx" forHTTPHeaderField:@"X-API-KEY"];
+    NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error != nil) {
             NSLog(@"%@", [error localizedDescription]);
             completion(nil, error);
@@ -35,10 +34,7 @@ static NSString * const baseURLString = @"https://api.propublica.org/congress/v1
         else {
             NSLog(@"Success!");
             NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-//
-            NSArray *dictionaries = dataDictionary[@"results"];
-//            NSMutableArray *movies = [Movie moviesWithDictionaries:dictionaries];
-            completion(dictionaries, nil);
+            completion(dataDictionary[@"results"], nil);
         }
     }];
     [task resume];

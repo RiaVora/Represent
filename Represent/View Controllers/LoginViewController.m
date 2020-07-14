@@ -26,15 +26,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    APIManager *manager = [APIManager new];
-    [manager fetchRecentBills:^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
-        if (error) {
-            NSLog(@"Error: %@", error.localizedDescription);
-        } else {
-            NSLog(@"Success for bills!");
-            NSLog(@"%@", bills);
-        }
-    }];
+//    APIManager *manager = [APIManager new];
+//    [manager fetchRecentBills:^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
+//        if (error) {
+//            NSLog(@"Error: %@", error.localizedDescription);
+//        } else {
+//            NSLog(@"Success for bills!");
+//            NSLog(@"%@", bills);
+//        }
+//    }];
 
 
     

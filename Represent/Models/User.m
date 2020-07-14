@@ -14,7 +14,7 @@
 @dynamic profileDescription;
 @dynamic party;
 @dynamic followedRepresentatives;
-@dynamic zipcode;
+@dynamic state;
 @dynamic profilePhoto;
 @dynamic isRepresentative;
 @dynamic position;
@@ -24,14 +24,17 @@
     return (User*)[PFUser user];
 }
 
-- (void)signUpUser: (NSString *)firstName email:(NSString *)email zipcode:(NSString *)zipcode username:(NSString *)username password:(NSString *)password withCompletion: (PFBooleanResultBlock  _Nullable)completion {
+- (void)signUpUser: (NSString *)firstName email:(NSString *)email state:(NSString *)state username:(NSString *)username password:(NSString *)password withCompletion: (PFBooleanResultBlock  _Nullable)completion {
     self.firstName = firstName;
     self.email = email;
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
-    self.zipcode = [formatter numberFromString:zipcode];
+    self.state = state.uppercaseString;
     self.username = username;
     self.password = password;
     [self signUpInBackgroundWithBlock: completion];
+}
+
+- (NSMutableArray *)getRepresentatives: (NSString *)state {
+    
 }
 
 + (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image {

@@ -14,7 +14,7 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *firstNameField;
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
-@property (weak, nonatomic) IBOutlet UITextField *zipcodeField;
+@property (weak, nonatomic) IBOutlet UITextField *stateField;
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 @property (weak, nonatomic) IBOutlet UITextField *confirmPasswordField;
@@ -34,7 +34,7 @@
 - (IBAction)pressedSignUp:(id)sender {
     if ([self checkAllCorrect]) {
         User *user = [User new];
-        [user signUpUser:self.firstNameField.text email:self.emailField.text zipcode:self.zipcodeField.text username:self.usernameField.text password:self.passwordField.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+        [user signUpUser:self.firstNameField.text email:self.emailField.text state:self.stateField.text username:self.usernameField.text password:self.passwordField.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
             if (succeeded) {
                 NSLog(@"Success in signing up user %@, welcome %@!", user.username, user.firstName);
                 [self performSegueWithIdentifier:@"signInSegue" sender:sender];
@@ -52,12 +52,13 @@
 - (BOOL)checkAllCorrect {
     BOOL firstNameExists = [Utils checkExists:self.firstNameField.text :@"First Name" :self];
     BOOL emailExists = [Utils checkExists:self.emailField.text :@"Email" :self];
-    BOOL zipcodeExists = [Utils checkExists:self.zipcodeField.text :@"Zipcode" :self];
+    BOOL stateExists = [Utils checkExists:self.stateField.text :@"Zipcode" :self];
     BOOL usernameExists = [Utils checkExists:self.usernameField.text :@"Username" :self];
     BOOL passwordExists = [Utils checkExists:self.passwordField.text :@"Password" :self];
     BOOL confirmPasswordExists = [Utils checkExists:self.confirmPasswordField.text :@"Confirm Password" :self];
+    BOOL stateLengthCorrect = [Utils checkLength:self.stateField.text :@(2) :@"State" :self];
     BOOL passwordsEqual = [Utils checkEquals:self.passwordField.text :self.confirmPasswordField.text :@"Password do not match, please try again." :self];
-    return firstNameExists && emailExists && zipcodeExists && usernameExists && passwordExists && confirmPasswordExists && passwordsEqual;
+    return firstNameExists && emailExists && stateExists && usernameExists && passwordExists && confirmPasswordExists && stateLengthCorrect && passwordsEqual;
 }
 
 #pragma mark - Navigation

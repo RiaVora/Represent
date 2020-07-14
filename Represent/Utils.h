@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (BOOL)checkExists:(NSString *)text :(NSString *)field :(UIViewController *)viewController;
 + (BOOL)checkEquals:(NSString *)text1 :(NSString *)text2 :(NSString *)field :(UIViewController *)viewController;
++ (BOOL)checkLength:(NSString *)text :(NSNumber *)length :(NSString *)field :(UIViewController *)viewController;
 + (void)displayAlertWithOk:(NSString *)title message:(NSString *)message viewController:(UIViewController *)viewController;
 
 @end

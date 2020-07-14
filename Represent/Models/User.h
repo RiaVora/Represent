@@ -16,13 +16,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *profileDescription;
 @property (nonatomic, strong) NSString *party;
 @property (nonatomic, strong) NSMutableArray *followedRepresentatives;
-@property (nonatomic, strong) NSNumber *zipcode;
+@property (nonatomic, strong) NSString *state;
 @property (nonatomic, strong) PFFileObject *profilePhoto;
 @property (nonatomic) BOOL *isRepresentative;
 @property (nonatomic, strong) NSString *position;
 
 +(User*)user;
-- (void)signUpUser: (NSString *)firstName email:(NSString *)email zipcode:(NSString *)zipcode username:(NSString *)username password:(NSString *)password withCompletion: (PFBooleanResultBlock  _Nullable)completion;
+- (void)signUpUser: (NSString *)firstName email:(NSString *)email state:(NSString *)state username:(NSString *)username password:(NSString *)password withCompletion: (PFBooleanResultBlock  _Nullable)completion;
 + (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image;
 
 @end

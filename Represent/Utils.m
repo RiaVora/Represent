@@ -26,6 +26,17 @@
     return YES;
 }
 
++ (BOOL)checkLength:(NSString *)text :(NSNumber *)length :(NSString *)field :(UIViewController *)viewController {
+    NSLog(@"length is %lu", text.length);
+    NSNumber *currentLength = [NSNumber numberWithLong:text.length];
+    NSLog(@"currentLength is %@", currentLength);
+    if (![currentLength isEqualToNumber:length]){
+        [self displayAlertWithOk:[NSString stringWithFormat: @"Incorrect %@", field] message:[NSString stringWithFormat: @"%@ should be %@ letters long", field, length] viewController:viewController];
+        return NO;
+    }
+    return YES;
+}
+
 + (void)displayAlertWithOk:(NSString *)title message:(NSString *)message viewController:(UIViewController *)viewController {
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
