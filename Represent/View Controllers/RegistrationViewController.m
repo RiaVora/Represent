@@ -32,24 +32,32 @@
 #pragma mark - Actions
 
 - (IBAction)pressedSignUp:(id)sender {
-    NSString *firstName = self.firstNameField.text;
-    NSString *email = self.emailField.text;
-    NSString *zipcode = self.zipcodeField.text;
-    NSString *username = self.usernameField.text;
-    NSString *password = self.passwordField.text;
-    NSString *confirmPassword = self.confirmPasswordField.text;
-    BOOL firstNameExists = [Utils checkExists:firstName :@"First Name" :self];
-    BOOL emailExists = [Utils checkExists:email :@"Email" :self];
-    BOOL zipcodeExists = [Utils checkExists:zipcode :@"Zipcode" :self];
-    BOOL usernameExists = [Utils checkExists:username :@"Username" :self];
-    BOOL passwordExists = [Utils checkExists:password :@"Password" :self];
-    BOOL confirmPasswordExists = [Utils checkExists:confirmPassword :@"Confirm Password" :self];
-    BOOL allExist = firstNameExists && emailExists && zipcodeExists && usernameExists && passwordExists && confirmPasswordExists;
-    
-    if (allExist) {
+    if ([self checkAllCorrect]) {
+        User *user = [User new];
+        [user signUpUser:self.firstNameField.text email:self.emailField.text zipcode:self.zipcodeField.text username:self.usernameField.text password:self.passwordField.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+            if (succeeded) {
+                NSLog(@"Success in signing up user %@, welcome %@!", user.username, user.firstName);
+                [self performSegueWithIdentifier:@"signInSegue" sender:sender];
+            } else {
+                NSLog(@"Error: %@", error.localizedDescription);
+                [Utils displayAlertWithOk:@"Error with signing up" message:error.localizedDescription viewController:self];
+            }
+        }];
         
     }
     
+    
+}
+
+- (BOOL)checkAllCorrect {
+    BOOL firstNameExists = [Utils checkExists:self.firstNameField.text :@"First Name" :self];
+    BOOL emailExists = [Utils checkExists:self.emailField.text :@"Email" :self];
+    BOOL zipcodeExists = [Utils checkExists:self.zipcodeField.text :@"Zipcode" :self];
+    BOOL usernameExists = [Utils checkExists:self.usernameField.text :@"Username" :self];
+    BOOL passwordExists = [Utils checkExists:self.passwordField.text :@"Password" :self];
+    BOOL confirmPasswordExists = [Utils checkExists:self.confirmPasswordField.text :@"Confirm Password" :self];
+    BOOL passwordsEqual = [Utils checkEquals:self.passwordField.text :self.confirmPasswordField.text :@"Password do not match, please try again." :self];
+    return firstNameExists && emailExists && zipcodeExists && usernameExists && passwordExists && confirmPasswordExists && passwordsEqual;
 }
 
 #pragma mark - Navigation

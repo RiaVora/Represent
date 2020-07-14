@@ -55,13 +55,13 @@
     NSString *username = self.usernameField.text;
     NSString *password = self.passwordField.text;
     BOOL usernameExists = [Utils checkExists:username :@"Username" :self];
-    BOOL passwordExists = [Utils checkExists:password :@"Username" :self];
+    BOOL passwordExists = [Utils checkExists:password :@"Password" :self];
     
     if (usernameExists && passwordExists) {
         [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser * user, NSError *  error) {
             if (error != nil) {
                 NSLog(@"User log in failed: %ld", error.code);
-                [Utils displayAlertWithOk:@"Error with Logging in" :error.localizedDescription :self];
+                [Utils displayAlertWithOk: @"Error with Logging In" message:error.localizedDescription viewController:self];
             } else {
                 NSLog(@"User %@ logged in successfully", username);
                 self.usernameField.text = @"";
@@ -77,13 +77,13 @@
 
 #pragma mark - Navigation
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"loginSegue"]) {
-        
-    } else if ([segue.identifier isEqualToString: @"signUpSegue"]) {
-        
-    }
-}
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+//    if ([segue.identifier isEqualToString:@"loginSegue"]) {
+//
+//    } else if ([segue.identifier isEqualToString: @"signUpSegue"]) {
+//
+//    }
+//}
 
 
 

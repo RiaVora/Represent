@@ -24,15 +24,15 @@
     return (User*)[PFUser user];
 }
 
-//- (void)signUpUser {
-//    [self signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-//        if (!error) {
-//            NSLog(@"Success in signing up user");
-//        } else {
-//            NSLog(@"Error: %@", error.localizedDescription);
-//        }
-//    }];
-//}
+- (void)signUpUser: (NSString *)firstName email:(NSString *)email zipcode:(NSString *)zipcode username:(NSString *)username password:(NSString *)password withCompletion: (PFBooleanResultBlock  _Nullable)completion {
+    self.firstName = firstName;
+    self.email = email;
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+    self.zipcode = [formatter numberFromString:zipcode];
+    self.username = username;
+    self.password = password;
+    [self signUpInBackgroundWithBlock: completion];
+}
 
 + (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image {
  

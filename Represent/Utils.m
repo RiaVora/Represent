@@ -12,13 +12,21 @@
 
 + (BOOL)checkExists:(NSString *)text :(NSString *)field :(UIViewController *)viewController {
     if ([text isEqual:@""]) {
-        [self displayAlertWithOk: [NSString stringWithFormat: @"%@ Cannot Be Blank", field]: [NSString stringWithFormat: @"Please create a %@.", field]: viewController];
+        [self displayAlertWithOk:[NSString stringWithFormat: @"%@ Cannot Be Blank", field] message:[NSString stringWithFormat: @"Please create a %@.", field] viewController:viewController];
         return NO;
     }
     return YES;
 }
 
-+ (void)displayAlertWithOk:(NSString *)title :(NSString *)message :(UIViewController *)viewController {
++ (BOOL)checkEquals:(NSString *)text1 :(NSString *)text2 :(NSString *)field :(UIViewController *)viewController {
+    if (![text1 isEqual:text2]) {
+        [self displayAlertWithOk:@"Not Equal" message:field viewController:viewController];
+        return NO;
+    }
+    return YES;
+}
+
++ (void)displayAlertWithOk:(NSString *)title message:(NSString *)message viewController:(UIViewController *)viewController {
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
     
