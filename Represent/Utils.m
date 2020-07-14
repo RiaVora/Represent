@@ -10,6 +10,14 @@
 
 @implementation Utils
 
++ (BOOL)checkExists:(NSString *)text :(NSString *)field :(UIViewController *)viewController {
+    if ([text isEqual:@""]) {
+        [self displayAlertWithOk: [NSString stringWithFormat: @"%@ Cannot Be Blank", field]: [NSString stringWithFormat: @"Please create a %@.", field]: viewController];
+        return NO;
+    }
+    return YES;
+}
+
 + (void)displayAlertWithOk:(NSString *)title :(NSString *)message :(UIViewController *)viewController {
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];

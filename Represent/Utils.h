@@ -13,6 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Utils : NSObject
 
++ (BOOL)checkExists:(NSString *)text :(NSString *)field :(UIViewController *)viewController;
++ (void)displayAlertWithOk:(NSString *)title :(NSString *)message :(UIViewController *)viewController;
+
 @end
 
 NS_ASSUME_NONNULL_END

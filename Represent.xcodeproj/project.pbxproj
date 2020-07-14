@@ -173,6 +173,8 @@
 		5864A72724BD0669008EB431 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				5864A6F824BCC8BD008EB431 /* LoginViewController.h */,
+				5864A6F924BCC8BD008EB431 /* LoginViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -193,8 +195,6 @@
 		5864A72924BD0694008EB431 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5864A6F824BCC8BD008EB431 /* LoginViewController.h */,
-				5864A6F924BCC8BD008EB431 /* LoginViewController.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
