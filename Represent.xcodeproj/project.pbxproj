@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2166B9D5C0FB137D4EF60D8F /* Pods_Represent_RepresentUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69103D1902D55632592DA408 /* Pods_Represent_RepresentUITests.framework */; };
+		5845E72D24BE0D4D00D46103 /* RegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5845E72C24BE0D4D00D46103 /* RegistrationViewController.m */; };
 		5864A6F424BCC8BD008EB431 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5864A6F324BCC8BD008EB431 /* AppDelegate.m */; };
 		5864A6F724BCC8BD008EB431 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5864A6F624BCC8BD008EB431 /* SceneDelegate.m */; };
 		5864A6FA24BCC8BD008EB431 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5864A6F924BCC8BD008EB431 /* LoginViewController.m */; };
@@ -46,6 +47,8 @@
 		169D7A98FE4DACFA04826A12 /* Pods-Represent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Represent.debug.xcconfig"; path = "Target Support Files/Pods-Represent/Pods-Represent.debug.xcconfig"; sourceTree = "<group>"; };
 		1DEE14B70F7F6E5053B36D87 /* Pods-Represent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Represent.release.xcconfig"; path = "Target Support Files/Pods-Represent/Pods-Represent.release.xcconfig"; sourceTree = "<group>"; };
 		3269B73AB2B021CDA142D1DC /* Pods_Represent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Represent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5845E72B24BE0D4D00D46103 /* RegistrationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegistrationViewController.h; sourceTree = "<group>"; };
+		5845E72C24BE0D4D00D46103 /* RegistrationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegistrationViewController.m; sourceTree = "<group>"; };
 		5864A6EF24BCC8BD008EB431 /* Represent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Represent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5864A6F224BCC8BD008EB431 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5864A6F324BCC8BD008EB431 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -175,6 +178,8 @@
 			children = (
 				5864A6F824BCC8BD008EB431 /* LoginViewController.h */,
 				5864A6F924BCC8BD008EB431 /* LoginViewController.m */,
+				5845E72B24BE0D4D00D46103 /* RegistrationViewController.h */,
+				5845E72C24BE0D4D00D46103 /* RegistrationViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -474,6 +479,7 @@
 				5864A73024BD094C008EB431 /* User.m in Sources */,
 				5864A72D24BD07E2008EB431 /* Question.m in Sources */,
 				5864A70524BCC8BF008EB431 /* main.m in Sources */,
+				5845E72D24BE0D4D00D46103 /* RegistrationViewController.m in Sources */,
 				5864A6F724BCC8BD008EB431 /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

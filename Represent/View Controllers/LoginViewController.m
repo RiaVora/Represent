@@ -19,6 +19,8 @@
 
 @implementation LoginViewController
 
+#pragma mark - UIViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -46,6 +48,9 @@
 //    }];
     
 }
+
+#pragma mark - Actions
+
 - (IBAction)pressedLogin:(id)sender {
     NSString *username = self.usernameField.text;
     NSString *password = self.passwordField.text;
@@ -69,6 +74,8 @@
 - (IBAction)pressedSignUp:(id)sender {
     [self performSegueWithIdentifier:@"signUpSegue" sender:sender];
 }
+
+#pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"loginSegue"]) {
