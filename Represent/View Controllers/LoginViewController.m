@@ -10,6 +10,7 @@
 #import "Question.h"
 #import <Parse/Parse.h>
 #import "Utils.h"
+#import "APIManager.h"
 
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
@@ -21,8 +22,21 @@
 
 #pragma mark - UIViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    APIManager *manager = [APIManager new];
+    [manager fetchRecentBills:^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+        } else {
+            NSLog(@"Success for bills!");
+            NSLog(@"%@", bills);
+        }
+    }];
+
+
     
 //    [Question postUserQuestion:@"test question" forRepresentative:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
 //        if (succeeded) {
