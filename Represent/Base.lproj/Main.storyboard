@@ -136,10 +136,10 @@
             </objects>
             <point key="canvasLocation" x="3909" y="2356"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--TabBarController-->
         <scene sceneID="QAB-Oq-QZd">
             <objects>
-                <tabBarController modalPresentationStyle="fullScreen" id="7HU-7a-Wpi" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarController" title="TabBarController" modalPresentationStyle="fullScreen" id="7HU-7a-Wpi" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="awy-gM-yCn">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
