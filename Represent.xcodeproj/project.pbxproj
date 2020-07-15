@@ -10,6 +10,9 @@
 		2166B9D5C0FB137D4EF60D8F /* Pods_Represent_RepresentUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69103D1902D55632592DA408 /* Pods_Represent_RepresentUITests.framework */; };
 		5845E72D24BE0D4D00D46103 /* RegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5845E72C24BE0D4D00D46103 /* RegistrationViewController.m */; };
 		5845E73024BE424D00D46103 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5845E72F24BE424D00D46103 /* APIManager.m */; };
+		5845E73324BE8DC700D46103 /* QuestionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5845E73224BE8DC700D46103 /* QuestionsViewController.m */; };
+		5845E73624BEB57300D46103 /* BillsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5845E73524BEB57300D46103 /* BillsViewController.m */; };
+		5845E73924BEB57D00D46103 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5845E73824BEB57D00D46103 /* ProfileViewController.m */; };
 		5864A6F424BCC8BD008EB431 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5864A6F324BCC8BD008EB431 /* AppDelegate.m */; };
 		5864A6F724BCC8BD008EB431 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5864A6F624BCC8BD008EB431 /* SceneDelegate.m */; };
 		5864A6FA24BCC8BD008EB431 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5864A6F924BCC8BD008EB431 /* LoginViewController.m */; };
@@ -52,6 +55,12 @@
 		5845E72C24BE0D4D00D46103 /* RegistrationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegistrationViewController.m; sourceTree = "<group>"; };
 		5845E72E24BE424D00D46103 /* APIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
 		5845E72F24BE424D00D46103 /* APIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
+		5845E73124BE8DC700D46103 /* QuestionsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuestionsViewController.h; sourceTree = "<group>"; };
+		5845E73224BE8DC700D46103 /* QuestionsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuestionsViewController.m; sourceTree = "<group>"; };
+		5845E73424BEB57300D46103 /* BillsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BillsViewController.h; sourceTree = "<group>"; };
+		5845E73524BEB57300D46103 /* BillsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BillsViewController.m; sourceTree = "<group>"; };
+		5845E73724BEB57C00D46103 /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		5845E73824BEB57D00D46103 /* ProfileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		5864A6EF24BCC8BD008EB431 /* Represent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Represent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5864A6F224BCC8BD008EB431 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5864A6F324BCC8BD008EB431 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -183,6 +192,12 @@
 				5864A6F924BCC8BD008EB431 /* LoginViewController.m */,
 				5845E72B24BE0D4D00D46103 /* RegistrationViewController.h */,
 				5845E72C24BE0D4D00D46103 /* RegistrationViewController.m */,
+				5845E73124BE8DC700D46103 /* QuestionsViewController.h */,
+				5845E73224BE8DC700D46103 /* QuestionsViewController.m */,
+				5845E73424BEB57300D46103 /* BillsViewController.h */,
+				5845E73524BEB57300D46103 /* BillsViewController.m */,
+				5845E73724BEB57C00D46103 /* ProfileViewController.h */,
+				5845E73824BEB57D00D46103 /* ProfileViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -478,6 +493,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5864A6FA24BCC8BD008EB431 /* LoginViewController.m in Sources */,
+				5845E73624BEB57300D46103 /* BillsViewController.m in Sources */,
 				5864A6F424BCC8BD008EB431 /* AppDelegate.m in Sources */,
 				58E9B91C24BD199300263BF6 /* Bill.m in Sources */,
 				58E9B91F24BD1EB300263BF6 /* Utils.m in Sources */,
@@ -485,7 +501,9 @@
 				5864A73024BD094C008EB431 /* User.m in Sources */,
 				5864A72D24BD07E2008EB431 /* Question.m in Sources */,
 				5864A70524BCC8BF008EB431 /* main.m in Sources */,
+				5845E73924BEB57D00D46103 /* ProfileViewController.m in Sources */,
 				5845E72D24BE0D4D00D46103 /* RegistrationViewController.m in Sources */,
+				5845E73324BE8DC700D46103 /* QuestionsViewController.m in Sources */,
 				5864A6F724BCC8BD008EB431 /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -88,10 +88,10 @@
             </objects>
             <point key="canvasLocation" x="550.72463768115949" y="60.9375"/>
         </scene>
-        <!--View Controller-->
+        <!--QuestionsViewController-->
         <scene sceneID="nvk-zS-E2s">
             <objects>
-                <viewController id="dOe-tC-gxD" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="QuestionsViewController" title="QuestionsViewController" id="dOe-tC-gxD" customClass="QuestionsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lCH-vx-Or9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -104,10 +104,10 @@
             </objects>
             <point key="canvasLocation" x="32" y="2397"/>
         </scene>
-        <!--View Controller-->
+        <!--BillsViewController-->
         <scene sceneID="axS-IN-SrW">
             <objects>
-                <viewController id="Ut6-qU-unb" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BillsViewController" title="BillsViewController" id="Ut6-qU-unb" customClass="BillsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="diT-Vf-fJh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -120,10 +120,10 @@
             </objects>
             <point key="canvasLocation" x="1671" y="2397"/>
         </scene>
-        <!--View Controller-->
+        <!--ProfileViewController-->
         <scene sceneID="eXN-Lc-SF1">
             <objects>
-                <viewController id="cz8-1m-JAx" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileViewController" title="ProfileViewController" id="cz8-1m-JAx" customClass="ProfileViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Dr3-bB-O86">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -338,10 +338,10 @@
             </objects>
             <point key="canvasLocation" x="1613.0434782608697" y="1641.9642857142856"/>
         </scene>
-        <!--Profile-->
+        <!--ProfileViewController-->
         <scene sceneID="jfm-3s-8fo">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="YF1-sf-SJN" sceneMemberID="viewController">
+                <navigationController title="ProfileViewController" automaticallyAdjustsScrollViewInsets="NO" id="YF1-sf-SJN" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profile" id="fOp-pH-tqA"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="y6L-he-fXN">
