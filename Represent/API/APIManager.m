@@ -22,21 +22,42 @@ static NSString * const baseURLString = @"https://api.propublica.org/congress/v1
 }
 
 - (void)fetchRecentBills:(void(^)(NSArray *bills, NSError *error))completion {
-    NSString *fullURL = [NSString stringWithFormat:@"%@%@", baseURLString, @"116/both/bills/introduced.json"];
-    NSURL *URL = [NSURL URLWithString:fullURL];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
-    [request setValue:@"PQr31zdf3ibsr3mz9neLib2acbI3FhAn4SvN1cBx" forHTTPHeaderField:@"X-API-KEY"];
+    NSMutableURLRequest *request = [self createRequest:@"116/both/bills/introduced.json"];
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (error != nil) {
-            NSLog(@"%@", [error localizedDescription]);
+        if (error) {
+            NSLog(@"Error fetching recent Bills: %@", error.localizedDescription);
             completion(nil, error);
         }
         else {
-            NSLog(@"Success!");
+            NSLog(@"Success fetching recent Bills!");
             NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             completion(dataDictionary[@"results"], nil);
         }
     }];
     [task resume];
+}
+
+- (void)fetchLocalReps: (NSString *)state :(void(^)(NSArray *representatives, NSError *error))completion {
+    NSMutableURLRequest *request = [self createRequest: [NSString stringWithFormat:@"members/senate/%@/current.json", state]];
+    NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error) {
+            NSLog(@"Error fetching local Representatives: %@", error.localizedDescription);
+            completion(nil, error);
+        }
+        else {
+            NSLog(@"Success fetching local Representatives!");
+            NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            completion(dataDictionary[@"results"], nil);
+        }
+    }];
+    [task resume];
+}
+
+- (NSMutableURLRequest *)createRequest :(NSString *)call {
+    NSString *fullURL = [NSString stringWithFormat:@"%@%@", baseURLString, call];
+    NSURL *URL = [NSURL URLWithString:fullURL];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
+    [request setValue:@"PQr31zdf3ibsr3mz9neLib2acbI3FhAn4SvN1cBx" forHTTPHeaderField:@"X-API-KEY"];
+    return request;
 }
 @end

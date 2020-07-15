@@ -72,7 +72,7 @@
     BOOL passwordExists = [Utils checkExists:password :@"Password" :self];
     
     if (usernameExists && passwordExists) {
-        [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser * user, NSError *  error) {
+        [User logInWithUsernameInBackground:username password:password block:^(PFUser * user, NSError *  error) {
             if (error != nil) {
                 NSLog(@"User log in failed: %ld", error.code);
                 [Utils displayAlertWithOk: @"Error with Logging In" message:error.localizedDescription viewController:self];

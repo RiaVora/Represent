@@ -34,9 +34,11 @@
 - (IBAction)pressedSignUp:(id)sender {
     if ([self checkAllCorrect]) {
         User *user = [User new];
-        [user signUpUser:self.firstNameField.text email:self.emailField.text state:self.stateField.text username:self.usernameField.text password:self.passwordField.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+        [user signUpUser:self.firstNameField.text email:self.emailField.text state:self.stateField.text username:self.usernameField.text password:self.passwordField.text isRepresentative:NO withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
             if (succeeded) {
                 NSLog(@"Success in signing up user %@, welcome %@!", user.username, user.firstName);
+                [User logInWithUsername:user.username password:user.password];
+                NSLog(@"Current user is %@", [User currentUser].firstName);
                 [self performSegueWithIdentifier:@"signInSegue" sender:sender];
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);

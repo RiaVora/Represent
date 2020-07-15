@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSURLSession *session;
 - (void)fetchRecentBills:(void(^)(NSArray *bills, NSError *error))completion;
-
+- (void)fetchLocalReps: (NSString *)state :(void(^)(NSArray *representatives, NSError *error))completion;
 @end
 
 NS_ASSUME_NONNULL_END
