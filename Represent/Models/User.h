@@ -7,9 +7,11 @@
 //
 
 #import <Parse/Parse.h>
+#import "Utils.h"
+#import "APIManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
+@class Utils;
 @interface User : PFUser<PFSubclassing>
 
 @property (nonatomic, strong) NSString *firstName;
@@ -27,7 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)signUpUser: (NSString *)firstName email:(NSString *)email state:(NSString *)state username:(NSString *)username password:(NSString *)password isRepresentative:(BOOL)isRepresentative withCompletion: (PFBooleanResultBlock  _Nullable)completion;
 - (void)getRepresentatives;
 + (void) signUpRepresentative: (NSDictionary *)representative;
-+ (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image;
 
 @end
 

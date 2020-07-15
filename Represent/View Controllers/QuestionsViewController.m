@@ -29,7 +29,7 @@
 }
 
 - (void)postTestQuestion: (NSString *)text {
-    [Question postUserQuestion:text forRepresentative:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+    [Question postUserQuestion:text forRepresentative:[User currentUser].followedRepresentatives[0] withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             NSLog(@"Question successfully saved!");
         } else {
@@ -42,7 +42,7 @@
     PFQuery *questionQuery = [Question query];
     [questionQuery orderByAscending:@"voteCount"];
     [questionQuery includeKey:@"author"];
-    questionQuery.limit = 20;
+    questionQuery.limit = 40;
     
     [questionQuery findObjectsInBackgroundWithBlock:^(NSArray<Question *> * _Nullable questions, NSError * _Nullable error) {
         if (questions) {

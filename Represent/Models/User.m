@@ -7,7 +7,7 @@
 //
 
 #import "User.h"
-#import "APIManager.h"
+
 
 @implementation User
 
@@ -33,6 +33,7 @@
     self.state = state.uppercaseString;
     self.username = username;
     self.password = password;
+    self.profilePhoto = [Utils getPFFileFromImage: [UIImage imageNamed:@"profile_tab"]];
     self.followedRepresentatives = [[NSMutableArray alloc] init];
     if (!isRepresentative) {
         self.email = email;
@@ -73,18 +74,5 @@
     }];
 }
 
-
-+ (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image {
-    if (!image) {
-        return nil;
-    }
-    
-    NSData *imageData = UIImagePNGRepresentation(image);
-    if (!imageData) {
-        return nil;
-    }
-    
-    return [PFFileObject fileObjectWithName:@"profile-photo.png" data:imageData];
-}
 
 @end

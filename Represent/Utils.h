@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "User.h"
+#import <Parse/Parse.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
+@class User;
 @interface Utils : NSObject
 
 + (BOOL)checkExists:(NSString *)text :(NSString *)field :(UIViewController *)viewController;
@@ -18,6 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)checkLength:(NSString *)text :(NSNumber *)length :(NSString *)field :(UIViewController *)viewController;
 + (void)displayAlertWithOk:(NSString *)title message:(NSString *)message viewController:(UIViewController *)viewController;
 + (UIAlertController *)makeAlert:(NSString *)title :(NSString *)message;
++ (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image;
++ (UIImage *)resizeImage:(UIImage *)image withSize:(CGSize)size;
+
 
 @end
 
