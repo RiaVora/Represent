@@ -7,10 +7,12 @@
 //
 
 #import "QuestionsViewController.h"
+#import "QuestionCell.h"
 
 
-@interface QuestionsViewController ()
+@interface QuestionsViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSMutableArray *questions;
 
 @end
 
@@ -20,16 +22,20 @@
     [super viewDidLoad];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+//    [self postTestQuestion:@"hello world!"];
+//    [self postTestQuestion:@"another question for you greedy people"];
+    [self fetchQuestions];
     
-//    User *currentUser = [User currentUser];
-//    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-//        if (succeeded) {
-//            NSLog(@"User %@ successfully saved!", currentUser.username);
-//        } else {
-//            NSLog(@"User %@ could not be saved: %@", currentUser.username, error.localizedDescription);
-//        }
-//    }];
-    // Do any additional setup after loading the view.
+}
+
+- (void)postTestQuestion: (NSString *)text {
+    [Question postUserQuestion:text forRepresentative:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+            NSLog(@"Question successfully saved!");
+        } else {
+            NSLog(@"Unable to save question: %@", error.localizedDescription);
+        }
+    }];
 }
 
 - (void)fetchQuestions {
@@ -44,10 +50,28 @@
             for (Question *question in questions) {
                 NSLog(@"this questions asks %@", question.text);
             }
+            
+            self.questions = [NSMutableArray arrayWithArray:questions];
+            [self.tableView reloadData];
+            
         } else {
             NSLog(@"There was a problem fetching Questions: %@", error.localizedDescription);
         }
     }];
+}
+
+#pragma mark - UITableViewDataSource
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    QuestionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QuestionCell"];
+    cell.question = self.questions[indexPath.row];
+    [cell updateValues];
+    return cell;
+    
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.questions.count;
 }
 
 /*

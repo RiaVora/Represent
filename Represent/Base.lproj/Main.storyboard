@@ -95,14 +95,66 @@
                     <view key="view" contentMode="scaleToFill" id="lCH-vx-Or9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FcF-BM-1xi">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="QuestionCell" rowHeight="127" id="gz2-GK-oWI" customClass="QuestionCell">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="127"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gz2-GK-oWI" id="Ym6-xA-7or">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="127"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DhM-Zv-qhK">
+                                                    <rect key="frame" x="30" y="71.5" width="65" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="thin" pointSize="14"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Question" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mWD-il-cPI">
+                                                    <rect key="frame" x="30" y="21" width="72" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="DhM-Zv-qhK" firstAttribute="leading" secondItem="Ym6-xA-7or" secondAttribute="leadingMargin" constant="10" id="7cH-0z-Beq"/>
+                                                <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="DhM-Zv-qhK" secondAttribute="bottom" constant="10" id="Duv-N8-ROy"/>
+                                                <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="DhM-Zv-qhK" secondAttribute="trailing" constant="10" id="GFv-HW-eNF"/>
+                                                <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="mWD-il-cPI" secondAttribute="trailing" constant="10" id="Pqe-kU-Yqy"/>
+                                                <constraint firstItem="DhM-Zv-qhK" firstAttribute="top" secondItem="mWD-il-cPI" secondAttribute="bottom" constant="30" id="aFz-Fa-vG7"/>
+                                                <constraint firstItem="mWD-il-cPI" firstAttribute="leading" secondItem="Ym6-xA-7or" secondAttribute="leadingMargin" constant="10" id="dCK-aT-9lf"/>
+                                                <constraint firstItem="mWD-il-cPI" firstAttribute="top" secondItem="Ym6-xA-7or" secondAttribute="topMargin" constant="10" id="n61-jt-WJ2"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="questionLabel" destination="mWD-il-cPI" id="3RO-Hx-oxO"/>
+                                            <outlet property="usernameLabel" destination="DhM-Zv-qhK" id="r0T-gF-Ry1"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="FcF-BM-1xi" firstAttribute="top" secondItem="lCH-vx-Or9" secondAttribute="top" id="2hD-Xm-hJi"/>
+                            <constraint firstItem="FcF-BM-1xi" firstAttribute="trailing" secondItem="OZQ-04-7Sy" secondAttribute="trailing" id="iSt-bU-eBg"/>
+                            <constraint firstAttribute="bottom" secondItem="FcF-BM-1xi" secondAttribute="bottom" id="rbA-Oi-lyL"/>
+                            <constraint firstItem="FcF-BM-1xi" firstAttribute="leading" secondItem="OZQ-04-7Sy" secondAttribute="leading" id="yEY-6P-6t0"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="OZQ-04-7Sy"/>
                     </view>
                     <navigationItem key="navigationItem" id="CsA-Cl-Qoe"/>
+                    <connections>
+                        <outlet property="tableView" destination="FcF-BM-1xi" id="BGr-aa-nnN"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xGK-DI-Vnm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="32" y="2397"/>
+            <point key="canvasLocation" x="31.884057971014496" y="2396.6517857142858"/>
         </scene>
         <!--BillsViewController-->
         <scene sceneID="axS-IN-SrW">

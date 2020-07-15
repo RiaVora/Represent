@@ -26,7 +26,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    APIManager *manager = [APIManager new];
+    
+    APIManager *manager = [APIManager new];
+    [manager fetchSenators:^(NSArray * _Nonnull senators, NSError * _Nonnull error) {
+        if (!error) {
+            for (NSDictionary *senator in senators) {
+                if (senator[@"in_office"]) {
+                    [User signUpRepresentative:senator];
+                }
+            }
+        }
+    }];
 //    [manager fetchRecentBills:^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
 //        if (error) {
 //            NSLog(@"Error: %@", error.localizedDescription);
