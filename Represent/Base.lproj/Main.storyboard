@@ -182,7 +182,16 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="0cZ-AU-TCx"/>
                     </view>
-                    <navigationItem key="navigationItem" id="sMe-Vt-vxn"/>
+                    <navigationItem key="navigationItem" id="sMe-Vt-vxn">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="rtS-M3-bhf">
+                            <connections>
+                                <action selector="pressedLogout:" destination="cz8-1m-JAx" id="xjG-X9-FEW"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="kjk-8M-Cnm" kind="show" identifier="logoutSegue" id="KIE-fM-paI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xK6-H5-7fq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -358,6 +367,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="kjk-8M-Cnm" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="skE-qv-hpz"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="3ff-pV-v9t">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -411,6 +421,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="gQy-eT-dt7"/>
+        <segue reference="WcP-uz-SUq"/>
     </inferredMetricsTieBreakers>
 </document>
