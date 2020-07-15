@@ -1,5 +1,5 @@
 //
-//  QuestionsViewController.h
+//  QuestionCell.h
 //  Represent
 //
 //  Created by Ria Vora on 7/14/20.
@@ -7,12 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "User.h"
-#import "Question.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface QuestionsViewController : UIViewController
+@interface QuestionCell : UITableViewCell
 
 @end
 

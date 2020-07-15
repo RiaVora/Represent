@@ -7,10 +7,10 @@
 //
 
 #import "QuestionsViewController.h"
-#import "User.h"
-#import "Question.h"
+
 
 @interface QuestionsViewController ()
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -18,6 +18,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     
 //    User *currentUser = [User currentUser];
 //    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {

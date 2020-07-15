@@ -7,6 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "User.h"
+#import "APIManager.h"
+#import "Bill.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
