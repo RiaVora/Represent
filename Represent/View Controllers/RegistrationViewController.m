@@ -36,10 +36,8 @@
         User *user = [User new];
         [user signUpUser:self.firstNameField.text email:self.emailField.text state:self.stateField.text username:self.usernameField.text password:self.passwordField.text isRepresentative:NO withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
             if (succeeded) {
-                NSLog(@"Success in signing up user %@, welcome %@!", user.username, user.firstName);
-//                [user getRepresentatives];
-                [User logInWithUsername:user.username password:user.password];
                 [user saveInBackground];
+                NSLog(@"Success in signing up user %@, welcome %@!", user.username, user.firstName);
                 [self performSegueWithIdentifier:@"signInSegue" sender:sender];
                 
             } else {
