@@ -22,6 +22,7 @@
 @dynamic shortPosition;
 @dynamic contact;
 @dynamic lastName;
+@dynamic votedQuestions;
 
 
 +(User*)user {
@@ -36,6 +37,7 @@
     self.password = password;
     self.profilePhoto = [Utils getPFFileFromImage: [UIImage imageNamed:@"profile_tab"]];
     self.followedRepresentatives = [[NSMutableArray alloc] init];
+    self.votedQuestions = [[NSMutableArray alloc] init];
     if (!isRepresentative) {
         self.email = email;
         [self getRepresentatives];
@@ -81,6 +83,19 @@
         return [NSString stringWithFormat:@"%@ %@ %@", self.shortPosition, self.firstName, self.lastName];
     } else {
         return @"Not a representative";
+    }
+}
+
+- (BOOL)voteOnQuestion:(Question *)question {
+    if ([self.votedQuestions containsObject:question]) {
+        return NO;
+    } else {
+        if (!self.votedQuestions) {
+            self.votedQuestions = [[NSMutableArray alloc] init];
+        }
+        [self addObject:question forKey:@"votedQuestions"];
+        [self saveInBackground];
+        return YES;
     }
 }
 

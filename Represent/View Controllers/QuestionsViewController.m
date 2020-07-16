@@ -62,7 +62,7 @@
 
 - (void)fetchQuestions {
     PFQuery *questionQuery = [Question query];
-    [questionQuery orderByAscending:@"voteCount"];
+    [questionQuery orderByDescending:@"voteCount"];
     [questionQuery includeKey:@"author"];
     [questionQuery includeKey:@"representative"];
     [questionQuery whereKey:@"representative" equalTo:self.currentRepresentative];
@@ -96,6 +96,7 @@
     if ([tableView isEqual:self.tableView]) {
         QuestionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QuestionCell"];
         cell.question = self.questions[indexPath.row];
+        cell.controllerDelegate = self;
         [cell updateValues];
         return cell;
     } else {
@@ -148,7 +149,6 @@
 
 - (IBAction) pressedPost:(UIStoryboardSegue *)unwindSegue {
     PostQuestionsViewController *postQuestionsVC = [unwindSegue sourceViewController];
-    
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
     [postQuestionsVC pressedPost];
     self.currentRepresentative = postQuestionsVC.currentRepresentative;

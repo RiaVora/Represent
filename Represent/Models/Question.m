@@ -17,6 +17,7 @@
 @dynamic voteCount;
 @dynamic representative;
 
+
 + (nonnull NSString *)parseClassName {
     return @"Question";
 }

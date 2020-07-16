@@ -9,9 +9,11 @@
 #import <Parse/Parse.h>
 #import "Utils.h"
 #import "APIManager.h"
+#import "Question.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @class Utils;
+@class Question;
 @interface User : PFUser<PFSubclassing>
 
 @property (nonatomic, strong) NSString *firstName;
@@ -25,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *contact;
 @property (nonatomic, strong) NSString *shortPosition;
 @property (nonatomic, strong) NSString *lastName;
+@property (nonatomic, strong) NSMutableArray *votedQuestions;
 
 
 +(User*)user;
@@ -32,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getRepresentatives;
 + (void) signUpRepresentative: (NSDictionary *)representative;
 - (NSString *)fullTitleRepresentative;
+- (BOOL)voteOnQuestion:(Question *)question;
 
 @end
 

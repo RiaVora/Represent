@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface QuestionCell : UITableViewCell
 
 @property (strong, nonatomic) Question *question;
+@property (nonatomic, weak) __kindof UIViewController *controllerDelegate;
 - (void)updateValues;
 
 @end

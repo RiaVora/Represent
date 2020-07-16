@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *voteCountLabel;
 @property (weak, nonatomic) IBOutlet UIButton *voteButton;
 
+
 @end
 
 @implementation QuestionCell
@@ -52,17 +53,26 @@
 
 
 - (IBAction)pressedVote:(id)sender {
-    [self.question addVote];
-    [self.question saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (!succeeded) {
-            NSLog(@"Error with voting on question: %@", error.localizedDescription);
-            [Utils displayAlertWithOk:@"Error voting on Question" message:error.localizedDescription viewController:self.inputViewController];
-        } else {
-            NSLog(@"Succesfully voted on question '%@'", self.question.text);
-            self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
-            [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
-        }
-    }];
+    User *user = [User currentUser];
+    BOOL hasNotVoted = [user voteOnQuestion:self.question];
+    if (hasNotVoted) {
+        [self.question addVote];
+        [self.question saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            if (!succeeded) {
+                NSLog(@"Error with voting on question: %@", error.localizedDescription);
+                [Utils displayAlertWithOk:@"Error voting on Question" message:error.localizedDescription viewController:self.inputViewController];
+            } else {
+                NSLog(@"Succesfully voted on question '%@'", self.question.text);
+                self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
+                [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
+            }
+        }];
+    } else {
+        NSLog(@"user has already voted on this question %@. cannot again", self.question.text);
+        [Utils displayAlertWithOk:@"Cannot vote for Question Twice" message:@"You have already voted for this question" viewController:self.controllerDelegate];
+
+    }
+    
 }
 
 @end

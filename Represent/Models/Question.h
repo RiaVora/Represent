@@ -10,7 +10,7 @@
 #import "User.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
+@class User;
 @interface Question : PFObject<PFSubclassing>
 
 @property (nonatomic, strong) NSDate *createdAt;
