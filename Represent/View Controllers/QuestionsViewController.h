@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "User.h"
 #import "Question.h"
+#import "QuestionCell.h"
+#import "PostQuestionsViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

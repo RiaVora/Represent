@@ -7,7 +7,6 @@
 //
 
 #import "QuestionsViewController.h"
-#import "QuestionCell.h"
 
 
 @interface QuestionsViewController () <UITableViewDelegate, UITableViewDataSource>
@@ -69,9 +68,9 @@
     [questionQuery findObjectsInBackgroundWithBlock:^(NSArray<Question *> * _Nullable questions, NSError * _Nullable error) {
         if (questions) {
             NSLog(@"Successfully received questions!");
-            for (Question *question in questions) {
-                NSLog(@"Representative for question is %@", question.representative.firstName);
-            }
+//            for (Question *question in questions) {
+//                NSLog(@"Representative for question is %@", question.representative.firstName);
+//            }
             self.questions = [NSMutableArray arrayWithArray:questions];
             [self.tableView reloadData];
             [self.refreshControl endRefreshing];
@@ -103,8 +102,7 @@
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SimpleTableCell"];
         }
-        NSString *fullName = [NSString stringWithFormat:@"%@ %@ %@", representative.shortPosition, representative.firstName, representative.lastName];
-        cell.textLabel.text = fullName;
+        cell.textLabel.text = [representative fullTitleRepresentative];
         return cell;
         
     }
@@ -132,14 +130,16 @@
 }
 
 
-/*
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"postQuestionSegue"]) {
+        UINavigationController *navigationController = [segue destinationViewController];
+        PostQuestionsViewController *postQuestionsVC = (PostQuestionsViewController*)navigationController.topViewController;
+        postQuestionsVC.currentRepresentative = self.currentRepresentative;
+    }
 }
-*/
+
 
 @end
