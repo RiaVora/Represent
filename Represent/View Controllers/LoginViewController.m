@@ -27,8 +27,6 @@
     [super viewDidLoad];
 //    [self setUpSenators];
     
-
-    
 //    [Question postUserQuestion:@"test question" forRepresentative:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
 //        if (succeeded) {
 //            NSLog(@"Question successfully saved!");

@@ -85,7 +85,7 @@
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SimpleTableCell"];
         }
-        NSString *fullName = [NSString stringWithFormat:@"%@ %@", representative.short_position, representative.firstName];
+        NSString *fullName = [NSString stringWithFormat:@"%@ %@ %@", representative.shortPosition, representative.firstName, representative.lastName];
         cell.textLabel.text = fullName;
         return cell;
         

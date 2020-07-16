@@ -19,8 +19,9 @@
 @dynamic profilePhoto;
 @dynamic isRepresentative;
 @dynamic position;
-@dynamic short_position;
+@dynamic shortPosition;
 @dynamic contact;
+@dynamic lastName;
 
 
 +(User*)user {
@@ -62,9 +63,10 @@
 + (void) signUpRepresentative: (NSDictionary *)representative {
     User *user = [User new];
     user.position = representative[@"title"];
-    user.short_position = representative[@"short_title"];
+    user.shortPosition = representative[@"short_title"];
     user.party = representative[@"party"];
     user.contact = representative[@"contact_form"];
+    user.lastName = representative[@"last_name"];
     [user signUpUser:representative[@"first_name"] email:@"" state:representative[@"state"] username:representative[@"id"] password:representative[@"date_of_birth"] isRepresentative:YES withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error adding representative: %@", error.localizedDescription);

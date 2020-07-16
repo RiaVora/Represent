@@ -23,7 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL isRepresentative;
 @property (nonatomic, strong) NSString *position;
 @property (nonatomic, strong) NSString *contact;
-@property (nonatomic, strong) NSString *short_position;
+@property (nonatomic, strong) NSString *shortPosition;
+@property (nonatomic, strong) NSString *lastName;
+
 
 +(User*)user;
 - (void)signUpUser: (NSString *)firstName email:(NSString *)email state:(NSString *)state username:(NSString *)username password:(NSString *)password isRepresentative:(BOOL)isRepresentative withCompletion: (PFBooleanResultBlock  _Nullable)completion;
