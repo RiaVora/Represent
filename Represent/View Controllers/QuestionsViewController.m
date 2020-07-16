@@ -13,6 +13,9 @@
 @interface QuestionsViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *questions;
+@property (strong, nonatomic) User *currentUser;
+@property (weak, nonatomic) IBOutlet UITableView *tableViewRepresentatives;
+@property (weak, nonatomic) IBOutlet UIButton *representativeButton;
 
 @end
 
@@ -22,20 +25,27 @@
     [super viewDidLoad];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-//    [self postTestQuestion:@"hello world!"];
-//    [self postTestQuestion:@"another question for you greedy people"];
+    self.tableViewRepresentatives.delegate = self;
+    self.tableViewRepresentatives.dataSource = self;
+    self.tableViewRepresentatives.hidden = YES;
+    self.currentUser = [User currentUser];
+    [self postTestQuestion:@"hello world!"];
+    [self postTestQuestion:@"another question for you greedy people"];
     [self fetchQuestions];
     
 }
 
 - (void)postTestQuestion: (NSString *)text {
-    [Question postUserQuestion:text forRepresentative:[User currentUser].followedRepresentatives[0] withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
-        if (succeeded) {
-            NSLog(@"Question successfully saved!");
-        } else {
-            NSLog(@"Unable to save question: %@", error.localizedDescription);
-        }
-    }];
+        for (User *representative in self.currentUser.followedRepresentatives) {
+        [Question postUserQuestion:text forRepresentative:representative withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+            if (succeeded) {
+                NSLog(@"Question successfully saved!");
+            } else {
+                NSLog(@"Unable to save question: %@", error.localizedDescription);
+            }
+        }];
+    }
+    
 }
 
 - (void)fetchQuestions {
@@ -63,16 +73,45 @@
 #pragma mark - UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    QuestionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QuestionCell"];
-    cell.question = self.questions[indexPath.row];
-    [cell updateValues];
-    return cell;
-    
+    if ([tableView isEqual:self.tableView]) {
+        QuestionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QuestionCell"];
+        cell.question = self.questions[indexPath.row];
+        [cell updateValues];
+        return cell;
+    } else {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleTableCell"];
+        User *representative = self.currentUser.followedRepresentatives[indexPath.row];
+        [representative fetch];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SimpleTableCell"];
+        }
+        NSString *fullName = [NSString stringWithFormat:@"%@ %@", representative.short_position, representative.firstName];
+        cell.textLabel.text = fullName;
+        return cell;
+        
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.questions.count;
+    if ([tableView isEqual:self.tableView]) {
+        return self.questions.count;
+    } else {
+        return self.currentUser.followedRepresentatives.count;
+    }
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([tableView isEqual:self.tableViewRepresentatives]) {
+        UITableViewCell *cell = [self.tableViewRepresentatives cellForRowAtIndexPath:indexPath];
+        [self.representativeButton setTitle:cell.textLabel.text forState:UIControlStateNormal];
+        
+        self.tableViewRepresentatives.hidden = YES;
+    }
+}
+- (IBAction)pushedRepresentative:(id)sender {
+    self.tableViewRepresentatives.hidden = !(self.tableViewRepresentatives.hidden);
+}
+
 
 /*
 #pragma mark - Navigation
