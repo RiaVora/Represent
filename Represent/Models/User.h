@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)signUpUser: (NSString *)firstName email:(NSString *)email state:(NSString *)state username:(NSString *)username password:(NSString *)password isRepresentative:(BOOL)isRepresentative withCompletion: (PFBooleanResultBlock  _Nullable)completion;
 - (void)getRepresentatives;
 + (void) signUpRepresentative: (NSDictionary *)representative;
+- (NSString *)fullTitleRepresentative;
 
 @end
 

@@ -76,5 +76,13 @@
     }];
 }
 
+- (NSString *)fullTitleRepresentative {
+    if (self.isRepresentative) {
+        return [NSString stringWithFormat:@"%@ %@ %@", self.shortPosition, self.firstName, self.lastName];
+    } else {
+        return @"Not a representative";
+    }
+}
+
 
 @end
