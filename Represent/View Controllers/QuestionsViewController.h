@@ -12,6 +12,7 @@
 #import "QuestionCell.h"
 #import "PostQuestionsViewController.h"
 #import "MBProgressHUD.h"
+#import "RepresentativeCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2166B9D5C0FB137D4EF60D8F /* Pods_Represent_RepresentUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69103D1902D55632592DA408 /* Pods_Represent_RepresentUITests.framework */; };
 		580BB60D24C0ACCF00DFED65 /* PostQuestionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 580BB60C24C0ACCF00DFED65 /* PostQuestionsViewController.m */; };
+		580BB61324C0F7BF00DFED65 /* RepresentativeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 580BB61224C0F7BF00DFED65 /* RepresentativeCell.m */; };
 		5845E72D24BE0D4D00D46103 /* RegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5845E72C24BE0D4D00D46103 /* RegistrationViewController.m */; };
 		5845E73024BE424D00D46103 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5845E72F24BE424D00D46103 /* APIManager.m */; };
 		5845E73324BE8DC700D46103 /* QuestionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5845E73224BE8DC700D46103 /* QuestionsViewController.m */; };
@@ -55,6 +56,8 @@
 		3269B73AB2B021CDA142D1DC /* Pods_Represent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Represent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		580BB60B24C0ACCF00DFED65 /* PostQuestionsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostQuestionsViewController.h; sourceTree = "<group>"; };
 		580BB60C24C0ACCF00DFED65 /* PostQuestionsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostQuestionsViewController.m; sourceTree = "<group>"; };
+		580BB61124C0F7BF00DFED65 /* RepresentativeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RepresentativeCell.h; sourceTree = "<group>"; };
+		580BB61224C0F7BF00DFED65 /* RepresentativeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RepresentativeCell.m; sourceTree = "<group>"; };
 		5845E72B24BE0D4D00D46103 /* RegistrationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegistrationViewController.h; sourceTree = "<group>"; };
 		5845E72C24BE0D4D00D46103 /* RegistrationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegistrationViewController.m; sourceTree = "<group>"; };
 		5845E72E24BE424D00D46103 /* APIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
@@ -228,6 +231,8 @@
 			children = (
 				5845E73A24BEB74C00D46103 /* QuestionCell.h */,
 				5845E73B24BEB74C00D46103 /* QuestionCell.m */,
+				580BB61124C0F7BF00DFED65 /* RepresentativeCell.h */,
+				580BB61224C0F7BF00DFED65 /* RepresentativeCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -502,6 +507,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				580BB61324C0F7BF00DFED65 /* RepresentativeCell.m in Sources */,
 				5864A6FA24BCC8BD008EB431 /* LoginViewController.m in Sources */,
 				580BB60D24C0ACCF00DFED65 /* PostQuestionsViewController.m in Sources */,
 				5845E73C24BEB74C00D46103 /* QuestionCell.m in Sources */,

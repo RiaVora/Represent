@@ -99,13 +99,15 @@
         [cell updateValues];
         return cell;
     } else {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleTableCell"];
+        RepresentativeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RepresentativeCell"];
         User *representative = self.currentUser.followedRepresentatives[indexPath.row];
         [representative fetch];
+        
         if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SimpleTableCell"];
+            cell = [[RepresentativeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RepresentativeCell"];
         }
-        cell.textLabel.text = [representative fullTitleRepresentative];
+        cell.representative = representative;
+        [cell updateValues];
         return cell;
         
     }
@@ -121,9 +123,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([tableView isEqual:self.tableViewRepresentatives]) {
-        UITableViewCell *cell = [self.tableViewRepresentatives cellForRowAtIndexPath:indexPath];
-        [self.representativeButton setTitle:cell.textLabel.text forState:UIControlStateNormal];
-        self.currentRepresentative = self.currentUser.followedRepresentatives[indexPath.row];
+        RepresentativeCell *cell = [self.tableViewRepresentatives cellForRowAtIndexPath:indexPath];
+        [self.representativeButton setTitle:[cell.representative fullTitleRepresentative] forState:UIControlStateNormal];
+        self.currentRepresentative = cell.representative;
         self.tableViewRepresentatives.hidden = YES;
         [self fetchQuestions];
     }

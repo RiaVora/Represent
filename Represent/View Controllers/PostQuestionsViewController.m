@@ -86,13 +86,14 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleTableCell"];
+    RepresentativeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RepresentativeCell"];
     User *representative = self.representatives[indexPath.row];
     [representative fetch];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SimpleTableCell"];
+        cell = [[RepresentativeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RepresentativeCell"];
     }
-    cell.textLabel.text = [representative fullTitleRepresentative];
+    cell.representative = representative;
+    [cell updateValues];
     return cell;
 }
 
@@ -101,10 +102,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-     [self.representativeButton setTitle:cell.textLabel.text forState:UIControlStateNormal];
-     self.currentRepresentative = self.representatives[indexPath.row];
-     tableView.hidden = YES;
+    RepresentativeCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    [self.representativeButton setTitle:[cell.representative fullTitleRepresentative] forState:UIControlStateNormal];
+    self.currentRepresentative = cell.representative;
+    tableView.hidden = YES;
 }
 
 

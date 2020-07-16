@@ -32,6 +32,10 @@
     [newQuestion saveInBackgroundWithBlock: completion];
 }
 
+- (void)addVote {
+    self.voteCount = [NSNumber numberWithInt:([self.voteCount intValue] + 1)];
+}
+
 
 
 

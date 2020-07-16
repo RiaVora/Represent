@@ -50,4 +50,19 @@
     self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
 }
 
+
+- (IBAction)pressedVote:(id)sender {
+    [self.question addVote];
+    [self.question saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (!succeeded) {
+            NSLog(@"Error with voting on question: %@", error.localizedDescription);
+            [Utils displayAlertWithOk:@"Error voting on Question" message:error.localizedDescription viewController:self.inputViewController];
+        } else {
+            NSLog(@"Succesfully voted on question '%@'", self.question.text);
+            self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
+            [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
+        }
+    }];
+}
+
 @end
