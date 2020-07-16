@@ -61,22 +61,25 @@
 }
 
 - (IBAction)pressedAsk:(id)sender {
+    [MBProgressHUD showHUDAddedTo:self.view animated:true];
     BOOL questionExists = [Utils checkExists:self.questionField.text :@"Question" :self];
     if (questionExists) {
-        [self postQuestion];
+        [self postQuestion:sender];
     }
 }
 
-- (void)postQuestion {
+- (void)postQuestion: (id)sender {
     [Question postUserQuestion:self.questionField.text forRepresentative:self.currentRepresentative withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (!succeeded) {
             NSLog(@"Error posting question: %@", error.localizedDescription);
+            [Utils displayAlertWithOk:@"Error with Posting Question" message:error.localizedDescription viewController:self];
         } else {
             NSLog(@"Successfully posted Question %@ for %@!", self.questionField.text, self.currentRepresentative.username);
             self.questionField.text = @"";
+            [self dismissViewControllerAnimated:YES completion:nil];
         }
+        [MBProgressHUD hideHUDForView:self.view animated:true];
     }];
-    [self dismissViewControllerAnimated:true completion:nil];
 }
 
 - (IBAction)pressedRepresentative:(id)sender {
@@ -106,14 +109,11 @@
 }
 
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+//#pragma mark - Navigation
+//
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+//
+//}
 
 @end

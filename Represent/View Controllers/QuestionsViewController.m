@@ -13,7 +13,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *questions;
 @property (strong, nonatomic) User *currentUser;
-@property (strong, nonatomic) User *currentRepresentative;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewRepresentatives;
 @property (weak, nonatomic) IBOutlet UIButton *representativeButton;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
@@ -24,11 +23,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [MBProgressHUD showHUDAddedTo:self.view animated:true];
     [self setUpTableViews];
 //    [self postTestQuestion:@"i really have to know"];
 //    [self postTestQuestion:@"thank you for your service"];
     [self fetchQuestions];
     [self initRefreshControl];
+    [MBProgressHUD hideHUDForView:self.view animated:true];
     
 }
 
@@ -39,7 +40,9 @@
     self.tableViewRepresentatives.dataSource = self;
     self.tableViewRepresentatives.hidden = YES;
     self.currentUser = [User currentUser];
-    self.currentRepresentative = [self.currentUser.followedRepresentatives[0] fetch];
+    if (!self.currentRepresentative) {
+        self.currentRepresentative = [self.currentUser.followedRepresentatives[0] fetch];
+    }
     [self.representativeButton setTitle:[self.currentRepresentative fullTitleRepresentative] forState:UIControlStateNormal];
 }
 

@@ -9,6 +9,7 @@ target 'Represent' do
 pod 'AFNetworking'
 pod 'DateTools'
 pod 'Parse'
+pod 'MBProgressHUD'
 
   target 'RepresentTests' do
     inherit! :search_paths

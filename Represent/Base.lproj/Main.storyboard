@@ -300,7 +300,7 @@
                                 <action selector="pressedCancel:" destination="t98-Ap-hKH" id="LLm-xx-qyl"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Ask" id="3Ar-qK-yNc">
+                        <barButtonItem key="rightBarButtonItem" title="Post" id="3Ar-qK-yNc">
                             <connections>
                                 <action selector="pressedAsk:" destination="t98-Ap-hKH" id="oEO-LT-Up8"/>
                             </connections>
@@ -314,7 +314,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z8c-LS-DDY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="963.76811594202911" y="2396.6517857142858"/>
+            <point key="canvasLocation" x="806" y="2397"/>
         </scene>
         <!--BillsViewController-->
         <scene sceneID="axS-IN-SrW">
@@ -509,6 +509,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="zc1-Hl-Ytd" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Questions" id="pph-q4-aiz"/>
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="5cz-tP-VlL"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Rjb-dW-v7t">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

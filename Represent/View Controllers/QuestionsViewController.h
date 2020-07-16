@@ -11,10 +11,13 @@
 #import "Question.h"
 #import "QuestionCell.h"
 #import "PostQuestionsViewController.h"
+#import "MBProgressHUD.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface QuestionsViewController : UIViewController
+
+@property (strong, nonatomic) User *currentRepresentative;
 
 @end
 
