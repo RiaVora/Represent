@@ -60,15 +60,15 @@
     [self dismissViewControllerAnimated:true completion:nil];
 }
 
-- (IBAction)pressedAsk:(id)sender {
-    [MBProgressHUD showHUDAddedTo:self.view animated:true];
+
+- (void)pressedPost {
     BOOL questionExists = [Utils checkExists:self.questionField.text :@"Question" :self];
     if (questionExists) {
-        [self postQuestion:sender];
+        [self postQuestion];
     }
 }
 
-- (void)postQuestion: (id)sender {
+- (void)postQuestion {
     [Question postUserQuestion:self.questionField.text forRepresentative:self.currentRepresentative withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (!succeeded) {
             NSLog(@"Error posting question: %@", error.localizedDescription);
@@ -76,9 +76,8 @@
         } else {
             NSLog(@"Successfully posted Question %@ for %@!", self.questionField.text, self.currentRepresentative.username);
             self.questionField.text = @"";
-            [self dismissViewControllerAnimated:YES completion:nil];
+            
         }
-        [MBProgressHUD hideHUDForView:self.view animated:true];
     }];
 }
 
@@ -110,10 +109,15 @@
 
 
 
-//#pragma mark - Navigation
-//
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//
-//}
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"postedQuestionSegue"]) {
+        UINavigationController *navigationController = [segue destinationViewController];
+        QuestionsViewController *questionsVC = (QuestionsViewController*)navigationController.topViewController;
+        questionsVC.currentRepresentative = self.currentRepresentative;
+    }
+
+}
 
 @end

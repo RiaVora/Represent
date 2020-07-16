@@ -144,5 +144,15 @@
     }
 }
 
+- (IBAction) pressedPost:(UIStoryboardSegue *)unwindSegue {
+    PostQuestionsViewController *postQuestionsVC = [unwindSegue sourceViewController];
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:true];
+    [postQuestionsVC pressedPost];
+    self.currentRepresentative = postQuestionsVC.currentRepresentative;
+    [self viewDidLoad];
+    [MBProgressHUD hideHUDForView:self.view animated:true];
+}
+
 
 @end

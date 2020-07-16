@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) User *currentRepresentative;
 
+- (void)pressedPost;
+
 @end
 
 NS_ASSUME_NONNULL_END

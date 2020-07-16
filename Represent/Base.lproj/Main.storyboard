@@ -302,7 +302,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Post" id="3Ar-qK-yNc">
                             <connections>
-                                <action selector="pressedAsk:" destination="t98-Ap-hKH" id="oEO-LT-Up8"/>
+                                <segue destination="gSG-DV-z0S" kind="unwind" unwindAction="pressedPost:" id="zVY-CP-gw8"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -313,6 +313,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z8c-LS-DDY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="gSG-DV-z0S" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="806" y="2397"/>
         </scene>
