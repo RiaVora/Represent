@@ -40,6 +40,9 @@
     NSInteger limit = 3;
     if (row < limit) {
         [self setBackgroundColor:UIColor.lightGrayColor];
+    } else {
+        [self setBackgroundColor:UIColor.whiteColor];
+
     }
     User *user = [User currentUser];
     [self updateVoteButton:[user hasVoted:self.question]];
