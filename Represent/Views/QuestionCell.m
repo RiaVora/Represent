@@ -47,32 +47,37 @@
     } else {
         NSLog(@"Error, no profile photo set");
     }
+    User *user = [User currentUser];
+    [self updateVoteButton:[user hasVoted:self.question]];
     self.timestampLabel.text = self.question.createdAt.shortTimeAgoSinceNow;
     self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
 }
 
-
 - (IBAction)pressedVote:(id)sender {
     User *user = [User currentUser];
-    BOOL hasNotVoted = [user voteOnQuestion:self.question];
-    if (hasNotVoted) {
-        [self.question addVote];
-        [self.question saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-            if (!succeeded) {
-                NSLog(@"Error with voting on question: %@", error.localizedDescription);
-                [Utils displayAlertWithOk:@"Error voting on Question" message:error.localizedDescription viewController:self.inputViewController];
-            } else {
-                NSLog(@"Succesfully voted on question '%@'", self.question.text);
-                self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
-                [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
-            }
-        }];
-    } else {
-        NSLog(@"user has already voted on this question %@. cannot again", self.question.text);
+    BOOL addingVote = [user voteOnQuestion:self.question];
+    [self.question vote:addingVote];
+    [self updateVoteButton:addingVote];
+    [self.question saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (!succeeded) {
+            NSLog(@"Error with voting on question: %@", error.localizedDescription);
+            [Utils displayAlertWithOk:@"Error voting on Question" message:error.localizedDescription viewController:self.inputViewController];
+        } else {
+            NSLog(@"Succesfully voted %d on question '%@'", addingVote, self.question.text);
+            [self.delegate didVote:self.question];
+        }
+    }];
+}
+
+- (void)updateVoteButton:(BOOL)addingVote {
+    if (addingVote) {
         [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
-        [Utils displayAlertWithOk:@"Cannot vote for Question Twice" message:@"You have already voted for this question" viewController:self.controllerDelegate];
+        [self.voteButton setTitle:@"Voted" forState:UIControlStateNormal];
+    } else {
+        [self.voteButton setTitleColor:UIColor.systemYellowColor forState:UIControlStateNormal];
+        [self.voteButton setTitle:@"Vote" forState:UIControlStateNormal];
     }
-    
+    self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
 }
 
 @end

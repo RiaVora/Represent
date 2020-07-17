@@ -33,8 +33,12 @@
     [newQuestion saveInBackgroundWithBlock: completion];
 }
 
-- (void)addVote {
-    self.voteCount = [NSNumber numberWithInt:([self.voteCount intValue] + 1)];
+- (void)vote:(BOOL)vote {
+    if (vote) {
+        self.voteCount = [NSNumber numberWithInt:([self.voteCount intValue] + 1)];
+    } else {
+        self.voteCount = [NSNumber numberWithInt:([self.voteCount intValue] - 1)];
+    }
 }
 
 

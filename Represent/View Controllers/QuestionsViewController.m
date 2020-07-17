@@ -9,7 +9,7 @@
 #import "QuestionsViewController.h"
 
 
-@interface QuestionsViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface QuestionsViewController () <UITableViewDelegate, UITableViewDataSource, QuestionCellDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *questions;
 @property (strong, nonatomic) User *currentUser;
@@ -67,7 +67,6 @@
             }
         }];
     }
-    
 }
 
 - (void)fetchQuestions {
@@ -107,6 +106,7 @@
         QuestionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QuestionCell"];
         cell.question = self.questions[indexPath.row];
         cell.controllerDelegate = self;
+        cell.delegate = self;
         [cell updateValues];
         return cell;
     } else {
@@ -150,6 +150,10 @@
     self.tableViewRepresentatives.hidden = !(self.tableViewRepresentatives.hidden);
 }
 
+- (void)didVote:(Question *)question {
+    [self fetchQuestions];
+    [self.tableView reloadData];
+}
 
 
 #pragma mark - Navigation

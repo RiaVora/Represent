@@ -35,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getRepresentatives;
 + (void) signUpRepresentative: (NSDictionary *)representative;
 - (NSString *)fullTitleRepresentative;
+- (BOOL)hasVoted:(Question *)question;
 - (BOOL)voteOnQuestion:(Question *)question;
 
 @end
