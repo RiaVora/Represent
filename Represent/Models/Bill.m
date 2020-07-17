@@ -21,9 +21,11 @@
 @dynamic votesFor;
 @dynamic votesAgainst;
 
-
+#pragma mark - Init
 + (nonnull NSString *)parseClassName {
     return @"Bill";
 }
+
+#pragma mark - Setup
 
 @end

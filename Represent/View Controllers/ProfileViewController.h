@@ -12,6 +12,8 @@
 #import "LoginViewController.h"
 #import "SceneDelegate.h"
 
+/*The ProfileViewController is a UIViewController class that is used to display the profile of the currently logged-in user. The page consists of a main view that displays the User's information (such as party, description, username) and allows the User to log out and contact a representative.*/
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ProfileViewController : UIViewController

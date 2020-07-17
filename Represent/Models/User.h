@@ -11,6 +11,8 @@
 #import "APIManager.h"
 #import "Question.h"
 
+/*The User class is a PFUser class that is used to represent one User object (either a User or Representative) from the Parse database. The User object contains additional attributes past the basic Parse User class such as isRepresentative, firstName, party, etc. and is referenced throughout the application. For functionality, the User clas has methods where votes are saved on the votedQuestions array and Users (representatives) are saved on the followedRepresentatives array.*/
+
 NS_ASSUME_NONNULL_BEGIN
 @class Utils;
 @class Question;

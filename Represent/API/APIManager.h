@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+/*The APIManager class is used to faciliate network requests between the ProPublica Congress API and my app. The APIManager fetches information about representatives and bills based on the URLs I pass in and the API key I have. */
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface APIManager : NSObject
 
 @property (nonatomic, strong) NSURLSession *session;
 - (void)fetchRecentBills:(void(^)(NSArray *bills, NSError *error))completion;
-- (void)fetchLocalReps: (NSString *)state :(void(^)(NSArray *representatives, NSError *error))completion;
 - (void) fetchSenators:(void(^)(NSArray *senators, NSError *error))completion;
 @end
 

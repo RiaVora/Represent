@@ -16,16 +16,20 @@
 
 @implementation RepresentativeCell
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
+#pragma mark - Init
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
+//- (void)awakeFromNib {
+//    [super awakeFromNib];
+//    // Initialization code
+//}
+//
+//- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+//    [super setSelected:selected animated:animated];
+//
+//    // Configure the view for the selected state
+//}
 
-    // Configure the view for the selected state
-}
+#pragma mark - Setup
 
 - (void)updateValues {
     self.representativeLabel.text = [self.representative fullTitleRepresentative];

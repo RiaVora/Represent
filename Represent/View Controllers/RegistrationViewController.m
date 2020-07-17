@@ -45,11 +45,10 @@
                 [Utils displayAlertWithOk:@"Error with signing up" message:error.localizedDescription viewController:self];
             }
         }];
-        
     }
-    
-    
 }
+
+#pragma mark - Helpers
 
 - (BOOL)checkAllCorrect {
     BOOL firstNameExists = [Utils checkExists:self.firstNameField.text :@"First Name" :self];
@@ -61,15 +60,6 @@
     BOOL stateLengthCorrect = [Utils checkLength:self.stateField.text :@(2) :@"State" :self];
     BOOL passwordsEqual = [Utils checkEquals:self.passwordField.text :self.confirmPasswordField.text :@"Password do not match, please try again." :self];
     return firstNameExists && emailExists && stateExists && usernameExists && passwordExists && confirmPasswordExists && stateLengthCorrect && passwordsEqual;
-}
-
-#pragma mark - Navigation
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"signedInSegue"]) {
-        
-    }
-
 }
 
 

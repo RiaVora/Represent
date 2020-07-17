@@ -10,6 +10,8 @@
 
 @implementation Utils
 
+#pragma mark - Alerts
+
 + (BOOL)checkExists:(NSString *)text :(NSString *)field :(UIViewController *)viewController {
     if ([text isEqual:@""]) {
         [self displayAlertWithOk:[NSString stringWithFormat: @"%@ Cannot Be Blank", field] message:[NSString stringWithFormat: @"Please create a %@.", field] viewController:viewController];
@@ -52,6 +54,8 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
     return alert;
 }
+
+#pragma mark - Image/Data
 
 + (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image {
     if (!image) {

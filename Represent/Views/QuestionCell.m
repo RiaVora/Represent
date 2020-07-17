@@ -22,16 +22,18 @@
 
 @implementation QuestionCell
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
+#pragma mark - init
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
+//- (void)awakeFromNib {
+//    [super awakeFromNib];
+//    // Initialization code
+//}
 
-    // Configure the view for the selected state
-}
+//- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+//    [super setSelected:selected animated:animated];
+//}
+
+#pragma mark - Setup
 
 - (void)updateValues: (NSInteger)row {
     self.questionLabel.text = self.question.text;
@@ -42,7 +44,7 @@
         [self setBackgroundColor:UIColor.lightGrayColor];
     } else {
         [self setBackgroundColor:UIColor.whiteColor];
-
+        
     }
     User *user = [User currentUser];
     [self updateVoteButton:[user hasVoted:self.question]];
@@ -63,6 +65,19 @@
     }
 }
 
+- (void)updateVoteButton:(BOOL)addingVote {
+    if (addingVote) {
+        [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
+        [self.voteButton setTitle:@"Voted" forState:UIControlStateNormal];
+    } else {
+        [self.voteButton setTitleColor:UIColor.systemYellowColor forState:UIControlStateNormal];
+        [self.voteButton setTitle:@"Vote" forState:UIControlStateNormal];
+    }
+    self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
+}
+
+#pragma mark - Actions
+
 - (IBAction)pressedVote:(id)sender {
     User *user = [User currentUser];
     BOOL addingVote = [user voteOnQuestion:self.question];
@@ -77,17 +92,6 @@
             [self.delegate didVote:self.question];
         }
     }];
-}
-
-- (void)updateVoteButton:(BOOL)addingVote {
-    if (addingVote) {
-        [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
-        [self.voteButton setTitle:@"Voted" forState:UIControlStateNormal];
-    } else {
-        [self.voteButton setTitleColor:UIColor.systemYellowColor forState:UIControlStateNormal];
-        [self.voteButton setTitle:@"Vote" forState:UIControlStateNormal];
-    }
-    self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
 }
 
 @end

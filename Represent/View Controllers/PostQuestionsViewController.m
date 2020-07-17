@@ -18,12 +18,16 @@
 
 @implementation PostQuestionsViewController
 
+#pragma mark - UIViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupTableView];
     self.questionField.delegate = self;
     [self setupValues];
 }
+
+#pragma mark - Setup
 
 - (void)setupTableView {
     self.tableViewRepresentatives.delegate = self;
@@ -40,6 +44,8 @@
     [self.representativeButton setTitle:[self.currentRepresentative fullTitleRepresentative] forState:UIControlStateNormal];
 }
 
+#pragma mark - UITextViewDelegate
+
 - (void)textViewShouldBeginEditing:(UITextView *)textView {
     if ([textView.textColor isEqual: UIColor.lightGrayColor]) {
         textView.text = @"";
@@ -50,11 +56,11 @@
 - (void)textViewDidEndEditing:(UITextView *)textView {
     if ([textView.text isEqualToString:@""]) {
         textView.text = @"What do you want to ask?";
-       textView.textColor = UIColor.lightGrayColor;
+        textView.textColor = UIColor.lightGrayColor;
     }
 }
-     
 
+#pragma mark - Actions
 
 - (IBAction)pressedCancel:(id)sender {
     [self dismissViewControllerAnimated:true completion:nil];
@@ -85,6 +91,8 @@
     self.tableViewRepresentatives.hidden = !(self.tableViewRepresentatives.hidden);
 }
 
+#pragma mark - UITableViewDataSource
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RepresentativeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RepresentativeCell"];
     User *representative = self.representatives[indexPath.row];
@@ -106,19 +114,6 @@
     [self.representativeButton setTitle:[cell.representative fullTitleRepresentative] forState:UIControlStateNormal];
     self.currentRepresentative = cell.representative;
     tableView.hidden = YES;
-}
-
-
-
-#pragma mark - Navigation
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"postedQuestionSegue"]) {
-        UINavigationController *navigationController = [segue destinationViewController];
-        QuestionsViewController *questionsVC = (QuestionsViewController*)navigationController.topViewController;
-        questionsVC.currentRepresentative = self.currentRepresentative;
-    }
-
 }
 
 @end

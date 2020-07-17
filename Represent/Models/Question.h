@@ -9,6 +9,9 @@
 #import <Parse/Parse.h>
 #import "User.h"
 
+/*The Question class is a PFObject class that is used to represent one Question object from the Parse database. The Question object contains attributes such as text, author, voteCount, etc. and is displayed in a QuestionCell.*/
+
+
 NS_ASSUME_NONNULL_BEGIN
 @class User;
 @interface Question : PFObject<PFSubclassing>

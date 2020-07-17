@@ -9,6 +9,9 @@
 #import <Parse/Parse.h>
 #import "User.h"
 
+/*The Bill class is a PFObject class that is used to represent one Bill object from the Parse database. The Bill object contains attributes such as title, forDescription, passed, etc. and is displayed in a BillCell. The data for each bill is populated through the APIManager from the ProPublica API.*/
+
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Bill : PFObject<PFSubclassing>

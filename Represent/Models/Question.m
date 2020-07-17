@@ -18,9 +18,13 @@
 @dynamic representative;
 
 
+#pragma mark - Init
+
 + (nonnull NSString *)parseClassName {
     return @"Question";
 }
+
+#pragma mark - Setup
 
 + (void) postUserQuestion: ( NSString * _Nullable )question forRepresentative: ( User * _Nullable )representative withCompletion: (PFBooleanResultBlock  _Nullable)completion {
     
@@ -32,6 +36,8 @@
     
     [newQuestion saveInBackgroundWithBlock: completion];
 }
+
+#pragma mark - Actions
 
 - (void)vote:(BOOL)vote {
     if (vote) {

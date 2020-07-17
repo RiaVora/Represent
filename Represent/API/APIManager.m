@@ -13,13 +13,15 @@ static NSString * const baseURLString = @"https://api.propublica.org/congress/v1
 
 @implementation APIManager
 
+#pragma mark - Init
+
 - (id)init {
     self = [super init];
-
     self.session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-
     return self;
 }
+
+#pragma mark - Bill Data
 
 - (void)fetchRecentBills:(void(^)(NSArray *bills, NSError *error))completion {
     NSMutableURLRequest *request = [self createRequest:@"116/both/bills/introduced.json"];
@@ -37,21 +39,7 @@ static NSString * const baseURLString = @"https://api.propublica.org/congress/v1
     [task resume];
 }
 
-- (void)fetchLocalReps: (NSString *)state :(void(^)(NSArray *representatives, NSError *error))completion {
-    NSMutableURLRequest *request = [self createRequest: [NSString stringWithFormat:@"members/senate/%@/current.json", state]];
-    NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (error) {
-            NSLog(@"Error fetching local Representatives: %@", error.localizedDescription);
-            completion(nil, error);
-        }
-        else {
-            NSLog(@"Success fetching local Representatives!");
-            NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            completion(dataDictionary[@"results"], nil);
-        }
-    }];
-    [task resume];
-}
+#pragma mark - Representative Data
 
 - (void) fetchSenators:(void(^)(NSArray *senators, NSError *error))completion {
     NSMutableURLRequest *request = [self createRequest: @"116/senate/members.json"];
@@ -68,6 +56,8 @@ static NSString * const baseURLString = @"https://api.propublica.org/congress/v1
     }];
     [task resume];
 }
+
+#pragma mark - Helpers
 
 - (NSMutableURLRequest *)createRequest :(NSString *)call {
     NSString *fullURL = [NSString stringWithFormat:@"%@%@", baseURLString, call];

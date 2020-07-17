@@ -11,8 +11,12 @@
 #import "User.h"
 #import <Parse/Parse.h>
 
+/*The Utils file is a NSObject class that is used to collect helper methods to be used across classes. The Utils method contains various types of methods for displaying Alerts on ViewControllers and creating custom alerts, as well as converting an Image into a PFFFile for transfer into Parse and resizing the image.*/
+
 NS_ASSUME_NONNULL_BEGIN
+
 @class User;
+
 @interface Utils : NSObject
 
 + (BOOL)checkExists:(NSString *)text :(NSString *)field :(UIViewController *)viewController;
@@ -22,7 +26,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIAlertController *)makeAlert:(NSString *)title :(NSString *)message;
 + (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image;
 + (UIImage *)resizeImage:(UIImage *)image withSize:(CGSize)size;
-
 
 @end
 

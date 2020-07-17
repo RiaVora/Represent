@@ -24,10 +24,13 @@
 @dynamic lastName;
 @dynamic votedQuestions;
 
+#pragma mark - Init
 
 +(User*)user {
     return (User*)[PFUser user];
 }
+
+#pragma mark - Setup
 
 - (void)signUpUser: (NSString *)firstName email:(NSString *)email state:(NSString *)state username:(NSString *)username password:(NSString *)password isRepresentative:(BOOL)isRepresentative withCompletion: (PFBooleanResultBlock  _Nullable)completion {
     self.firstName = firstName;
@@ -78,6 +81,8 @@
     }];
 }
 
+#pragma mark - Helpers
+
 - (NSString *)fullTitleRepresentative {
     if (self.isRepresentative) {
         return [NSString stringWithFormat:@"%@ %@ %@", self.shortPosition, self.firstName, self.lastName];
@@ -95,10 +100,10 @@
     return NO;
 }
 
+#pragma mark - Actions
+
+
 - (BOOL)voteOnQuestion:(Question *)newQuestion {
-//    PFQuery *questionQuery = [Question query];
-//    NSLog(@"Question object ID is %@", newQuestion.objectId);
-//    [questionQuery whereKey:@"objectId" equalTo:newQuestion.objectId];
     BOOL hasVoted = [self hasVoted:newQuestion];
     if (hasVoted) {
         [self removeObject:newQuestion forKey:@"votedQuestions"];
@@ -110,7 +115,6 @@
     }
     [self saveInBackground];
     return !hasVoted;
-    
 }
 
 @end

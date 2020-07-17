@@ -21,16 +21,20 @@
 
 @implementation QuestionsViewController
 
+#pragma mark - UIViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setUpTableViews];
     [self setUpViews];
-//    [self postTestQuestion:@"i really have to know"];
-//    [self postTestQuestion:@"thank you for your service"];
+    //    [self postTestQuestion:@"i really have to know"];
+    //    [self postTestQuestion:@"thank you for your service"];
     [self fetchQuestions];
     [self initRefreshControl];
-
+    
 }
+
+#pragma mark - Setup
 
 - (void)setUpTableViews {
     self.tableView.delegate = self;
@@ -56,18 +60,13 @@
     }
 }
 
-- (void)postTestQuestion: (NSString *)text {
-    for (User *representative in self.currentUser.followedRepresentatives) {
-        [representative fetch];
-        [Question postUserQuestion:[NSString stringWithFormat: @"%@ for %@", text, representative.firstName] forRepresentative:representative withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
-            if (succeeded) {
-                NSLog(@"Question successfully saved!");
-            } else {
-                NSLog(@"Unable to save question: %@", error.localizedDescription);
-            }
-        }];
-    }
+- (void)initRefreshControl {
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(fetchQuestions) forControlEvents:UIControlEventValueChanged];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
 }
+
+#pragma mark - Data Query
 
 - (void)fetchQuestions {
     PFQuery *questionQuery = [Question query];
@@ -80,9 +79,6 @@
     [questionQuery findObjectsInBackgroundWithBlock:^(NSArray<Question *> * _Nullable questions, NSError * _Nullable error) {
         if (questions) {
             NSLog(@"Successfully received questions!");
-//            for (Question *question in questions) {
-//                NSLog(@"Representative for question is %@", question.representative.firstName);
-//            }
             self.questions = [NSMutableArray arrayWithArray:questions];
             [self.tableView reloadData];
             [self.refreshControl endRefreshing];
@@ -93,11 +89,6 @@
     }];
 }
 
-- (void)initRefreshControl {
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(fetchQuestions) forControlEvents:UIControlEventValueChanged];
-    [self.tableView insertSubview:self.refreshControl atIndex:0];
-}
 
 #pragma mark - UITableViewDataSource
 
@@ -146,9 +137,14 @@
         [self fetchQuestions];
     }
 }
+
+#pragma mark - Actions
+
 - (IBAction)pushedRepresentative:(id)sender {
     self.tableViewRepresentatives.hidden = !(self.tableViewRepresentatives.hidden);
 }
+
+#pragma mark - QuestionCellDelegate
 
 - (void)didVote:(Question *)question {
     [self fetchQuestions];
@@ -174,6 +170,21 @@
     [self setUpViews];
     [self fetchQuestions];
     [MBProgressHUD hideHUDForView:self.view animated:true];
+}
+
+#pragma mark - Helpers
+
+- (void)postTestQuestion: (NSString *)text {
+    for (User *representative in self.currentUser.followedRepresentatives) {
+        [representative fetch];
+        [Question postUserQuestion:[NSString stringWithFormat: @"%@ for %@", text, representative.firstName] forRepresentative:representative withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+            if (succeeded) {
+                NSLog(@"Question successfully saved!");
+            } else {
+                NSLog(@"Unable to save question: %@", error.localizedDescription);
+            }
+        }];
+    }
 }
 
 

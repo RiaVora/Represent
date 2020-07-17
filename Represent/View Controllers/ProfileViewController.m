@@ -14,10 +14,14 @@
 
 @implementation ProfileViewController
 
+#pragma mark - UIViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }
+
+#pragma mark - Actions
 
 - (IBAction)pressedLogout:(id)sender {
     NSString *username = PFUser.currentUser.username;
@@ -29,6 +33,8 @@
         }
     }];
 }
+
+#pragma mark - Alerts
 
 - (void)logoutAlert: (NSString *)username :(id)sender {
     NSString *title = [NSString stringWithFormat:@"Logout of %@", username];
@@ -47,8 +53,6 @@
     [self presentViewController:alert animated:YES completion:^{}];
     
 }
-
-
 
 #pragma mark - Navigation
 

@@ -16,6 +16,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/*The PostQuestionsViewController is a UIViewController class that is used to accept user input of a question and post it as the currently logged-in user. The page consists of a main view that displays a UITextView for the User to type in and a dropdown menu of Representatives to post. The PostQuestionsViewController sends the representative that was posted to the QuestionsViewController, and the post shows without refreshing.*/
+
 @interface PostQuestionsViewController : UIViewController
 
 @property (strong, nonatomic) User *currentRepresentative;
