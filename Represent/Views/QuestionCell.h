@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) Question *question;
 @property (nonatomic, weak) __kindof UIViewController *controllerDelegate;
 @property (nonatomic, weak) id<QuestionCellDelegate> delegate;
-- (void)updateValues;
+- (void)updateValues: (NSInteger)row;
 
 @end
 

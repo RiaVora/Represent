@@ -107,7 +107,7 @@
         cell.question = self.questions[indexPath.row];
         cell.controllerDelegate = self;
         cell.delegate = self;
-        [cell updateValues];
+        [cell updateValues: indexPath.row];
         return cell;
     } else {
         RepresentativeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RepresentativeCell"];

@@ -33,9 +33,20 @@
     // Configure the view for the selected state
 }
 
-- (void)updateValues {
+- (void)updateValues: (NSInteger)row {
     self.questionLabel.text = self.question.text;
     self.usernameLabel.text = self.question.author.username;
+    [self setProfilePhoto];
+    NSInteger limit = 3;
+    if (row < limit) {
+        [self setBackgroundColor:UIColor.lightGrayColor];
+    }
+    User *user = [User currentUser];
+    [self updateVoteButton:[user hasVoted:self.question]];
+    self.timestampLabel.text = self.question.createdAt.shortTimeAgoSinceNow;
+}
+
+- (void)setProfilePhoto {
     if (self.question.author.profilePhoto) {
         [self.question.author.profilePhoto getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {
             if (error) {
@@ -47,10 +58,6 @@
     } else {
         NSLog(@"Error, no profile photo set");
     }
-    User *user = [User currentUser];
-    [self updateVoteButton:[user hasVoted:self.question]];
-    self.timestampLabel.text = self.question.createdAt.shortTimeAgoSinceNow;
-    self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
 }
 
 - (IBAction)pressedVote:(id)sender {
