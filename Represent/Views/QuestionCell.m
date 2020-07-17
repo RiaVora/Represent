@@ -69,8 +69,8 @@
         }];
     } else {
         NSLog(@"user has already voted on this question %@. cannot again", self.question.text);
+        [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
         [Utils displayAlertWithOk:@"Cannot vote for Question Twice" message:@"You have already voted for this question" viewController:self.controllerDelegate];
-
     }
     
 }

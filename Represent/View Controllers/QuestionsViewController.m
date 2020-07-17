@@ -23,14 +23,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [MBProgressHUD showHUDAddedTo:self.view animated:true];
     [self setUpTableViews];
+    [self setUpViews];
 //    [self postTestQuestion:@"i really have to know"];
 //    [self postTestQuestion:@"thank you for your service"];
     [self fetchQuestions];
     [self initRefreshControl];
-    [MBProgressHUD hideHUDForView:self.view animated:true];
-    
+
 }
 
 - (void)setUpTableViews {
@@ -39,11 +38,22 @@
     self.tableViewRepresentatives.delegate = self;
     self.tableViewRepresentatives.dataSource = self;
     self.tableViewRepresentatives.hidden = YES;
+}
+
+- (void)setUpViews {
     self.currentUser = [User currentUser];
     if (!self.currentRepresentative) {
-        self.currentRepresentative = [self.currentUser.followedRepresentatives[0] fetch];
+        self.currentRepresentative = self.currentUser.followedRepresentatives[0];
+        [self.currentRepresentative fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+            if (error) {
+                NSLog(@"Error with fetching representative %@", error.localizedDescription);
+            } else {
+                [self.representativeButton setTitle:[self.currentRepresentative fullTitleRepresentative] forState:UIControlStateNormal];
+            }
+        }];
+    } else {
+        [self.representativeButton setTitle:[self.currentRepresentative fullTitleRepresentative] forState:UIControlStateNormal];
     }
-    [self.representativeButton setTitle:[self.currentRepresentative fullTitleRepresentative] forState:UIControlStateNormal];
 }
 
 - (void)postTestQuestion: (NSString *)text {
@@ -101,14 +111,19 @@
         return cell;
     } else {
         RepresentativeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RepresentativeCell"];
-        User *representative = self.currentUser.followedRepresentatives[indexPath.row];
-        [representative fetch];
-        
         if (cell == nil) {
             cell = [[RepresentativeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RepresentativeCell"];
         }
-        cell.representative = representative;
-        [cell updateValues];
+        User *representative = self.currentUser.followedRepresentatives[indexPath.row];
+        [representative fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+            if (error) {
+                NSLog(@"Error with fetching representative from array %@", error.localizedDescription);
+            } else {
+                cell.representative = representative;
+                [cell updateValues];
+            }
+        }];
+        
         return cell;
         
     }
@@ -152,7 +167,8 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
     [postQuestionsVC pressedPost];
     self.currentRepresentative = postQuestionsVC.currentRepresentative;
-    [self viewDidLoad];
+    [self setUpViews];
+    [self fetchQuestions];
     [MBProgressHUD hideHUDForView:self.view animated:true];
 }
 

@@ -86,18 +86,22 @@
     }
 }
 
-- (BOOL)voteOnQuestion:(Question *)question {
-    if ([self.votedQuestions containsObject:question]) {
-        return NO;
-    } else {
+- (BOOL)voteOnQuestion:(Question *)newQuestion {
+    PFQuery *questionQuery = [Question query];
+//    NSLog(@"Question object ID is %@", newQuestion.objectId);
+    [questionQuery whereKey:@"objectId" equalTo:newQuestion.objectId];
+//    dispatch_group_enter(taskGroup);
+    NSArray *questionsFound = [questionQuery findObjects];
+    if (questionsFound.count == 0) {
         if (!self.votedQuestions) {
             self.votedQuestions = [[NSMutableArray alloc] init];
         }
-        [self addObject:question forKey:@"votedQuestions"];
+        [self addObject:newQuestion forKey:@"votedQuestions"];
         [self saveInBackground];
         return YES;
+    } else {
+        return NO;
     }
 }
-
 
 @end
