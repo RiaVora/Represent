@@ -84,25 +84,6 @@
     }];
 }
 
-#pragma mark - Helpers
-
-- (NSString *)fullTitleRepresentative {
-    if (self.isRepresentative) {
-        return [NSString stringWithFormat:@"%@ %@ %@", self.shortPosition, self.firstName, self.lastName];
-    } else {
-        return @"Not a representative";
-    }
-}
-
-- (BOOL)hasVoted:(Question *)newQuestion {
-    for (Question *question in self.votedQuestions) {
-        if ([question.objectId isEqualToString:newQuestion.objectId]) {
-            return YES;
-        }
-    }
-    return NO;
-}
-
 #pragma mark - Actions
 
 
@@ -121,6 +102,25 @@
     }
     [self saveInBackground];
     return !hasVoted;
+}
+
+#pragma mark - Helpers
+
+- (NSString *)fullTitleRepresentative {
+    if (self.isRepresentative) {
+        return [NSString stringWithFormat:@"%@ %@ %@", self.shortPosition, self.firstName, self.lastName];
+    } else {
+        return @"Not a representative";
+    }
+}
+
+- (BOOL)hasVoted:(Question *)newQuestion {
+    for (Question *question in self.votedQuestions) {
+        if ([question.objectId isEqualToString:newQuestion.objectId]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 - (BOOL)votesLeft {

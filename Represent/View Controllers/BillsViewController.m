@@ -8,8 +8,9 @@
 
 #import "BillsViewController.h"
 
-@interface BillsViewController ()
-
+@interface BillsViewController () <UITableViewDelegate, UITableViewDataSource>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSMutableArray *bills;
 @end
 
 @implementation BillsViewController
@@ -18,8 +19,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
 }
+
+#pragma mark - UITableViewDataSource
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    BillCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BillCell"];
+    cell.bill = self.bills[indexPath.row];
+    return cell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.bills.count;
+}
+
+
+
+
 
 /*
  #pragma mark - Navigation

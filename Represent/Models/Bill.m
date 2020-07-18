@@ -28,4 +28,22 @@
 
 #pragma mark - Setup
 
+
++ (void) createBill: (NSDictionary *)bill {
+//    Bill *bill = [Bill new];
+    
+//    user.position = representative[@"title"];
+//    user.shortPosition = representative[@"short_title"];
+//    user.party = representative[@"party"];
+//    user.contact = representative[@"contact_form"];
+//    user.lastName = representative[@"last_name"];
+//    [user signUpUser:representative[@"first_name"] email:@"" state:representative[@"state"] username:representative[@"id"] password:representative[@"date_of_birth"] isRepresentative:YES withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+//        if (error) {
+//            NSLog(@"Error adding representative: %@", error.localizedDescription);
+//        } else {
+//            NSLog(@"Successfully added Representative %@", user.username);
+//        }
+//    }];
+}
+
 @end
