@@ -80,22 +80,54 @@
 
 - (IBAction)pressedVote:(id)sender {
     User *user = [User currentUser];
-    if ([user votesLeft] || [user hasVoted:self.question]) {
-        BOOL addingVote = [user voteOnQuestion:self.question];
-        [self.question vote:addingVote];
-        [self updateVoteButton:addingVote];
-        [self.question saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-            if (!succeeded) {
-                NSLog(@"Error with voting on question: %@", error.localizedDescription);
-                [Utils displayAlertWithOk:@"Error voting on Question" message:error.localizedDescription viewController:self.inputViewController];
-            } else {
-                NSLog(@"Succesfully voted %d on question '%@'", addingVote, self.question.text);
-                [self.delegate didVote:self.question];
-            }
-        }];
+    BOOL voteWithRemaining = [user votesLeft] && ![user hasVoted:self.question];
+    BOOL removeVoteAndAddCount = [user hasVoted:self.question] && [user.availableVoteCount intValue] < 5;
+    if (voteWithRemaining || removeVoteAndAddCount) {
+        [self executeVote:YES];
     } else {
-        [Utils displayAlertWithOk:@"Run out of Votes" message:@"You can only vote 5x a day! Please come back tomorrow for 5 more votes." viewController:self.controllerDelegate];
+        if ([user hasVoted:self.question] && [user.availableVoteCount intValue] >= 5) {
+            [self removeExtraVoteAlert];
+        } else {
+            [Utils displayAlertWithOk:@"Run out of Votes" message:@"You can only vote 5x a day! Please come back tomorrow for 5 more votes." viewController:self.controllerDelegate];
+        }
     }
+}
+
+- (void)executeVote: (BOOL)normal{
+    User *user = [User currentUser];
+    BOOL addingVote = NO;
+    if (normal) {
+        addingVote = [user voteOnQuestion:self.question];
+    } else {
+        [user removeObject:self.question forKey:@"votedQuestions"];
+        [user saveInBackground];
+    }
+    [self.question vote:addingVote];
+    [self updateVoteButton:addingVote];
+
+    [self.question saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (!succeeded) {
+            NSLog(@"Error with voting on question: %@", error.localizedDescription);
+            [Utils displayAlertWithOk:@"Error voting on Question" message:error.localizedDescription viewController:self.inputViewController];
+        } else {
+            NSLog(@"Succesfully voted %d on question '%@'", addingVote, self.question.text);
+            [self.delegate didVote:self.question];
+        }
+    }];
+}
+
+- (void)removeExtraVoteAlert {
+    UIAlertController *alert = [Utils makeAlert:@"Cannot add more votes" :@"You can only have up to 5 votes at a time! This removed vote will not give you a vote back."];
+    UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault
+                        handler:^(UIAlertAction * _Nonnull action) {
+         [self executeVote:NO];
+    }];
+    [alert addAction:continueAction];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel
+                        handler:^(UIAlertAction * _Nonnull action) {}];
+    [alert addAction:cancelAction];
+    
+    [self.controllerDelegate presentViewController:alert animated:YES completion:^{}];
 }
 
 @end
