@@ -97,7 +97,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FcF-BM-1xi">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="772"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <button key="tableHeaderView" opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cnZ-R1-Lm9">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="36"/>
@@ -162,7 +162,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ueZ-wK-gz9">
-                                                    <rect key="frame" x="332" y="77" width="32" height="30"/>
+                                                    <rect key="frame" x="240.5" y="77" width="123.5" height="30"/>
                                                     <state key="normal" title="Vote"/>
                                                     <connections>
                                                         <action selector="pressedVote:" destination="gz2-GK-oWI" eventType="touchUpInside" id="pH2-h7-JRw"/>
@@ -181,6 +181,7 @@
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="mWD-il-cPI" secondAttribute="trailing" constant="20" id="Pqe-kU-Yqy"/>
                                                 <constraint firstItem="QUQ-91-UlW" firstAttribute="leading" secondItem="DhM-Zv-qhK" secondAttribute="leading" id="WrU-8J-nOM"/>
                                                 <constraint firstItem="V4F-j5-FhU" firstAttribute="leading" secondItem="zBP-GS-iDf" secondAttribute="trailing" constant="5" id="YXR-c1-9ri"/>
+                                                <constraint firstItem="ueZ-wK-gz9" firstAttribute="leading" relation="lessThanOrEqual" secondItem="pUe-IJ-hAi" secondAttribute="trailing" constant="10" id="ZZO-gf-2WM"/>
                                                 <constraint firstItem="DhM-Zv-qhK" firstAttribute="top" secondItem="mWD-il-cPI" secondAttribute="bottom" constant="30" id="aFz-Fa-vG7"/>
                                                 <constraint firstItem="mWD-il-cPI" firstAttribute="leading" secondItem="Ym6-xA-7or" secondAttribute="leading" constant="20" id="dCK-aT-9lf"/>
                                                 <constraint firstItem="DhM-Zv-qhK" firstAttribute="top" secondItem="eON-tz-drz" secondAttribute="top" id="fhc-sa-OBf"/>
@@ -235,12 +236,28 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Votes Remaining: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PPm-dT-mFr">
+                                <rect key="frame" x="20" y="782" width="143" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Available Votes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DJt-kU-Qsb">
+                                <rect key="frame" x="165" y="782" width="110" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="FcF-BM-1xi" firstAttribute="top" secondItem="lCH-vx-Or9" secondAttribute="top" id="2hD-Xm-hJi"/>
+                            <constraint firstItem="DJt-kU-Qsb" firstAttribute="leading" secondItem="PPm-dT-mFr" secondAttribute="trailing" constant="2" id="Pg9-XX-NcQ"/>
+                            <constraint firstItem="PPm-dT-mFr" firstAttribute="top" secondItem="FcF-BM-1xi" secondAttribute="bottom" constant="10" id="Ssn-Dk-QWb"/>
+                            <constraint firstItem="OZQ-04-7Sy" firstAttribute="bottom" secondItem="PPm-dT-mFr" secondAttribute="bottom" constant="10" id="YIh-Mz-32T"/>
+                            <constraint firstItem="PPm-dT-mFr" firstAttribute="leading" secondItem="OZQ-04-7Sy" secondAttribute="leading" constant="20" id="f1f-ev-3an"/>
                             <constraint firstItem="FcF-BM-1xi" firstAttribute="trailing" secondItem="OZQ-04-7Sy" secondAttribute="trailing" id="iSt-bU-eBg"/>
-                            <constraint firstAttribute="bottom" secondItem="FcF-BM-1xi" secondAttribute="bottom" id="rbA-Oi-lyL"/>
+                            <constraint firstItem="DJt-kU-Qsb" firstAttribute="top" secondItem="PPm-dT-mFr" secondAttribute="top" id="ptC-Bd-Pbd"/>
                             <constraint firstItem="FcF-BM-1xi" firstAttribute="leading" secondItem="OZQ-04-7Sy" secondAttribute="leading" id="yEY-6P-6t0"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="OZQ-04-7Sy"/>
@@ -253,6 +270,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="availableVotesLabel" destination="DJt-kU-Qsb" id="qmJ-zK-Mv8"/>
                         <outlet property="representativeButton" destination="cnZ-R1-Lm9" id="JUm-Zc-sAG"/>
                         <outlet property="tableView" destination="FcF-BM-1xi" id="BGr-aa-nnN"/>
                         <outlet property="tableViewRepresentatives" destination="WM2-y8-OuM" id="LvX-Gy-I5i"/>

@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableViewRepresentatives;
 @property (weak, nonatomic) IBOutlet UIButton *representativeButton;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (weak, nonatomic) IBOutlet UILabel *availableVotesLabel;
 
 @end
 
@@ -46,6 +47,8 @@
 
 - (void)setUpViews {
     self.currentUser = [User currentUser];
+    [self.currentUser updateAvailableVotes];
+    [self.availableVotesLabel setText:[NSString stringWithFormat:@"%@", self.currentUser.availableVoteCount]];
     if (!self.currentRepresentative) {
         self.currentRepresentative = self.currentUser.followedRepresentatives[0];
         [self.currentRepresentative fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
@@ -148,6 +151,7 @@
 
 - (void)didVote:(Question *)question {
     [self fetchQuestions];
+    [self.availableVotesLabel setText:[NSString stringWithFormat:@"%@", self.currentUser.availableVoteCount]];
     [self.tableView reloadData];
 }
 

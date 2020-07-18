@@ -30,6 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *shortPosition;
 @property (nonatomic, strong) NSString *lastName;
 @property (nonatomic, strong) NSMutableArray *votedQuestions;
+@property (nonatomic, strong) NSDate *lastVoted;
+@property (nonatomic, strong) NSNumber *availableVoteCount;
+
 
 
 +(User*)user;
@@ -39,6 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)fullTitleRepresentative;
 - (BOOL)hasVoted:(Question *)question;
 - (BOOL)voteOnQuestion:(Question *)question;
+- (BOOL)votesLeft;
+- (void)updateAvailableVotes;
 
 @end
 

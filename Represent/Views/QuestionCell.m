@@ -80,18 +80,22 @@
 
 - (IBAction)pressedVote:(id)sender {
     User *user = [User currentUser];
-    BOOL addingVote = [user voteOnQuestion:self.question];
-    [self.question vote:addingVote];
-    [self updateVoteButton:addingVote];
-    [self.question saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (!succeeded) {
-            NSLog(@"Error with voting on question: %@", error.localizedDescription);
-            [Utils displayAlertWithOk:@"Error voting on Question" message:error.localizedDescription viewController:self.inputViewController];
-        } else {
-            NSLog(@"Succesfully voted %d on question '%@'", addingVote, self.question.text);
-            [self.delegate didVote:self.question];
-        }
-    }];
+    if ([user votesLeft] || [user hasVoted:self.question]) {
+        BOOL addingVote = [user voteOnQuestion:self.question];
+        [self.question vote:addingVote];
+        [self updateVoteButton:addingVote];
+        [self.question saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            if (!succeeded) {
+                NSLog(@"Error with voting on question: %@", error.localizedDescription);
+                [Utils displayAlertWithOk:@"Error voting on Question" message:error.localizedDescription viewController:self.inputViewController];
+            } else {
+                NSLog(@"Succesfully voted %d on question '%@'", addingVote, self.question.text);
+                [self.delegate didVote:self.question];
+            }
+        }];
+    } else {
+        [Utils displayAlertWithOk:@"Run out of Votes" message:@"You can only vote 5x a day! Please come back tomorrow for 5 more votes." viewController:self.controllerDelegate];
+    }
 }
 
 @end

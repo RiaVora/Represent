@@ -23,6 +23,8 @@
 @dynamic contact;
 @dynamic lastName;
 @dynamic votedQuestions;
+@dynamic lastVoted;
+@dynamic availableVoteCount;
 
 #pragma mark - Init
 
@@ -41,6 +43,7 @@
     self.profilePhoto = [Utils getPFFileFromImage: [UIImage imageNamed:@"profile_tab"]];
     self.followedRepresentatives = [[NSMutableArray alloc] init];
     self.votedQuestions = [[NSMutableArray alloc] init];
+    self.availableVoteCount = [NSNumber numberWithInt:5];
     if (!isRepresentative) {
         self.email = email;
         [self getRepresentatives];
@@ -107,14 +110,29 @@
     BOOL hasVoted = [self hasVoted:newQuestion];
     if (hasVoted) {
         [self removeObject:newQuestion forKey:@"votedQuestions"];
+        [self incrementKey:@"availableVoteCount" byAmount:[NSNumber numberWithInt:1]];
     } else {
         if (!self.votedQuestions) {
             self.votedQuestions = [[NSMutableArray alloc] init];
         }
         [self addObject:newQuestion forKey:@"votedQuestions"];
+        [self incrementKey:@"availableVoteCount" byAmount:[NSNumber numberWithInt:-1]];
+        [self setObject:[NSDate date] forKey:@"lastVoted"];
     }
     [self saveInBackground];
     return !hasVoted;
+}
+
+- (BOOL)votesLeft {
+    return [self.availableVoteCount intValue] > 0;
+}
+
+- (void)updateAvailableVotes {
+    NSDate *now = [NSDate date];
+    if (![[NSCalendar currentCalendar] isDate:now inSameDayAsDate:self.lastVoted] && ![self votesLeft]) {
+        self.availableVoteCount = [NSNumber numberWithInt:5];
+        [self saveInBackground];
+    }
 }
 
 @end
