@@ -34,8 +34,11 @@
             NSLog(@"Success with fetching recent bills!");
             self.bills = [[NSMutableArray alloc] init];
             
-            for (int i = 19; i >= 0; i--) {
-                [self.bills insertObject:[Bill createBill:bills[i]] atIndex:0];
+            for (NSDictionary *dictionary in bills) {
+                Bill *bill = [Bill createBill:dictionary];
+                if (bill) {
+                    [self.bills addObject:bill];
+                }
             }
             [self.tableView reloadData];
         }
@@ -44,6 +47,7 @@
 
 - (void)getBillsParse {
     PFQuery *billQuery = [Bill query];
+    [billQuery orderByDescending:@"date"];
     billQuery.limit = 20;
     [billQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable bills, NSError * _Nullable error) {
         if (error) {
@@ -69,18 +73,12 @@
     return self.bills.count;
 }
 
-
-
-
-
-/*
  #pragma mark - Navigation
  
- // In a storyboard-based application, you will often want to do a little preparation before navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
+     BillCell *cell = sender;
+     BillDetailsViewController *billDetailsVC = [segue destinationViewController];
+     billDetailsVC.bill = cell.bill;
  }
- */
 
 @end

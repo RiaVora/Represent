@@ -37,25 +37,30 @@
 
 
 + (Bill *) createBill: (NSDictionary *)dictionary {
-    Bill *bill;
+    Bill *bill = [Bill new];
     if (dictionary[@"bill"][@"bill_id"]) {
-        bill = [Bill checkIfBillExists: dictionary[@"bill"][@"bill_id"]];
-        bill.billID = dictionary[@"bill"][@"bill_id"];
-        bill.number = dictionary[@"bill"][@"number"];
-        bill.sponsor = dictionary[@"bill"][@"sponsor_id"];
-        bill.shortSummary = dictionary[@"bill"][@"title"];
+        NSDictionary *billDictionary = dictionary[@"bill"];
+        if ([Bill billExists:billDictionary[@"bill_id"]]) {
+            return nil;
+        }
+        bill.billID = billDictionary[@"bill_id"];
+        bill.number = billDictionary[@"number"];
+        bill.sponsor = billDictionary[@"sponsor_id"];
+        bill.shortSummary = billDictionary[@"title"];
         bill.question = dictionary[@"question"];
     } else if (dictionary[@"nomination"][@"nomination_id"]) {
-        bill = [Bill checkIfBillExists: dictionary[@"nomination"][@"nomination_id"]];
-        bill.billID = dictionary[@"nomination"][@"nomination_id"];
-        bill.number = dictionary[@"nomination"][@"number"];
+        NSDictionary *nominationDictionary = dictionary[@"nomination"];
+        if ([Bill billExists:nominationDictionary[@"nomination_id"]]) {
+            return nil;
+        }
+        bill.billID = nominationDictionary[@"nomination_id"];
+        bill.number = nominationDictionary[@"number"];
     } else {
         NSLog(@"THIS BILL IS NOT A NOMINATION OR BILL");
-        bill = [Bill new];
     }
+    
     [bill updateValues:dictionary];
 
-    
     [bill saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (!succeeded) {
             NSLog(@"Error with saving Bill: %@", error.localizedDescription);
@@ -64,11 +69,11 @@
         }
     }];
     
-    if (!bill) {
-        NSLog(@"bill is nil for %@", dictionary);
-    }
-    
     return bill;
+}
+
+- (void)setUpNewBill:(NSDictionary *)dictionary {
+    
 }
 
 - (void)updateValues:(NSDictionary *)dictionary {
@@ -79,12 +84,6 @@
     self.votesFor = [dictionary[@"total"][@"yes"] integerValue];
     self.votesAgainst = [dictionary[@"total"][@"no"] integerValue];
     self.votesAbstain = [dictionary[@"total"][@"not_voting"] integerValue];
-}
-
-- (void)setType:(NSString *)type {
-    if ([type isEqualToString:@"House"]) {
-        self.type = @"House of Representatives";
-    }
 }
 
 - (void)setSponsor:(NSString *)sponsorID {
@@ -113,16 +112,16 @@
     return date;
 }
 
-+ (Bill *)checkIfBillExists: (NSString *)billID {
++ (BOOL)billExists: (NSString *)billID {
     PFQuery *billQuery = [Bill query];
     [billQuery whereKey:@"billID" equalTo:billID];
     NSArray *bills = [billQuery findObjects];
     if (bills.count > 0) {
         NSLog(@"One bill with the same ID successfully found");
-        return bills[0];
+        return YES;
     } else {
         NSLog(@"No bills found for billID %@", billID);
-        return [Bill new];
+        return NO;
     }
 }
 @end

@@ -79,9 +79,9 @@
 
 - (IBAction)pressedVote:(id)sender {
     User *user = [User currentUser];
-    BOOL voteWithRemaining = [user votesLeft] && ![user hasVoted:self.question];
-    BOOL removeVoteAndAddCount = [user hasVoted:self.question] && [user.availableVoteCount intValue] < 5;
-    if (voteWithRemaining || removeVoteAndAddCount) {
+    BOOL hasRemainingVotes = [user votesLeft] && ![user hasVoted:self.question];
+    BOOL canRemoveVote = [user hasVoted:self.question] && [user.availableVoteCount intValue] < 5;
+    if (hasRemainingVotes || canRemoveVote) {
         [self executeVote:YES];
     } else {
         if ([user hasVoted:self.question] && [user.availableVoteCount intValue] >= 5) {

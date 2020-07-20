@@ -11,6 +11,7 @@
 		580BB60D24C0ACCF00DFED65 /* PostQuestionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 580BB60C24C0ACCF00DFED65 /* PostQuestionsViewController.m */; };
 		580BB61324C0F7BF00DFED65 /* RepresentativeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 580BB61224C0F7BF00DFED65 /* RepresentativeCell.m */; };
 		580BB61624C2A5D600DFED65 /* BillCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 580BB61524C2A5D600DFED65 /* BillCell.m */; };
+		5840C96724C642DD004E369A /* BillDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5840C96624C642DD004E369A /* BillDetailsViewController.m */; };
 		5845E72D24BE0D4D00D46103 /* RegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5845E72C24BE0D4D00D46103 /* RegistrationViewController.m */; };
 		5845E73024BE424D00D46103 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5845E72F24BE424D00D46103 /* APIManager.m */; };
 		5845E73324BE8DC700D46103 /* QuestionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5845E73224BE8DC700D46103 /* QuestionsViewController.m */; };
@@ -61,6 +62,8 @@
 		580BB61224C0F7BF00DFED65 /* RepresentativeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RepresentativeCell.m; sourceTree = "<group>"; };
 		580BB61424C2A5D600DFED65 /* BillCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BillCell.h; sourceTree = "<group>"; };
 		580BB61524C2A5D600DFED65 /* BillCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BillCell.m; sourceTree = "<group>"; };
+		5840C96524C642DD004E369A /* BillDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BillDetailsViewController.h; sourceTree = "<group>"; };
+		5840C96624C642DD004E369A /* BillDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BillDetailsViewController.m; sourceTree = "<group>"; };
 		5845E72B24BE0D4D00D46103 /* RegistrationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegistrationViewController.h; sourceTree = "<group>"; };
 		5845E72C24BE0D4D00D46103 /* RegistrationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegistrationViewController.m; sourceTree = "<group>"; };
 		5845E72E24BE424D00D46103 /* APIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
@@ -208,6 +211,8 @@
 				5845E73224BE8DC700D46103 /* QuestionsViewController.m */,
 				5845E73424BEB57300D46103 /* BillsViewController.h */,
 				5845E73524BEB57300D46103 /* BillsViewController.m */,
+				5840C96524C642DD004E369A /* BillDetailsViewController.h */,
+				5840C96624C642DD004E369A /* BillDetailsViewController.m */,
 				5845E73724BEB57C00D46103 /* ProfileViewController.h */,
 				5845E73824BEB57D00D46103 /* ProfileViewController.m */,
 				580BB60B24C0ACCF00DFED65 /* PostQuestionsViewController.h */,
@@ -513,6 +518,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				580BB61324C0F7BF00DFED65 /* RepresentativeCell.m in Sources */,
+				5840C96724C642DD004E369A /* BillDetailsViewController.m in Sources */,
 				5864A6FA24BCC8BD008EB431 /* LoginViewController.m in Sources */,
 				580BB60D24C0ACCF00DFED65 /* PostQuestionsViewController.m in Sources */,
 				5845E73C24BEB74C00D46103 /* QuestionCell.m in Sources */,

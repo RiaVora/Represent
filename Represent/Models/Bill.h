@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (Bill *) createBill: (NSDictionary *)dictionary;
 - (void)updateValues:(NSDictionary *)dictionary;
-+ (Bill *)checkIfBillExists: (NSString *)billID;
++ (BOOL)billExists: (NSString *)billID;
 
 @end
 

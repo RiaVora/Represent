@@ -12,10 +12,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *shortSummaryLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timestampLabel;
-@property (weak, nonatomic) IBOutlet UILabel *votesForLabel;
-@property (weak, nonatomic) IBOutlet UILabel *votesAgainstLabel;
-@property (weak, nonatomic) IBOutlet UILabel *votesAbstainLabel;
 @property (weak, nonatomic) IBOutlet UILabel *resultLabel;
+@property (weak, nonatomic) IBOutlet UILabel *typeLabel;
+
 
 @end
 
@@ -43,9 +42,11 @@
     self.resultLabel.text = self.bill.result;
     self.resultLabel.textColor = UIColor.systemGreenColor;
     self.timestampLabel.text = [NSString stringWithFormat:@"%@", self.bill.date.timeAgoSinceNow];
-    self.votesForLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesFor];
-    self.votesAgainstLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAgainst];
-    self.votesAbstainLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAbstain];
+    if ([self.bill.type isEqualToString:@"House"]) {
+        self.typeLabel.text = @"House of Representatives";
+    } else {
+        self.typeLabel.text = self.bill.type;
+    }
     
 }
 
