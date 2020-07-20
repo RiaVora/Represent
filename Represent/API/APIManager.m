@@ -24,7 +24,7 @@ static NSString * const baseURLString = @"https://api.propublica.org/congress/v1
 #pragma mark - Bill Data
 
 - (void)fetchRecentBills:(void(^)(NSArray *bills, NSError *error))completion {
-    NSMutableURLRequest *request = [self createRequest:@"116/both/bills/introduced.json"];
+    NSMutableURLRequest *request = [self createRequest:@"both/votes/recent.json"];
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             NSLog(@"Error fetching recent Bills: %@", error.localizedDescription);
@@ -33,7 +33,8 @@ static NSString * const baseURLString = @"https://api.propublica.org/congress/v1
         else {
             NSLog(@"Success fetching recent Bills!");
             NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            completion(dataDictionary[@"results"], nil);
+            
+            completion(dataDictionary[@"results"][@"votes"], nil);
         }
     }];
     [task resume];

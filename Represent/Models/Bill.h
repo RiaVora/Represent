@@ -16,16 +16,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Bill : PFObject<PFSubclassing>
 
-@property (nonatomic, strong) NSDate *createdAt;
 @property (nonatomic, strong) NSString *billID;
+@property (nonatomic, strong) NSString *number;
+@property (nonatomic, strong) NSString *type;
+@property (nonatomic, strong) User *sponsor;
 @property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *shortSummary;
+@property (nonatomic, strong) NSString *longSummary;
+@property (nonatomic, strong) NSDate *date;
+@property (nonatomic, strong) NSString *question;
+@property (nonatomic, strong) NSString *result;
+@property (nonatomic) NSInteger votesFor;
+@property (nonatomic) NSInteger votesAgainst;
+@property (nonatomic) NSInteger votesAbstain;
+@property (nonatomic, strong) NSString *committee;
 @property (nonatomic, strong) NSString *forDescription;
 @property (nonatomic, strong) NSString *againstDescription;
-@property (nonatomic, strong) NSString *passed;
-@property (nonatomic, strong) NSString *position;
-@property (nonatomic, strong) NSDictionary *votes;
-@property (nonatomic, strong) NSNumber *votesFor;
-@property (nonatomic, strong) NSNumber *votesAgainst;
+
++ (Bill *) createBill: (NSDictionary *)dictionary;
+- (void)updateValues:(NSDictionary *)dictionary;
++ (Bill *)checkIfBillExists: (NSString *)billID;
 
 @end
 

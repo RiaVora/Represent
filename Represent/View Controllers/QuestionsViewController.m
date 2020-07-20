@@ -28,8 +28,8 @@
     [super viewDidLoad];
     [self setUpTableViews];
     [self setUpViews];
-    //    [self postTestQuestion:@"i really have to know"];
-    //    [self postTestQuestion:@"thank you for your service"];
+//        [self postTestQuestion:@"i really have to know"];
+//        [self postTestQuestion:@"thank you for your service"];
     [self fetchQuestions];
     [self initRefreshControl];
     

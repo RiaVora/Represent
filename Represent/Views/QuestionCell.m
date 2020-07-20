@@ -17,7 +17,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *voteCountLabel;
 @property (weak, nonatomic) IBOutlet UIButton *voteButton;
 
-
 @end
 
 @implementation QuestionCell

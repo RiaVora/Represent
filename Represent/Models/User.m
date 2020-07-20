@@ -75,6 +75,7 @@
     user.party = representative[@"party"];
     user.contact = representative[@"contact_form"];
     user.lastName = representative[@"last_name"];
+    user.objectId = representative[@"id"];
     [user signUpUser:representative[@"first_name"] email:@"" state:representative[@"state"] username:representative[@"id"] password:representative[@"date_of_birth"] isRepresentative:YES withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error adding representative: %@", error.localizedDescription);
@@ -129,9 +130,15 @@
 
 - (void)updateAvailableVotes {
     NSDate *now = [NSDate date];
-    if (![[NSCalendar currentCalendar] isDate:now inSameDayAsDate:self.lastVoted] && ![self votesLeft]) {
+    if (![[NSCalendar currentCalendar] isDate:now inSameDayAsDate:self.lastVoted]) {
         self.availableVoteCount = [NSNumber numberWithInt:5];
-        [self saveInBackground];
+        [self saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            if (!succeeded) {
+                NSLog(@"Error with refreshing available votes %@", error.localizedDescription);
+            } else {
+                NSLog(@"Success with refreshing available votes!");
+            }
+         }];
     }
 }
 
