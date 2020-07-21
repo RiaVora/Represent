@@ -12,6 +12,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *bills;
 @property (strong, nonatomic) NSDate *lastRefreshed;
+@property (nonatomic) int offset;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
 @end
 
 @implementation BillsViewController
@@ -22,30 +24,54 @@
     [super viewDidLoad];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-//    [self getBillsAPI];
+    self.offset = 0;
+    self.bills = [[NSMutableArray alloc] init];
+//    [self initRefreshControl];
+    if (self.lastRefreshed.minutesAgo >= 30) {
+//        [self updateBills];
+    }
+    [self fetchBills];
     [self getBillsParse];
 }
 
-- (void)getBillsAPI {
-    self.lastRefreshed = [NSDate now];
+- (void)fetchBills {
     APIManager *manager = [APIManager new];
-    [manager fetchRecentBills:@"0":^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
+    [manager fetchRecentBills:self.offset :^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
         if (error) {
             NSLog(@"Error with fetching recent bills: %@", error.localizedDescription);
         } else {
-            NSLog(@"Success with fetching recent bills!");
-            self.bills = [[NSMutableArray alloc] init];
-            
+            NSLog(@"Successfully fetched new bills");
             for (NSDictionary *dictionary in bills) {
                 Bill *bill = [Bill createBill:dictionary];
                 if (bill) {
                     [self.bills addObject:bill];
                 }
             }
+            self.offset += 20;
             [self.tableView reloadData];
         }
+        
     }];
 }
+
+//- (void)updateBills {
+//    self.lastRefreshed = [NSDate now];
+//    APIManager *manager = [APIManager new];
+//    [manager fetchRecentBills:self.offset :^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
+//        if (error) {
+//            NSLog(@"Error with fetching recent bills: %@", error.localizedDescription);
+//        } else {
+//            NSLog(@"Successfully fetched new bills");
+//            self.bills = [[NSMutableArray alloc] init];
+//            for (int i = ((int)bills.count - 1); i >= 0; i--) {
+//                [self.bills addObject:[Bill updateBill:bills[i]]];
+//            }
+//
+//            [self.tableView reloadData];
+//            [self.refreshControl endRefreshing];
+//        }
+//    }];
+//}
 
 - (void)getBillsParse {
     PFQuery *billQuery = [Bill query];
@@ -60,6 +86,12 @@
             [self.tableView reloadData];
         }
     }];
+}
+
+- (void)initRefreshControl {
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(updateBills) forControlEvents:UIControlEventValueChanged];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
 }
 
 #pragma mark - UITableViewDataSource

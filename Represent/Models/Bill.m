@@ -40,7 +40,7 @@
     Bill *bill = [Bill new];
     if (dictionary[@"bill"][@"bill_id"]) {
         NSDictionary *billDictionary = dictionary[@"bill"];
-        if ([Bill billExists:billDictionary[@"bill_id"]]) {
+        if ([Bill returnBillExists:billDictionary[@"bill_id"]]) {
             return nil;
         }
         bill.billID = billDictionary[@"bill_id"];
@@ -50,7 +50,7 @@
         bill.question = dictionary[@"question"];
     } else if (dictionary[@"nomination"][@"nomination_id"]) {
         NSDictionary *nominationDictionary = dictionary[@"nomination"];
-        if ([Bill billExists:nominationDictionary[@"nomination_id"]]) {
+        if ([Bill returnBillExists:nominationDictionary[@"nomination_id"]]) {
             return nil;
         }
         bill.billID = nominationDictionary[@"nomination_id"];
@@ -102,16 +102,37 @@
     return date;
 }
 
-+ (BOOL)billExists: (NSString *)billID {
++ (Bill *)returnBillExists: (NSString *)billID {
     PFQuery *billQuery = [Bill query];
     [billQuery whereKey:@"billID" equalTo:billID];
     NSArray *bills = [billQuery findObjects];
     if (bills.count > 0) {
         NSLog(@"One bill with the same ID successfully found");
-        return YES;
+        return bills[0];
     } else {
         NSLog(@"No bills found for billID %@", billID);
-        return NO;
+        return nil;
     }
 }
+
++ (Bill *)updateBill: (NSDictionary *)dictionary {
+    Bill *bill = nil;
+    if (dictionary[@"bill"][@"bill_id"]) {
+        bill = [Bill returnBillExists:dictionary[@"bill"][@"bill_id"]];
+    } else if (dictionary[@"nomination"][@"nomination_id"]) {
+        bill = [Bill returnBillExists:dictionary[@"nomination"][@"nomination_id"]];
+    }
+    if (bill) {
+        [bill updateValues:dictionary];
+        [bill save];
+    } else {
+        bill = [Bill createBill:dictionary];
+        if (!bill) {
+            NSLog(@"Didn't have bill ID so created new bill but found bill already existed");
+        }
+    }
+    
+    return bill;
+}
+
 @end
