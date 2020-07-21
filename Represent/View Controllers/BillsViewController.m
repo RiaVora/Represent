@@ -12,11 +12,12 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *bills;
 @property (strong, nonatomic) NSDate *lastRefreshed;
-@property (assign, nonatomic) int offset;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (assign, nonatomic) BOOL isMoreDataLoading;
 
 @end
+
+static int OFFSET = 20;
 
 @implementation BillsViewController
 
@@ -27,7 +28,6 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.bills = [[NSMutableArray alloc] init];
-    self.offset = 20;
     [self initRefreshControl];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.isMoreDataLoading = false;
@@ -39,7 +39,7 @@
     APIManager *manager = [APIManager new];
     int offset = 0;
     if (getNewBills) {
-        offset = self.offset;
+        offset = OFFSET;
     }
     [manager fetchRecentBills:offset :^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
         if (error) {
@@ -79,7 +79,7 @@
                     [self.bills addObject:bill];
                 }
                 self.isMoreDataLoading = false;
-                self.offset += 20;
+                OFFSET += 20;
             } else {
                 self.bills = [NSMutableArray arrayWithArray:bills];
             }
