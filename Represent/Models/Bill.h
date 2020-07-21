@@ -8,6 +8,7 @@
 
 #import <Parse/Parse.h>
 #import "User.h"
+#import "DateTools.h"
 
 /*The Bill class is a PFObject class that is used to represent one Bill object from the Parse database. The Bill object contains attributes such as title, forDescription, passed, etc. and is displayed in a BillCell. The data for each bill is populated through the APIManager from the ProPublica API.*/
 
@@ -29,14 +30,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSInteger votesFor;
 @property (nonatomic) NSInteger votesAgainst;
 @property (nonatomic) NSInteger votesAbstain;
+@property (nonatomic, assign) BOOL *headBill;
 @property (nonatomic, strong) NSString *committee;
 @property (nonatomic, strong) NSString *forDescription;
 @property (nonatomic, strong) NSString *againstDescription;
 
-+ (Bill *) createBill: (NSDictionary *)dictionary;
-- (void)updateValues:(NSDictionary *)dictionary;
-+ (Bill *)returnBillExists: (NSString *)billID;
-+ (Bill *)updateBill: (NSDictionary *)dictionary;
++ (Bill *) updateBills: (NSDictionary *)dictionary;
++ (NSDate *)formatDate:(NSString *)dateString :(NSString *)timeString;
 
 @end
 

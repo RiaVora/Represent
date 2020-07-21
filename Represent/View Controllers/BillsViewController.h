@@ -13,6 +13,7 @@
 #import "BillCell.h"
 #import "BillDetailsViewController.h"
 #import "DateTools.h"
+#import "MBProgressHUD.h"
 
 /*The BillsViewController is a UIViewController class that is used to display bills for the user to vote on. The page consists of a main TableView that displays BillCells with votes from relevant representatives, and it implements UIRefreshControl.*/
 

@@ -8,12 +8,14 @@
 
 #import "BillsViewController.h"
 
-@interface BillsViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface BillsViewController () <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *bills;
 @property (strong, nonatomic) NSDate *lastRefreshed;
-@property (nonatomic) int offset;
+@property (assign, nonatomic) int offset;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (assign, nonatomic) BOOL isMoreDataLoading;
+
 @end
 
 @implementation BillsViewController
@@ -24,66 +26,65 @@
     [super viewDidLoad];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.offset = 0;
     self.bills = [[NSMutableArray alloc] init];
-//    [self initRefreshControl];
-    if (self.lastRefreshed.minutesAgo >= 30) {
-//        [self updateBills];
-    }
-    [self fetchBills];
-    [self getBillsParse];
+    self.offset = 20;
+    [self initRefreshControl];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.isMoreDataLoading = false;
+    self.lastRefreshed = [NSDate now];
+    [self updateBills];
 }
 
-- (void)fetchBills {
+- (void)fetchBills: (BOOL)getNewBills {
     APIManager *manager = [APIManager new];
-    [manager fetchRecentBills:self.offset :^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
+    int offset = 0;
+    if (getNewBills) {
+        offset = self.offset;
+    }
+    [manager fetchRecentBills:offset :^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
         if (error) {
             NSLog(@"Error with fetching recent bills: %@", error.localizedDescription);
         } else {
             NSLog(@"Successfully fetched new bills");
             for (NSDictionary *dictionary in bills) {
-                Bill *bill = [Bill createBill:dictionary];
-                if (bill) {
-                    [self.bills addObject:bill];
-                }
+                [Bill updateBills:dictionary];
             }
-            self.offset += 20;
-            [self.tableView reloadData];
+            [self getBillsParse:getNewBills];
+            [MBProgressHUD hideHUDForView:self.view animated:true];
         }
         
     }];
 }
 
-//- (void)updateBills {
-//    self.lastRefreshed = [NSDate now];
-//    APIManager *manager = [APIManager new];
-//    [manager fetchRecentBills:self.offset :^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
-//        if (error) {
-//            NSLog(@"Error with fetching recent bills: %@", error.localizedDescription);
-//        } else {
-//            NSLog(@"Successfully fetched new bills");
-//            self.bills = [[NSMutableArray alloc] init];
-//            for (int i = ((int)bills.count - 1); i >= 0; i--) {
-//                [self.bills addObject:[Bill updateBill:bills[i]]];
-//            }
-//
-//            [self.tableView reloadData];
-//            [self.refreshControl endRefreshing];
-//        }
-//    }];
-//}
+- (void)updateBills {
+    self.lastRefreshed = [NSDate now];
+    [self fetchBills:NO];
+}
 
-- (void)getBillsParse {
+- (void)getBillsParse: (BOOL)getNewBills {
     PFQuery *billQuery = [Bill query];
     [billQuery orderByDescending:@"date"];
+    [billQuery whereKey:@"headBill" equalTo:@(YES)];
     billQuery.limit = 20;
+    if (getNewBills) {
+        billQuery.skip = self.bills.count;
+    }
     [billQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable bills, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error with fetching bills from Parse: %@", error.localizedDescription);
         } else {
             NSLog(@"Success with fetching bills from Parse!");
-            self.bills = [NSMutableArray arrayWithArray:bills];
+            if (getNewBills) {
+                for (Bill *bill in bills) {
+                    [self.bills addObject:bill];
+                }
+                self.isMoreDataLoading = false;
+                self.offset += 20;
+            } else {
+                self.bills = [NSMutableArray arrayWithArray:bills];
+            }
             [self.tableView reloadData];
+            [self.refreshControl endRefreshing];
         }
     }];
 }
@@ -105,6 +106,21 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.bills.count;
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (!self.isMoreDataLoading) {
+        int scrollViewContentHeight = self.tableView.contentSize.height;
+        int scrollOffsetThreshold = scrollViewContentHeight - self.tableView.bounds.size.height;
+        
+        if (scrollView.contentOffset.y > scrollOffsetThreshold && self.tableView.isDragging) {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            self.isMoreDataLoading = true;
+            [self fetchBills:YES];
+        }
+    }
 }
 
  #pragma mark - Navigation
