@@ -14,6 +14,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *timestampLabel;
 @property (weak, nonatomic) IBOutlet UILabel *resultLabel;
 @property (weak, nonatomic) IBOutlet UILabel *typeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *votesForLabel;
+@property (weak, nonatomic) IBOutlet UILabel *votesAgainstLabel;
+@property (weak, nonatomic) IBOutlet UILabel *votesAbstainLabel;
 
 
 @end
@@ -47,6 +50,11 @@
     } else {
         self.typeLabel.text = self.bill.type;
     }
+    
+    self.votesForLabel.text = [NSString stringWithFormat:@"%ld", (long)self.bill.votesFor];
+    self.votesAgainstLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAgainst];
+    self.votesAbstainLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAbstain];
+
     
 }
 

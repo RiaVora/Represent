@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Bill.h"
 #import "DateTools.h"
+#import "BillCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

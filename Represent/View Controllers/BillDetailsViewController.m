@@ -8,7 +8,7 @@
 
 #import "BillDetailsViewController.h"
 
-@interface BillDetailsViewController ()
+@interface BillDetailsViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UILabel *resultLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timestampLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -16,6 +16,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *votesForLabel;
 @property (weak, nonatomic) IBOutlet UILabel *votesAgainstLabel;
 @property (weak, nonatomic) IBOutlet UILabel *votesAbstainLabel;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSMutableArray *bills;
 
 @end
 
@@ -23,7 +25,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.bills = [[NSMutableArray alloc] init];
     [self updateValues];
+    [self fetchBills];
     // Do any additional setup after loading the view.
 }
 
@@ -43,6 +49,33 @@
     self.votesAbstainLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAbstain];
 }
 
+- (void)fetchBills {
+    PFQuery *billQuery = [Bill query];
+    [billQuery whereKey:@"billID" equalTo:self.bill.billID];
+    [billQuery whereKey:@"headBill" equalTo:@(NO)];
+    [billQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable bills, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error with fetching similar bills: %@", error.localizedDescription);
+        } else {
+            self.bills = [NSMutableArray arrayWithArray:bills];
+            [self.tableView reloadData];
+        }
+    }];
+
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    BillCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BillCell"];
+    cell.bill = self.bills[indexPath.row];
+    [cell updateValues];
+    return cell;
+    
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.bills.count;
+    
+}
 /*
 #pragma mark - Navigation
 
