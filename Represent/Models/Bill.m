@@ -45,7 +45,7 @@
         }
         bill.billID = billDictionary[@"bill_id"];
         bill.number = billDictionary[@"number"];
-        bill.sponsor = billDictionary[@"sponsor_id"];
+//        bill.sponsor = billDictionary[@"sponsor_id"];
         bill.shortSummary = billDictionary[@"title"];
         bill.question = dictionary[@"question"];
     } else if (dictionary[@"nomination"][@"nomination_id"]) {
@@ -61,19 +61,9 @@
     
     [bill updateValues:dictionary];
 
-    [bill saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (!succeeded) {
-            NSLog(@"Error with saving Bill: %@", error.localizedDescription);
-        } else {
-            NSLog(@"Success with saving Bill!");
-        }
-    }];
+    [bill save];
     
     return bill;
-}
-
-- (void)setUpNewBill:(NSDictionary *)dictionary {
-    
 }
 
 - (void)updateValues:(NSDictionary *)dictionary {

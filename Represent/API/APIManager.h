@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface APIManager : NSObject
 
 @property (nonatomic, strong) NSURLSession *session;
-- (void)fetchRecentBills:(void(^)(NSArray *bills, NSError *error))completion;
+- (void)fetchRecentBills:(NSString *)offset :(void(^)(NSArray *bills, NSError *error))completion;
 - (void) fetchSenators:(void(^)(NSArray *senators, NSError *error))completion;
 @end
 

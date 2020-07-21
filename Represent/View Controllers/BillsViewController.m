@@ -11,6 +11,7 @@
 @interface BillsViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *bills;
+@property (strong, nonatomic) NSDate *lastRefreshed;
 @end
 
 @implementation BillsViewController
@@ -26,8 +27,9 @@
 }
 
 - (void)getBillsAPI {
+    self.lastRefreshed = [NSDate now];
     APIManager *manager = [APIManager new];
-    [manager fetchRecentBills:^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
+    [manager fetchRecentBills:@"0":^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
         if (error) {
             NSLog(@"Error with fetching recent bills: %@", error.localizedDescription);
         } else {

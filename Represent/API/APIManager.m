@@ -23,8 +23,8 @@ static NSString * const baseURLString = @"https://api.propublica.org/congress/v1
 
 #pragma mark - Bill Data
 
-- (void)fetchRecentBills:(void(^)(NSArray *bills, NSError *error))completion {
-    NSMutableURLRequest *request = [self createRequest:@"both/votes/recent.json"];
+- (void)fetchRecentBills:(NSString *)offset :(void(^)(NSArray *bills, NSError *error))completion {
+    NSMutableURLRequest *request = [self createRequest:[NSString stringWithFormat:@"both/votes/recent.json?offset=%@", offset]];
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             NSLog(@"Error fetching recent Bills: %@", error.localizedDescription);
