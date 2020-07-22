@@ -85,11 +85,42 @@
             self.questions = [NSMutableArray arrayWithArray:questions];
             [self.tableView reloadData];
             [self.refreshControl endRefreshing];
-            
         } else {
             NSLog(@"There was a problem fetching Questions: %@", error.localizedDescription);
         }
     }];
+}
+
+- (void)fetchMoreQuestions: (BOOL)justPosted {
+    PFQuery *questionQuery = [Question query];
+    [questionQuery orderByDescending:@"voteCount"];
+    [questionQuery includeKey:@"author"];
+    [questionQuery includeKey:@"representative"];
+    [questionQuery whereKey:@"representative" equalTo:self.currentRepresentative];
+    questionQuery.skip = self.questions.count;
+    
+    [questionQuery findObjectsInBackgroundWithBlock:^(NSArray<Question *> * _Nullable questions, NSError * _Nullable error) {
+        if (questions) {
+            NSLog(@"Successfully received more questions!");
+            for (Question *question in questions) {
+                [self.questions addObject:question];
+            }
+            [self.tableView reloadData];
+            if (justPosted) {
+                [self goToCell:(int)self.questions.count - 1];
+            }
+
+        } else {
+            NSLog(@"There was a problem fetching more Questions: %@", error.localizedDescription);
+        }
+    }];
+}
+
+- (void)goToCell: (int)row {
+    NSIndexPath *newQuestionPath = [NSIndexPath indexPathForRow:row inSection:0];
+    [self.tableView scrollToRowAtIndexPath: newQuestionPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    QuestionCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"QuestionCell" forIndexPath:newQuestionPath];
+    [cell setHighlighted:YES animated:YES];
 }
 
 
@@ -152,7 +183,6 @@
 - (void)didVote:(Question *)question {
     [self fetchQuestions];
     [self.availableVotesLabel setText:[NSString stringWithFormat:@"%@", self.currentUser.availableVoteCount]];
-    [self.tableView reloadData];
 }
 
 
@@ -172,8 +202,9 @@
     [postQuestionsVC pressedPost];
     self.currentRepresentative = postQuestionsVC.currentRepresentative;
     [self setUpViews];
-    [self fetchQuestions];
+    [self fetchMoreQuestions:YES];
     [MBProgressHUD hideHUDForView:self.view animated:true];
+
 }
 
 #pragma mark - Helpers

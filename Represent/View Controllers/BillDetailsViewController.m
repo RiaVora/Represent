@@ -30,7 +30,6 @@
     self.bills = [[NSMutableArray alloc] init];
     [self updateValues];
     [self fetchBills];
-    // Do any additional setup after loading the view.
 }
 
 - (void)updateValues {

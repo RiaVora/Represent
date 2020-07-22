@@ -209,14 +209,14 @@
 				5845E72C24BE0D4D00D46103 /* RegistrationViewController.m */,
 				5845E73124BE8DC700D46103 /* QuestionsViewController.h */,
 				5845E73224BE8DC700D46103 /* QuestionsViewController.m */,
+				580BB60B24C0ACCF00DFED65 /* PostQuestionsViewController.h */,
+				580BB60C24C0ACCF00DFED65 /* PostQuestionsViewController.m */,
 				5845E73424BEB57300D46103 /* BillsViewController.h */,
 				5845E73524BEB57300D46103 /* BillsViewController.m */,
 				5840C96524C642DD004E369A /* BillDetailsViewController.h */,
 				5840C96624C642DD004E369A /* BillDetailsViewController.m */,
 				5845E73724BEB57C00D46103 /* ProfileViewController.h */,
 				5845E73824BEB57D00D46103 /* ProfileViewController.m */,
-				580BB60B24C0ACCF00DFED65 /* PostQuestionsViewController.h */,
-				580BB60C24C0ACCF00DFED65 /* PostQuestionsViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
