@@ -11,7 +11,7 @@
 @interface QuestionCell ()
 
 @property (weak, nonatomic) IBOutlet UILabel *questionLabel;
-@property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
+@property (weak, nonatomic) IBOutlet UIButton *usernameButton;
 @property (weak, nonatomic) IBOutlet UIImageView *profileView;
 @property (weak, nonatomic) IBOutlet UILabel *timestampLabel;
 @property (weak, nonatomic) IBOutlet UILabel *voteCountLabel;
@@ -36,7 +36,7 @@
 
 - (void)updateValues: (NSInteger)row {
     self.questionLabel.text = self.question.text;
-    self.usernameLabel.text = self.question.author.username;
+    [self.usernameButton setTitle:self.question.author.username forState:UIControlStateNormal];
     [self setProfilePhoto];
     NSInteger limit = 3;
     if (row < limit) {

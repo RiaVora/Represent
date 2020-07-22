@@ -40,8 +40,7 @@
         self.summaryLabel.text = @"";
     }
     
-    self.resultLabel.text = self.bill.result;
-    [Utils setResultColor:self.bill.result forLabel:self.resultLabel];
+    [Utils setResultLabel:self.bill.result forLabel:self.resultLabel];
     self.timestampLabel.text = [NSString stringWithFormat:@"%@", self.bill.date.timeAgoSinceNow];
     self.votesForLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesFor];
     self.votesAgainstLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAgainst];

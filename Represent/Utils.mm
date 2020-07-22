@@ -87,13 +87,30 @@ static const NSArray *failed = [NSArray arrayWithObjects: @"Failed", @"Amendment
     return newImage;
 }
 
-+ (void)setResultColor: (NSString *)resultString forLabel:(UILabel *)label {
++ (void)setResultLabel: (NSString *)resultString forLabel:(UILabel *)label {
+    label.text = resultString;
     if ([passed containsObject:resultString] || [resultString containsString:@"Passed"] || [resultString containsString:@"Agreed to"]) {
         label.textColor = UIColor.systemGreenColor;
     } else if ([failed containsObject:resultString] || [resultString containsString:@"Failed"] || [resultString containsString: @"Rejected"]) {
         label.textColor = UIColor.systemRedColor;
     } else {
         label.textColor = UIColor.systemBlueColor;
+    }
+}
+
++ (void)setPartyLabel: (NSString *)partyString :(UILabel *)label{
+    if ([partyString.uppercaseString isEqualToString:@"D"]) {
+        label.textColor = UIColor.systemBlueColor;
+        label.text = @"Democrat";
+    } else if ([partyString.uppercaseString isEqualToString:@"R"]) {
+        label.textColor = UIColor.systemRedColor;
+        label.text = @"Republican";
+    } else if ([partyString.uppercaseString isEqualToString:@"I"]) {
+        label.textColor = UIColor.systemPurpleColor;
+        label.text = @"Independent";
+    } else {
+//        label.textColor = UIColor.systemGrayColor;
+        label.text = @"Party Not Chosen";
     }
 }
 

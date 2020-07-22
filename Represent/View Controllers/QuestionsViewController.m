@@ -182,6 +182,10 @@
     self.tableViewRepresentatives.hidden = !(self.tableViewRepresentatives.hidden);
 }
 
+- (IBAction)pressedUsername:(id)sender {
+    [self performSegueWithIdentifier:@"profileSegue" sender:sender];
+}
+
 #pragma mark - QuestionCellDelegate
 
 - (void)didVote:(Question *)question {
@@ -194,11 +198,25 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"postQuestionSegue"]) {
-        UINavigationController *navigationController = [segue destinationViewController];
-        PostQuestionsViewController *postQuestionsVC = (PostQuestionsViewController*)navigationController.topViewController;
-        postQuestionsVC.currentRepresentative = self.currentRepresentative;
+        [self postQuestionSegue:segue sender:sender];
+    } else if ([segue.identifier isEqualToString:@"profileSegue"]) {
+        [self profileSegue:segue sender:sender];
     }
+
 }
+
+- (void)postQuestionSegue: (UIStoryboardSegue *)segue sender:(id)sender {
+    UINavigationController *navigationController = [segue destinationViewController];
+    PostQuestionsViewController *postQuestionsVC = (PostQuestionsViewController*)navigationController.topViewController;
+    postQuestionsVC.currentRepresentative = self.currentRepresentative;
+}
+
+- (void)profileSegue: (UIStoryboardSegue *)segue sender:(id)sender {
+    ProfileViewController *profileVC = [segue destinationViewController];
+    QuestionCell *cell = (QuestionCell*)[[sender superview] superview];
+    profileVC.user = cell.question.author;
+}
+
 
 - (IBAction) pressedPost:(UIStoryboardSegue *)unwindSegue {
     PostQuestionsViewController *postQuestionsVC = [unwindSegue sourceViewController];
