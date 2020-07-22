@@ -757,7 +757,20 @@
                     <view key="view" contentMode="scaleToFill" id="Dr3-bB-O86">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OKA-ZY-Okm">
+                                <rect key="frame" x="87" y="138" width="240" height="240"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="Bhd-BM-9Et"/>
+                                    <constraint firstAttribute="height" constant="240" id="fX8-0q-EdI"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="OKA-ZY-Okm" firstAttribute="top" secondItem="0cZ-AU-TCx" secondAttribute="top" constant="50" id="Ay7-gK-EQZ"/>
+                            <constraint firstItem="OKA-ZY-Okm" firstAttribute="centerX" secondItem="Dr3-bB-O86" secondAttribute="centerX" id="pVH-ir-W0u"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="0cZ-AU-TCx"/>
                     </view>
                     <navigationItem key="navigationItem" id="sMe-Vt-vxn">
@@ -768,6 +781,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="profileView" destination="OKA-ZY-Okm" id="4xc-Q3-XZ8"/>
                         <segue destination="kjk-8M-Cnm" kind="show" identifier="logoutSegue" id="KIE-fM-paI"/>
                     </connections>
                 </viewController>

@@ -26,12 +26,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [MBProgressHUD showHUDAddedTo:self.view animated:true];
     [self setUpTableViews];
     [self setUpViews];
 //        [self postTestQuestion:@"i really have to know"];
 //        [self postTestQuestion:@"thank you for your service"];
     [self fetchQuestions];
     [self initRefreshControl];
+    [MBProgressHUD hideHUDForView:self.view animated:true];
+
     
 }
 

@@ -41,7 +41,7 @@
     }
     
     self.resultLabel.text = self.bill.result;
-    self.resultLabel.textColor = UIColor.systemGreenColor;
+    [Utils setResultColor:self.bill.result forLabel:self.resultLabel];
     self.timestampLabel.text = [NSString stringWithFormat:@"%@", self.bill.date.timeAgoSinceNow];
     self.votesForLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesFor];
     self.votesAgainstLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAgainst];

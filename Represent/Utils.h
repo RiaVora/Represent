@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIAlertController *)makeAlert:(NSString *)title :(NSString *)message;
 + (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image;
 + (UIImage *)resizeImage:(UIImage *)image withSize:(CGSize)size;
++ (void)setResultColor: (NSString *)resultString forLabel:(UILabel *)label;
 
 @end
 

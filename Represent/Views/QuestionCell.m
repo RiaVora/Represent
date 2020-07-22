@@ -57,6 +57,7 @@
                 NSLog(@"Error with getting data from Image: %@", error.localizedDescription);
             } else {
                 self.profileView.image = [Utils resizeImage:[UIImage imageWithData:data] withSize:(CGSizeMake(35, 35))];
+                self.profileView.layer.cornerRadius = self.profileView.frame.size.width / 2;
             }
         }];
     } else {

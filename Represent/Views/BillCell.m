@@ -8,6 +8,8 @@
 
 #import "BillCell.h"
 
+
+
 @interface BillCell ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *shortSummaryLabel;
@@ -41,9 +43,10 @@
     } else {
         self.shortSummaryLabel.text = @"";
     }
-    
     self.resultLabel.text = self.bill.result;
-    self.resultLabel.textColor = UIColor.systemGreenColor;
+    [Utils setResultColor:self.bill.result forLabel:self.resultLabel];
+    
+
     self.timestampLabel.text = [NSString stringWithFormat:@"%@", self.bill.date.timeAgoSinceNow];
     if ([self.bill.type isEqualToString:@"House"]) {
         self.typeLabel.text = @"House of Representatives";
@@ -55,7 +58,6 @@
     self.votesAgainstLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAgainst];
     self.votesAbstainLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAbstain];
 
-    
 }
 
 

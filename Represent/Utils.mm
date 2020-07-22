@@ -8,6 +8,10 @@
 
 #import "Utils.h"
 
+static const NSArray *passed = [NSArray arrayWithObjects: @"Passed", @"Agreed to", @"Amendment Agreed to", @"Nomination Confirmed", @"Bill Passed", @"Cloture Motion Agreed to", @"Motion Agreed to", @"Motion to Proceed Agreed to", @"Motion to Table Agreed to", @"Cloture on the Motion to Proceed Agreed to", nil];
+static const NSArray *failed = [NSArray arrayWithObjects: @"Failed", @"Amendment Rejected", @"Cloture Motion Rejected", @"Motion Rejected", @"Motion to Proceed Rejected", @"Motion to Table Rejected", @"Cloture on the Motion to Proceed Rejected", @"Bill Failed", @"Veto Sustained", @"Motion Rejected", nil];
+
+
 @implementation Utils
 
 #pragma mark - Alerts
@@ -81,6 +85,16 @@
     UIGraphicsEndImageContext();
     
     return newImage;
+}
+
++ (void)setResultColor: (NSString *)resultString forLabel:(UILabel *)label {
+    if ([passed containsObject:resultString] || [resultString containsString:@"Passed"] || [resultString containsString:@"Agreed to"]) {
+        label.textColor = UIColor.systemGreenColor;
+    } else if ([failed containsObject:resultString] || [resultString containsString:@"Failed"] || [resultString containsString: @"Rejected"]) {
+        label.textColor = UIColor.systemRedColor;
+    } else {
+        label.textColor = UIColor.systemBlueColor;
+    }
 }
 
 @end

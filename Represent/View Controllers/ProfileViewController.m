@@ -10,6 +10,9 @@
 
 @interface ProfileViewController ()
 
+@property User *currentUser;
+@property (weak, nonatomic) IBOutlet UIImageView *profileView;
+
 @end
 
 @implementation ProfileViewController
@@ -18,18 +21,41 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.currentUser = [User currentUser];
     // Do any additional setup after loading the view.
+}
+
+- (void)setUpViews {
+    
+    [self setProfilePhoto];
+    
+}
+
+- (void)setProfilePhoto {
+    if (self.currentUser.profilePhoto) {
+        [self.currentUser.profilePhoto getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {
+            if (error) {
+                NSLog(@"Error with getting data from Image: %@", error.localizedDescription);
+            } else {
+                self.profileView.image = [Utils resizeImage:[UIImage imageWithData:data] withSize:(CGSizeMake(240, 240))];
+                    self.profileView.layer.cornerRadius = self.profileView.frame.size.width / 2;
+            }
+        }];
+    } else {
+        NSLog(@"Error, no profile photo set");
+    }
+
+
 }
 
 #pragma mark - Actions
 
 - (IBAction)pressedLogout:(id)sender {
-    NSString *username = PFUser.currentUser.username;
     [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error logging out: %@", error.localizedDescription);
         } else {
-            [self logoutAlert: username: sender];
+            [self logoutAlert: self.currentUser.username: sender];
         }
     }];
 }

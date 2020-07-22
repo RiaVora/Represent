@@ -30,7 +30,7 @@
 		5864A72D24BD07E2008EB431 /* Question.m in Sources */ = {isa = PBXBuildFile; fileRef = 5864A72C24BD07E2008EB431 /* Question.m */; };
 		5864A73024BD094C008EB431 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 5864A72F24BD094C008EB431 /* User.m */; };
 		58E9B91C24BD199300263BF6 /* Bill.m in Sources */ = {isa = PBXBuildFile; fileRef = 58E9B91B24BD199300263BF6 /* Bill.m */; };
-		58E9B91F24BD1EB300263BF6 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 58E9B91E24BD1EB300263BF6 /* Utils.m */; };
+		58E9B91F24BD1EB300263BF6 /* Utils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 58E9B91E24BD1EB300263BF6 /* Utils.mm */; };
 		8AE017A4D2FC52FE15A2F9E4 /* Pods_RepresentTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 656B0999F0898C9B8966910B /* Pods_RepresentTests.framework */; };
 		EB6D20F57158E8D3A51EBEAB /* Pods_Represent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3269B73AB2B021CDA142D1DC /* Pods_Represent.framework */; };
 /* End PBXBuildFile section */
@@ -101,7 +101,7 @@
 		58E9B91A24BD199300263BF6 /* Bill.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bill.h; sourceTree = "<group>"; };
 		58E9B91B24BD199300263BF6 /* Bill.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Bill.m; sourceTree = "<group>"; };
 		58E9B91D24BD1EB300263BF6 /* Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
-		58E9B91E24BD1EB300263BF6 /* Utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		58E9B91E24BD1EB300263BF6 /* Utils.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Utils.mm; sourceTree = "<group>"; };
 		656B0999F0898C9B8966910B /* Pods_RepresentTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RepresentTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		69103D1902D55632592DA408 /* Pods_Represent_RepresentUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Represent_RepresentUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BACF980D9B20D94E13080B64 /* Pods-Represent-RepresentUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Represent-RepresentUITests.debug.xcconfig"; path = "Target Support Files/Pods-Represent-RepresentUITests/Pods-Represent-RepresentUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -169,7 +169,7 @@
 				5864A72724BD0669008EB431 /* View Controllers */,
 				5864A6F224BCC8BD008EB431 /* AppDelegate.h */,
 				58E9B91D24BD1EB300263BF6 /* Utils.h */,
-				58E9B91E24BD1EB300263BF6 /* Utils.m */,
+				58E9B91E24BD1EB300263BF6 /* Utils.mm */,
 				5864A6F324BCC8BD008EB431 /* AppDelegate.m */,
 				5864A6F524BCC8BD008EB431 /* SceneDelegate.h */,
 				5864A6F624BCC8BD008EB431 /* SceneDelegate.m */,
@@ -526,7 +526,7 @@
 				5864A6F424BCC8BD008EB431 /* AppDelegate.m in Sources */,
 				580BB61624C2A5D600DFED65 /* BillCell.m in Sources */,
 				58E9B91C24BD199300263BF6 /* Bill.m in Sources */,
-				58E9B91F24BD1EB300263BF6 /* Utils.m in Sources */,
+				58E9B91F24BD1EB300263BF6 /* Utils.mm in Sources */,
 				5845E73024BE424D00D46103 /* APIManager.m in Sources */,
 				5864A73024BD094C008EB431 /* User.m in Sources */,
 				5864A72D24BD07E2008EB431 /* Question.m in Sources */,
