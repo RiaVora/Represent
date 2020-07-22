@@ -8,7 +8,7 @@
 
 #import "ProfileViewController.h"
 
-@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *profileView;
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
@@ -26,6 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self checkUser];
+    self.descriptionField.delegate = self;
     [self setUpViews];
     // Do any additional setup after loading the view.
 }
@@ -34,6 +35,29 @@
     if (!self.user) {
         self.user = [User currentUser];
     }
+    if ([self.user.username isEqual:[User currentUser].username]) {
+        NSLog(@"users are equal");
+        self.cameraButton.hidden = NO;
+        self.cameraButton.layer.cornerRadius = self.cameraButton.frame.size.width / 2;
+        self.navigationItem.leftBarButtonItem = self.logoutButton;
+        if (!self.user.profileDescription) {
+            [self setPlaceholderText:self.descriptionField];
+        } else {
+            self.descriptionField.text = self.user.profileDescription;
+        }
+    } else {
+        self.cameraButton.hidden = YES;
+        self.navigationItem.leftBarButtonItem = nil;
+        self.descriptionField.editable = NO;
+        if (!self.user.profileDescription) {
+            self.descriptionField.text = @"No Description Written";
+            self.descriptionField.textColor = UIColor.lightGrayColor;
+            self.descriptionField.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
+
+        } else {
+            self.descriptionField.text = self.user.profileDescription;
+        }
+    }
 
 }
 
@@ -41,17 +65,6 @@
     self.usernameLabel.text = self.user.username;
     [self setProfilePhoto];
     [Utils setPartyLabel:self.user.party:self.partyLabel];
-    User *currentUser = [User currentUser];
-    if ([self.user.username isEqual:currentUser.username]) {
-        NSLog(@"users are equal");
-        self.cameraButton.hidden = NO;
-        self.cameraButton.layer.cornerRadius = self.cameraButton.frame.size.width / 2;
-        self.navigationItem.leftBarButtonItem = self.logoutButton;
-    } else {
-        self.cameraButton.hidden = YES;
-        self.navigationItem.leftBarButtonItem = nil;
-    }
-    
 }
 
 - (void)setProfilePhoto {
@@ -68,6 +81,31 @@
         NSLog(@"Error, no profile photo set");
     }
 
+}
+
+#pragma mark - UITextViewDelegate
+
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
+    if ([textView.textColor isEqual: UIColor.lightGrayColor]) {
+        textView.text = @"";
+        textView.textColor = UIColor.blackColor;
+        textView.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
+    }
+    return true;
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    if ([textView.text isEqualToString:@""]) {
+        [self setPlaceholderText:textView];
+    } else {
+        self.user.profileDescription = textView.text;
+    }
+}
+
+- (void)setPlaceholderText: (UITextView *)textView {
+    textView.font = [UIFont systemFontOfSize:17 weight:UIFontWeightBold];
+    textView.text = @"Tell everyone a little bit about yourself...";
+    textView.textColor = UIColor.lightGrayColor;
 }
 
 

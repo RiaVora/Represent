@@ -48,11 +48,12 @@
 
 #pragma mark - UITextViewDelegate
 
-- (void)textViewShouldBeginEditing:(UITextView *)textView {
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
     if ([textView.textColor isEqual: UIColor.lightGrayColor]) {
         textView.text = @"";
         textView.textColor = UIColor.blackColor;
     }
+    return true;
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {

@@ -805,22 +805,22 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="duE-Kl-Knh">
-                                        <rect key="frame" x="20" y="338" width="374" height="134"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="duE-Kl-Knh">
+                                        <rect key="frame" x="20" y="338" width="374" height="169"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur </string>
-                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="14"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Party: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TTV-wO-MrM">
-                                        <rect key="frame" x="20" y="492" width="53" height="21"/>
+                                        <rect key="frame" x="20" y="527" width="53" height="21"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User's Party" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1P0-Zi-ltP">
-                                        <rect key="frame" x="73" y="492" width="88" height="21"/>
+                                        <rect key="frame" x="73" y="527" width="88" height="21"/>
                                         <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -837,7 +837,7 @@
                                     <constraint firstItem="hOh-2A-6KQ" firstAttribute="centerX" secondItem="HYr-wh-Ne4" secondAttribute="centerX" id="Sxm-i1-ahG"/>
                                     <constraint firstItem="ZsC-3R-tqX" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="1P0-Zi-ltP" secondAttribute="trailing" constant="20" id="W5h-OP-yY3"/>
                                     <constraint firstItem="hOh-2A-6KQ" firstAttribute="top" secondItem="OKA-ZY-Okm" secondAttribute="bottom" constant="30" id="Yjd-hJ-yIl"/>
-                                    <constraint firstItem="ZsC-3R-tqX" firstAttribute="bottom" secondItem="TTV-wO-MrM" secondAttribute="bottom" constant="295" id="cGM-yA-0ve"/>
+                                    <constraint firstItem="ZsC-3R-tqX" firstAttribute="bottom" secondItem="TTV-wO-MrM" secondAttribute="bottom" constant="260" id="cGM-yA-0ve"/>
                                     <constraint firstItem="TTV-wO-MrM" firstAttribute="leading" secondItem="ofP-8D-cB1" secondAttribute="leading" id="e96-m2-XgI"/>
                                     <constraint firstItem="ofP-8D-cB1" firstAttribute="leading" secondItem="HYr-wh-Ne4" secondAttribute="leading" constant="20" id="f7D-Tz-Vgz"/>
                                     <constraint firstItem="ofP-8D-cB1" firstAttribute="top" secondItem="OKA-ZY-Okm" secondAttribute="bottom" constant="70" id="gIx-wz-PFR"/>
