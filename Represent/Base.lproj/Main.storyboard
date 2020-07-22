@@ -111,11 +111,11 @@
                                     </connections>
                                 </button>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="QuestionCell" rowHeight="127" id="gz2-GK-oWI" customClass="QuestionCell">
-                                        <rect key="frame" x="0.0" y="64" width="414" height="127"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="QuestionCell" id="gz2-GK-oWI" customClass="QuestionCell">
+                                        <rect key="frame" x="0.0" y="64" width="414" height="127.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gz2-GK-oWI" id="Ym6-xA-7or">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="127"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="127.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Question" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mWD-il-cPI">
@@ -249,7 +249,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" red="1" green="0.7987290762" blue="0.80959492180000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="FcF-BM-1xi" firstAttribute="top" secondItem="lCH-vx-Or9" secondAttribute="top" id="2hD-Xm-hJi"/>
                             <constraint firstItem="DJt-kU-Qsb" firstAttribute="leading" secondItem="PPm-dT-mFr" secondAttribute="trailing" constant="2" id="Pg9-XX-NcQ"/>
@@ -372,7 +372,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Post" id="3Ar-qK-yNc">
                             <connections>
-                                <segue destination="gSG-DV-z0S" kind="unwind" unwindAction="pressedPost:" id="zVY-CP-gw8"/>
+                                <segue destination="gSG-DV-z0S" kind="unwind" identifier="postedSegue" unwindAction="pressedPost:" id="zVY-CP-gw8"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

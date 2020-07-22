@@ -67,24 +67,15 @@
 }
 
 
-- (void)pressedPost {
-    BOOL questionExists = [Utils checkExists:self.questionField.text :@"Question" :self];
+- (NSString *)pressedPost {
+    NSString *questionText = self.questionField.text;
+    self.questionField.text = @"";
+    BOOL questionExists = [Utils checkExists: questionText:@"Question" :self];
     if (questionExists) {
-        [self postQuestion];
+        return questionText;
+    } else {
+        return nil;
     }
-}
-
-- (void)postQuestion {
-    [Question postUserQuestion:self.questionField.text forRepresentative:self.currentRepresentative withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
-        if (!succeeded) {
-            NSLog(@"Error posting question: %@", error.localizedDescription);
-            [Utils displayAlertWithOk:@"Error with Posting Question" message:error.localizedDescription viewController:self];
-        } else {
-            NSLog(@"Successfully posted Question %@ for %@!", self.questionField.text, self.currentRepresentative.username);
-            self.questionField.text = @"";
-            
-        }
-    }];
 }
 
 - (IBAction)pressedRepresentative:(id)sender {

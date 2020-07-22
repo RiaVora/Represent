@@ -120,7 +120,7 @@
     NSIndexPath *newQuestionPath = [NSIndexPath indexPathForRow:row inSection:0];
     [self.tableView scrollToRowAtIndexPath: newQuestionPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     QuestionCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"QuestionCell" forIndexPath:newQuestionPath];
-    [cell setHighlighted:YES animated:YES];
+    [cell setSelected:YES animated:YES];
 }
 
 
@@ -199,12 +199,27 @@
 - (IBAction) pressedPost:(UIStoryboardSegue *)unwindSegue {
     PostQuestionsViewController *postQuestionsVC = [unwindSegue sourceViewController];
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
-    [postQuestionsVC pressedPost];
+    NSString *questionText = [postQuestionsVC pressedPost];
     self.currentRepresentative = postQuestionsVC.currentRepresentative;
-    [self setUpViews];
-    [self fetchMoreQuestions:YES];
-    [MBProgressHUD hideHUDForView:self.view animated:true];
+    if (questionText) {
+        [self postQuestion: questionText];
+    }
 
+
+}
+
+- (void)postQuestion: (NSString *)questionText {
+    [Question postUserQuestion:questionText forRepresentative:self.currentRepresentative withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+        if (!succeeded) {
+            NSLog(@"Error posting question: %@", error.localizedDescription);
+            [Utils displayAlertWithOk:@"Error with Posting Question" message:error.localizedDescription viewController:self];
+        } else {
+            NSLog(@"Successfully posted Question %@ for %@!", questionText, self.currentRepresentative.username);
+            [self setUpViews];
+            [self fetchMoreQuestions:YES];
+            [MBProgressHUD hideHUDForView:self.view animated:true];
+        }
+    }];
 }
 
 #pragma mark - Helpers
