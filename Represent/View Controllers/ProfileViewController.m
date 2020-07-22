@@ -16,6 +16,8 @@
 @property (weak, nonatomic) IBOutlet UITextView *descriptionField;
 @property (weak, nonatomic) IBOutlet UIButton *cameraButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *logoutButton;
+@property (weak, nonatomic) IBOutlet UIButton *saveButton;
+@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 
 @end
 
@@ -29,6 +31,14 @@
     self.descriptionField.delegate = self;
     [self setUpViews];
     // Do any additional setup after loading the view.
+
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
+    [self.user fetch];
+    [self checkUser];
+    [self setUpViews];
 }
 
 - (void)checkUser {
@@ -36,7 +46,6 @@
         self.user = [User currentUser];
     }
     if ([self.user.username isEqual:[User currentUser].username]) {
-        NSLog(@"users are equal");
         self.cameraButton.hidden = NO;
         self.cameraButton.layer.cornerRadius = self.cameraButton.frame.size.width / 2;
         self.navigationItem.leftBarButtonItem = self.logoutButton;
@@ -65,6 +74,7 @@
     self.usernameLabel.text = self.user.username;
     [self setProfilePhoto];
     [Utils setPartyLabel:self.user.party:self.partyLabel];
+    [self hideEditingButtons:YES];
 }
 
 - (void)setProfilePhoto {
@@ -91,19 +101,11 @@
         textView.textColor = UIColor.blackColor;
         textView.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
     }
+    [self hideEditingButtons:NO];
     return true;
 }
-
-- (void)textViewDidEndEditing:(UITextView *)textView {
-    if ([textView.text isEqualToString:@""]) {
-        [self setPlaceholderText:textView];
-    } else {
-        self.user.profileDescription = textView.text;
-    }
-}
-
 - (void)setPlaceholderText: (UITextView *)textView {
-    textView.font = [UIFont systemFontOfSize:17 weight:UIFontWeightBold];
+    textView.font = [UIFont systemFontOfSize:17 weight:UIFontWeightMedium];
     textView.text = @"Tell everyone a little bit about yourself...";
     textView.textColor = UIColor.lightGrayColor;
 }
@@ -111,6 +113,36 @@
 
 
 #pragma mark - Actions
+
+- (IBAction)pressedSave:(id)sender {
+    [self.descriptionField resignFirstResponder];
+    if ([self.descriptionField.text isEqualToString:@""]) {
+        [self setPlaceholderText:self.descriptionField];
+    }
+    
+    self.user.profileDescription = self.descriptionField.text;
+    [self.user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (!succeeded) {
+            NSLog(@"Error with saving description!: %@", error.localizedDescription);
+        } else {
+            NSLog(@"User successfully saved!");
+            [self hideEditingButtons:YES];
+            [self viewDidLoad];
+        }
+    }];
+}
+
+- (IBAction)pressedCancel:(id)sender {
+    [self.descriptionField resignFirstResponder];
+    if ([self.descriptionField.text isEqualToString:@""]) {
+        [self setPlaceholderText:self.descriptionField];
+    } else {
+        self.descriptionField.text = self.user.profileDescription;
+    }
+    
+    [self hideEditingButtons:YES];
+    [self viewDidLoad];
+}
 
 - (IBAction)pressedLogout:(id)sender {
     [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
@@ -187,6 +219,11 @@
         SceneDelegate *sceneDelegate = (SceneDelegate *)self.view.window.windowScene.delegate;
         sceneDelegate.window.rootViewController = loginVC;
     }
+}
+
+- (void)hideEditingButtons: (BOOL)hide {
+    self.saveButton.hidden = hide;
+    self.cancelButton.hidden = hide;
 }
 
 

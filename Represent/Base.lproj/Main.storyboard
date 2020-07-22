@@ -806,11 +806,11 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="duE-Kl-Knh">
-                                        <rect key="frame" x="20" y="338" width="374" height="169"/>
+                                        <rect key="frame" x="20" y="338" width="374" height="149"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur </string>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Party: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TTV-wO-MrM">
@@ -825,14 +825,32 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S8g-ba-bsN">
+                                        <rect key="frame" x="358" y="487" width="34" height="30"/>
+                                        <state key="normal" title="Save"/>
+                                        <connections>
+                                            <action selector="pressedSave:" destination="cz8-1m-JAx" eventType="touchUpInside" id="wcR-kz-7oF"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fRL-yp-cOc">
+                                        <rect key="frame" x="20" y="487" width="48" height="30"/>
+                                        <state key="normal" title="Cancel">
+                                            <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="pressedCancel:" destination="cz8-1m-JAx" eventType="touchUpInside" id="LEs-yv-77n"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="1P0-Zi-ltP" firstAttribute="top" secondItem="TTV-wO-MrM" secondAttribute="top" id="0yO-rq-AFV"/>
                                     <constraint firstAttribute="trailing" secondItem="OKA-ZY-Okm" secondAttribute="trailing" constant="107" id="3eg-7k-nqL"/>
                                     <constraint firstItem="duE-Kl-Knh" firstAttribute="top" secondItem="ofP-8D-cB1" secondAttribute="bottom" constant="5" id="4p0-f6-Hlp"/>
-                                    <constraint firstItem="TTV-wO-MrM" firstAttribute="top" secondItem="duE-Kl-Knh" secondAttribute="bottom" constant="20" id="5rS-ek-WPT"/>
+                                    <constraint firstItem="TTV-wO-MrM" firstAttribute="top" secondItem="duE-Kl-Knh" secondAttribute="bottom" constant="40" id="5rS-ek-WPT"/>
+                                    <constraint firstItem="fRL-yp-cOc" firstAttribute="top" secondItem="duE-Kl-Knh" secondAttribute="bottom" id="7mZ-Zo-gOL"/>
                                     <constraint firstItem="llI-Fo-g7r" firstAttribute="trailing" secondItem="OKA-ZY-Okm" secondAttribute="trailing" constant="-20" id="Anl-sp-GOo"/>
                                     <constraint firstItem="duE-Kl-Knh" firstAttribute="leading" secondItem="ofP-8D-cB1" secondAttribute="leading" id="BoK-ai-bny"/>
+                                    <constraint firstItem="fRL-yp-cOc" firstAttribute="leading" secondItem="duE-Kl-Knh" secondAttribute="leading" id="Jv0-4O-CXt"/>
                                     <constraint firstItem="OKA-ZY-Okm" firstAttribute="leading" secondItem="HYr-wh-Ne4" secondAttribute="leading" constant="107" id="Si6-pJ-Ck2"/>
                                     <constraint firstItem="hOh-2A-6KQ" firstAttribute="centerX" secondItem="HYr-wh-Ne4" secondAttribute="centerX" id="Sxm-i1-ahG"/>
                                     <constraint firstItem="ZsC-3R-tqX" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="1P0-Zi-ltP" secondAttribute="trailing" constant="20" id="W5h-OP-yY3"/>
@@ -843,12 +861,15 @@
                                     <constraint firstItem="ofP-8D-cB1" firstAttribute="top" secondItem="OKA-ZY-Okm" secondAttribute="bottom" constant="70" id="gIx-wz-PFR"/>
                                     <constraint firstAttribute="trailing" secondItem="duE-Kl-Knh" secondAttribute="trailing" constant="20" id="jyY-cA-ZMj"/>
                                     <constraint firstItem="ZsC-3R-tqX" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hOh-2A-6KQ" secondAttribute="trailing" constant="20" id="oom-dh-n8C"/>
+                                    <constraint firstItem="S8g-ba-bsN" firstAttribute="top" secondItem="duE-Kl-Knh" secondAttribute="bottom" id="pBL-eG-xjd"/>
                                     <constraint firstAttribute="bottom" secondItem="TTV-wO-MrM" secondAttribute="bottom" constant="100" id="rze-2c-a8g"/>
+                                    <constraint firstItem="TTV-wO-MrM" firstAttribute="top" secondItem="fRL-yp-cOc" secondAttribute="bottom" constant="10" id="sBr-hk-s7F"/>
                                     <constraint firstItem="OKA-ZY-Okm" firstAttribute="centerX" secondItem="HYr-wh-Ne4" secondAttribute="centerX" id="tWU-84-oYe"/>
                                     <constraint firstItem="OKA-ZY-Okm" firstAttribute="top" secondItem="Xxe-h9-2gr" secondAttribute="top" constant="40" id="tlH-TT-9s0"/>
                                     <constraint firstItem="hOh-2A-6KQ" firstAttribute="top" secondItem="llI-Fo-g7r" secondAttribute="top" constant="60" id="uFk-u5-hV9"/>
                                     <constraint firstItem="duE-Kl-Knh" firstAttribute="top" secondItem="hOh-2A-6KQ" secondAttribute="bottom" constant="32" id="vha-06-TbG"/>
                                     <constraint firstItem="hOh-2A-6KQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ZsC-3R-tqX" secondAttribute="leading" constant="20" id="vzq-19-xh4"/>
+                                    <constraint firstItem="S8g-ba-bsN" firstAttribute="trailing" secondItem="duE-Kl-Knh" secondAttribute="trailing" constant="-2" id="wHm-XM-kBr"/>
                                     <constraint firstItem="1P0-Zi-ltP" firstAttribute="leading" secondItem="TTV-wO-MrM" secondAttribute="trailing" id="x8A-FA-fbY"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="Xxe-h9-2gr"/>
@@ -873,10 +894,12 @@
                     </navigationItem>
                     <connections>
                         <outlet property="cameraButton" destination="llI-Fo-g7r" id="lHa-zQ-CuR"/>
+                        <outlet property="cancelButton" destination="fRL-yp-cOc" id="QSk-s2-BgE"/>
                         <outlet property="descriptionField" destination="duE-Kl-Knh" id="aYD-Gz-ABh"/>
                         <outlet property="logoutButton" destination="rtS-M3-bhf" id="QIR-Co-fNZ"/>
                         <outlet property="partyLabel" destination="1P0-Zi-ltP" id="EQw-fH-RaE"/>
                         <outlet property="profileView" destination="OKA-ZY-Okm" id="4xc-Q3-XZ8"/>
+                        <outlet property="saveButton" destination="S8g-ba-bsN" id="cyA-mv-hIT"/>
                         <outlet property="usernameLabel" destination="hOh-2A-6KQ" id="3PA-UO-DtP"/>
                         <segue destination="kjk-8M-Cnm" kind="show" identifier="logoutSegue" id="KIE-fM-paI"/>
                     </connections>
