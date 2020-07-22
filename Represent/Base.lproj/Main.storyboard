@@ -207,7 +207,7 @@
                                 </prototypes>
                             </tableView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WM2-y8-OuM">
-                                <rect key="frame" x="129" y="125" width="215" height="106"/>
+                                <rect key="frame" x="129" y="125" width="215" height="101"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
@@ -313,7 +313,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Kak-fr-ZPj">
-                                <rect key="frame" x="135" y="98" width="269" height="150"/>
+                                <rect key="frame" x="135" y="103" width="269" height="150"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="0OP-bY-4v1"/>
@@ -354,7 +354,7 @@
                             <constraint firstItem="S1y-qf-Plj" firstAttribute="trailing" secondItem="Kak-fr-ZPj" secondAttribute="trailing" constant="10" id="Smi-9B-g6N"/>
                             <constraint firstItem="S1y-qf-Plj" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="35r-xI-0DF" secondAttribute="trailing" constant="10" id="TLQ-sG-utp"/>
                             <constraint firstItem="Aid-RK-Fcm" firstAttribute="leading" secondItem="S1y-qf-Plj" secondAttribute="leading" constant="20" id="WcC-gc-A8Y"/>
-                            <constraint firstItem="Kak-fr-ZPj" firstAttribute="top" secondItem="35r-xI-0DF" secondAttribute="bottom" id="cFX-Gs-J1G"/>
+                            <constraint firstItem="Kak-fr-ZPj" firstAttribute="top" secondItem="35r-xI-0DF" secondAttribute="bottom" constant="5" id="cFX-Gs-J1G"/>
                             <constraint firstItem="35r-xI-0DF" firstAttribute="top" secondItem="Aid-RK-Fcm" secondAttribute="top" id="dfV-2E-c9A"/>
                             <constraint firstItem="35r-xI-0DF" firstAttribute="leading" secondItem="Aid-RK-Fcm" secondAttribute="trailing" constant="3" id="eOW-Y2-hZB"/>
                             <constraint firstItem="Kak-fr-ZPj" firstAttribute="trailing" secondItem="35r-xI-0DF" secondAttribute="trailing" id="gIB-FR-9eF"/>
