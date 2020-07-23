@@ -8,16 +8,19 @@
 
 #import "ProfileViewController.h"
 
-@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate>
+
+
+@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UIImageView *profileView;
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *partyLabel;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionField;
 @property (weak, nonatomic) IBOutlet UIButton *cameraButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *logoutButton;
 @property (weak, nonatomic) IBOutlet UIButton *saveButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+@property (weak, nonatomic) IBOutlet UIButton *partyButton;
+@property (weak, nonatomic) IBOutlet UITableView *tableViewParty;
 
 @end
 
@@ -56,6 +59,8 @@
         }
     } else {
         self.cameraButton.hidden = YES;
+        [self.partyButton setImage:nil forState:UIControlStateNormal];
+        self.partyButton.enabled = NO;
         self.navigationItem.leftBarButtonItem = nil;
         self.descriptionField.editable = NO;
         if (!self.user.profileDescription) {
@@ -71,9 +76,19 @@
 }
 
 - (void)setUpViews {
+    self.tableViewParty.delegate = self;
+    self.tableViewParty.dataSource = self;
+    self.tableViewParty.hidden = YES;
     self.usernameLabel.text = self.user.username;
     [self setProfilePhoto];
-    [Utils setPartyLabel:self.user.party:self.partyLabel];
+    NSLog(@"User's party choice is %@", self.user.party);
+    if (!self.user.party) {
+        [self.partyButton setTitle:[Utils getPartyAt:0] forState:UIControlStateNormal];
+        self.user.party = [Utils getPartyAt:0];
+        [self.user saveInBackground];
+    } else {
+        [Utils setPartyButton:self.user.party:self.partyButton];
+    }
     [self hideEditingButtons:YES];
 }
 
@@ -110,7 +125,34 @@
     textView.textColor = UIColor.lightGrayColor;
 }
 
+#pragma mark - UITableViewDataSource
 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleCell"];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SimpleCell"];
+    }
+    cell.textLabel.text = [Utils getPartyAt:(int)indexPath.row];
+    return cell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [Utils getPartyLength];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    [Utils setPartyButton:cell.textLabel.text :self.partyButton];
+    self.user.party = cell.textLabel.text;
+    self.tableViewParty.hidden = YES;
+    [self.user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (!succeeded) {
+            NSLog(@"Error with saving user's party!: %@", error.localizedDescription);
+        } else {
+            NSLog(@"Successfully saved user's party choice!");
+        }
+    }];
+}
 
 #pragma mark - Actions
 
@@ -142,6 +184,11 @@
     
     [self hideEditingButtons:YES];
     [self viewDidLoad];
+}
+
+- (IBAction)pressedParty:(id)sender {
+    self.tableViewParty.hidden = !(self.tableViewParty.hidden);
+
 }
 
 - (IBAction)pressedLogout:(id)sender {

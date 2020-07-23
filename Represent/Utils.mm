@@ -10,7 +10,7 @@
 
 static const NSArray *passed = [NSArray arrayWithObjects: @"Passed", @"Agreed to", @"Amendment Agreed to", @"Nomination Confirmed", @"Bill Passed", @"Cloture Motion Agreed to", @"Motion Agreed to", @"Motion to Proceed Agreed to", @"Motion to Table Agreed to", @"Cloture on the Motion to Proceed Agreed to", nil];
 static const NSArray *failed = [NSArray arrayWithObjects: @"Failed", @"Amendment Rejected", @"Cloture Motion Rejected", @"Motion Rejected", @"Motion to Proceed Rejected", @"Motion to Table Rejected", @"Cloture on the Motion to Proceed Rejected", @"Bill Failed", @"Veto Sustained", @"Motion Rejected", nil];
-
+static const NSArray *parties = [NSArray arrayWithObjects: @"No Party Chosen", @"Democrat", @"Republican", @"Independent", @"Non-Affiliated", nil];
 
 @implementation Utils
 
@@ -98,20 +98,25 @@ static const NSArray *failed = [NSArray arrayWithObjects: @"Failed", @"Amendment
     }
 }
 
-+ (void)setPartyLabel: (NSString *)partyString :(UILabel *)label{
-    if ([partyString.uppercaseString isEqualToString:@"D"]) {
-        label.textColor = UIColor.systemBlueColor;
-        label.text = @"Democrat";
-    } else if ([partyString.uppercaseString isEqualToString:@"R"]) {
-        label.textColor = UIColor.systemRedColor;
-        label.text = @"Republican";
-    } else if ([partyString.uppercaseString isEqualToString:@"I"]) {
-        label.textColor = UIColor.systemPurpleColor;
-        label.text = @"Independent";
++ (void)setPartyButton: (NSString *)partyString :(UIButton *)button{
+    if ([partyString.uppercaseString isEqualToString:@"DEMOCRAT"]) {
+        [button setTitleColor:UIColor.systemBlueColor forState:UIControlStateNormal];
+    } else if ([partyString.uppercaseString isEqualToString:@"REPUBLICAN"]) {
+        [button setTitleColor:UIColor.systemRedColor forState:UIControlStateNormal];
+    } else if ([partyString.uppercaseString isEqualToString:@"INDEPENDENT"]) {
+        [button setTitleColor:UIColor.systemPurpleColor forState:UIControlStateNormal];
     } else {
-//        label.textColor = UIColor.systemGrayColor;
-        label.text = @"Party Not Chosen";
+        [button setTitleColor:UIColor.systemGrayColor forState:UIControlStateNormal];
     }
+    [button setTitle:partyString forState:UIControlStateNormal];
+}
+
++ (NSString *)getPartyAt: (int)index {
+    return parties[index];
+}
+
++ (NSInteger)getPartyLength {
+    return parties.count;
 }
 
 @end

@@ -27,7 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
 + (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image;
 + (UIImage *)resizeImage:(UIImage *)image withSize:(CGSize)size;
 + (void)setResultLabel: (NSString *)resultString forLabel:(UILabel *)label;
-+ (void)setPartyLabel: (NSString *)partyString :(UILabel *)label;
++ (void)setPartyButton: (NSString *)partyString :(UIButton *)button;
++ (NSString *)getPartyAt: (int)index;
++ (NSInteger)getPartyLength;
+
 @end
 
 NS_ASSUME_NONNULL_END
