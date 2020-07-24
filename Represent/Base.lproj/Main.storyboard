@@ -284,7 +284,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="OZQ-04-7Sy"/>
                     </view>
-                    <navigationItem key="navigationItem" id="CsA-Cl-Qoe">
+                    <navigationItem key="navigationItem" title="Questions" id="CsA-Cl-Qoe">
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="Vha-U2-5CP">
                             <connections>
                                 <segue destination="5rw-Kf-qtu" kind="presentation" identifier="postQuestionSegue" id="mou-x4-Mkg"/>
@@ -502,7 +502,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="g41-hx-JMQ"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Pcg-9F-Ugt"/>
+                    <navigationItem key="navigationItem" title="Bills" id="Pcg-9F-Ugt"/>
                     <connections>
                         <outlet property="tableView" destination="Fd1-K7-Q0S" id="EoZ-wl-2zw"/>
                     </connections>
@@ -913,7 +913,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="0cZ-AU-TCx"/>
                     </view>
-                    <navigationItem key="navigationItem" id="sMe-Vt-vxn">
+                    <navigationItem key="navigationItem" title="Profile" id="sMe-Vt-vxn">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="rtS-M3-bhf">
                             <connections>
                                 <action selector="pressedLogout:" destination="cz8-1m-JAx" id="xjG-X9-FEW"/>
