@@ -54,11 +54,13 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jGT-Z9-fSN">
-                                <rect key="frame" x="135" y="571" width="144" height="30"/>
-                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="jGT-Z9-fSN">
+                                <rect key="frame" x="117" y="566" width="179" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.21817939373833173" green="0.24191893772938186" blue="0.80995315313339233" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
                                 <state key="normal" title="Login With Facebook">
-                                    <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleColor" red="0.48208194067754234" green="0.78099544602912208" blue="0.96620899438858032" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <connections>
                                     <action selector="pressedFacebook:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bdH-O6-Y7H"/>
@@ -67,10 +69,9 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="jGT-Z9-fSN" firstAttribute="top" secondItem="GR8-30-yuk" secondAttribute="bottom" constant="15" id="94l-bK-Hat"/>
                             <constraint firstItem="xI1-Na-36p" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="BdK-Lf-MM2"/>
-                            <constraint firstItem="3nH-rO-Eof" firstAttribute="top" secondItem="jGT-Z9-fSN" secondAttribute="bottom" constant="15" id="GZh-qc-6XB"/>
                             <constraint firstItem="GR8-30-yuk" firstAttribute="top" secondItem="fWx-J1-lRg" secondAttribute="bottom" constant="40" id="HNM-48-ALc"/>
+                            <constraint firstItem="3nH-rO-Eof" firstAttribute="top" secondItem="jGT-Z9-fSN" secondAttribute="bottom" constant="20" id="HfY-R3-hgD"/>
                             <constraint firstItem="P13-JJ-jBT" firstAttribute="leading" relation="lessThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="100" id="OLc-vt-1dQ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="P13-JJ-jBT" secondAttribute="trailing" constant="100" id="RAe-ph-7IR"/>
                             <constraint firstItem="P13-JJ-jBT" firstAttribute="top" secondItem="xI1-Na-36p" secondAttribute="bottom" constant="70" id="ZQ9-N9-ZPA"/>
@@ -83,8 +84,8 @@
                             <constraint firstItem="fWx-J1-lRg" firstAttribute="trailing" secondItem="P13-JJ-jBT" secondAttribute="trailing" id="lVd-qa-mEe"/>
                             <constraint firstItem="3nH-rO-Eof" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="p3i-Gm-Keu"/>
                             <constraint firstItem="fWx-J1-lRg" firstAttribute="leading" secondItem="P13-JJ-jBT" secondAttribute="leading" id="pl6-Xd-Bs9"/>
-                            <constraint firstItem="jGT-Z9-fSN" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="s8i-vt-miD"/>
                             <constraint firstItem="P13-JJ-jBT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vl8-yv-AwA"/>
+                            <constraint firstItem="jGT-Z9-fSN" firstAttribute="top" secondItem="GR8-30-yuk" secondAttribute="bottom" constant="10" id="wIw-zq-5wu"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

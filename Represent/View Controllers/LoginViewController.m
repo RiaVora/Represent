@@ -30,7 +30,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.facebookButton.frame = CGRectMake(0,0,180,40);
+    self.facebookButton.layer.cornerRadius = 10;
 
 //    if ([FBSDKAccessToken currentAccessToken]) {
          //[PFFacebookUtils logInInBackgroundWithReadPermissions:@[@"public_profile", @"email"]];
