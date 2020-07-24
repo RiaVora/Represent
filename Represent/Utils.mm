@@ -59,6 +59,12 @@ static const NSArray *parties = [NSArray arrayWithObjects: @"No Party Chosen", @
     return alert;
 }
 
++ (UIAlertController *)makeBottomAlert:(NSString *)title :(NSString *)message {
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleActionSheet)];
+    return alert;
+}
+
 #pragma mark - Image/Data
 
 + (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image {
@@ -99,14 +105,18 @@ static const NSArray *parties = [NSArray arrayWithObjects: @"No Party Chosen", @
 }
 
 + (void)setPartyButton: (NSString *)partyString :(UIButton *)button{
-    if ([partyString.uppercaseString isEqualToString:@"DEMOCRAT"]) {
+    if ([partyString.uppercaseString isEqualToString:@"DEMOCRAT"] || [partyString.uppercaseString isEqualToString:@"D"]) {
         [button setTitleColor:UIColor.systemBlueColor forState:UIControlStateNormal];
-    } else if ([partyString.uppercaseString isEqualToString:@"REPUBLICAN"]) {
+        partyString = @"Democrat";
+    } else if ([partyString.uppercaseString isEqualToString:@"REPUBLICAN"] || [partyString.uppercaseString isEqualToString:@"R"]) {
         [button setTitleColor:UIColor.systemRedColor forState:UIControlStateNormal];
-    } else if ([partyString.uppercaseString isEqualToString:@"INDEPENDENT"]) {
+        partyString = @"Republican";
+    } else if ([partyString.uppercaseString isEqualToString:@"INDEPENDENT"] || [partyString.uppercaseString isEqualToString:@"ID"] || [partyString.uppercaseString isEqualToString:@"I"]) {
+        partyString = @"Independent";
         [button setTitleColor:UIColor.systemPurpleColor forState:UIControlStateNormal];
     } else {
         [button setTitleColor:UIColor.systemGrayColor forState:UIControlStateNormal];
+        partyString = @"Non-Affiliated";
     }
     [button setTitle:partyString forState:UIControlStateNormal];
 }

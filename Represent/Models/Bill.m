@@ -58,7 +58,7 @@
 - (void)setUpBill: (NSDictionary *)billDictionary :(NSDictionary *)dictionary {
     self.billID = billDictionary[@"bill_id"];
     self.number = billDictionary[@"number"];
-    // self.sponsor = billDictionary[@"sponsor_id"];
+    [self findSponsor:billDictionary[@"sponsor_id"]];
     self.shortSummary = billDictionary[@"title"];
     self.question = dictionary[@"question"];
 }
@@ -77,9 +77,9 @@
     self.votesAbstain = [dictionary[@"total"][@"not_voting"] integerValue];
 }
 
-- (void)setSponsor:(NSString *)sponsorID {
+- (void)findSponsor:(NSString *)sponsorID {
     PFQuery *userQuery = [User query];
-    [userQuery whereKey:@"objectId" equalTo:sponsorID];
+    [userQuery whereKey:@"representativeID" equalTo:sponsorID];
     [userQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable users, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error with finding representative user with sponsorId: %@", error.localizedDescription);
@@ -95,6 +95,25 @@
         }
     }];
 }
+
+//- (void)setSponsor:(NSString *)sponsorID {
+//    PFQuery *userQuery = [User query];
+//    [userQuery whereKey:@"representativeID" equalTo:sponsorID];
+//    [userQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable users, NSError * _Nullable error) {
+//        if (error) {
+//            NSLog(@"Error with finding representative user with sponsorId: %@", error.localizedDescription);
+//        } else {
+//            if (users.count == 0) {
+//                NSLog(@"Did not find representative associated with that sponsorId");
+//            } else if (users.count == 1){
+//                NSLog(@"Found representative user with sponsorId!");
+//                self.sponsor = users[0];
+//            } else {
+//                NSLog(@"Found more than one user with sponsorId! %@", users);
+//            }
+//        }
+//    }];
+//}
 
 + (NSDate *)formatDate:(NSString *)dateString :(NSString *)timeString {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];

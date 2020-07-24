@@ -32,12 +32,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableArray *votedQuestions;
 @property (nonatomic, strong) NSDate *lastVoted;
 @property (nonatomic, strong) NSNumber *availableVoteCount;
+@property (nonatomic, strong) NSString *representativeID;
+
 
 
 
 +(User*)user;
 - (void)signUpUser: (NSString *)firstName email:(NSString *)email state:(NSString *)state username:(NSString *)username password:(NSString *)password isRepresentative:(BOOL)isRepresentative withCompletion: (PFBooleanResultBlock  _Nullable)completion;
-- (void)getRepresentatives;
+- (void)findRepresentatives;
 + (void) signUpRepresentative: (NSDictionary *)representative;
 - (NSString *)fullTitleRepresentative;
 - (BOOL)hasVoted:(Question *)question;

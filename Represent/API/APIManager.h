@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSURLSession *session;
 - (void)fetchRecentBills:(int)offset :(void(^)(NSArray *bills, NSError *error))completion;
 - (void) fetchSenators:(void(^)(NSArray *senators, NSError *error))completion;
+- (void) fetchHouseReps:(void(^)(NSArray *reps, NSError *error))completion;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -32,11 +32,6 @@
     [super viewDidLoad];
     self.facebookButton.layer.cornerRadius = 10;
 
-//    if ([FBSDKAccessToken currentAccessToken]) {
-         //[PFFacebookUtils logInInBackgroundWithReadPermissions:@[@"public_profile", @"email"]];
-//         [self performSegueWithIdentifier:@"loginSegue" sender:nil];
-//     }
-    //    [self setUpSenators];
 //    FBSDKLoginButton *loginButton = [[FBSDKLoginButton alloc] init];
     // Optional: Place the button in the center of your view.
 //    self.facebookButton = loginButton;
@@ -50,7 +45,7 @@
 }
 
 #pragma mark - Setup
-- (void)setUpSenators {
+- (void)setUpSenate {
     APIManager *manager = [APIManager new];
     [manager fetchSenators:^(NSArray * _Nonnull senators, NSError * _Nonnull error) {
         if (!error) {
@@ -63,6 +58,19 @@
     }];
 }
 
+- (void)setUpHouse {
+    APIManager *manager = [APIManager new];
+    [manager fetchHouseReps:^(NSArray * _Nonnull reps, NSError * _Nonnull error) {
+        if (!error) {
+            for (NSDictionary *rep in reps) {
+                if (rep[@"in_office"]) {
+                    [User signUpRepresentative:rep];
+//                    NSLog(@"%@", rep);
+                }
+            }
+        }
+    }];
+}
 
 #pragma mark - Actions
 

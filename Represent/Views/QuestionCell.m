@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *timestampLabel;
 @property (weak, nonatomic) IBOutlet UILabel *voteCountLabel;
 @property (weak, nonatomic) IBOutlet UIButton *voteButton;
+@property (weak, nonatomic) IBOutlet UIImageView *checkmarkImage;
 
 @end
 
@@ -40,7 +41,7 @@
     [self setProfilePhoto];
     NSInteger limit = 3;
     if (row < limit) {
-        [self setBackgroundColor:UIColor.lightGrayColor];
+        [self setBackgroundColor:UIColor.systemGray3Color];
     } else {
         [self setBackgroundColor:UIColor.whiteColor];
         
@@ -69,9 +70,13 @@
     if (addingVote) {
         [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
         [self.voteButton setTitle:@"Voted" forState:UIControlStateNormal];
+        [self.checkmarkImage setHighlighted:NO];
+        
     } else {
         [self.voteButton setTitleColor:UIColor.systemYellowColor forState:UIControlStateNormal];
         [self.voteButton setTitle:@"Vote" forState:UIControlStateNormal];
+        [self.checkmarkImage setHighlighted:YES];
+
     }
     self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
 }

@@ -33,7 +33,6 @@
     [self checkUser];
     self.descriptionField.delegate = self;
     [self setUpViews];
-    // Do any additional setup after loading the view.
 
 }
 
@@ -49,30 +48,43 @@
         self.user = [User currentUser];
     }
     if ([self.user.username isEqual:[User currentUser].username]) {
-        self.cameraButton.hidden = NO;
-        self.cameraButton.layer.cornerRadius = self.cameraButton.frame.size.width / 2;
-        self.navigationItem.leftBarButtonItem = self.logoutButton;
-        if (!self.user.profileDescription) {
-            [self setPlaceholderText:self.descriptionField];
-        } else {
-            self.descriptionField.text = self.user.profileDescription;
-        }
+        [self currentUserView];
     } else {
-        self.cameraButton.hidden = YES;
-        [self.partyButton setImage:nil forState:UIControlStateNormal];
-        self.partyButton.enabled = NO;
-        self.navigationItem.leftBarButtonItem = nil;
-        self.descriptionField.editable = NO;
-        if (!self.user.profileDescription) {
-            self.descriptionField.text = @"No Description Written";
-            self.descriptionField.textColor = UIColor.lightGrayColor;
-            self.descriptionField.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
-
-        } else {
-            self.descriptionField.text = self.user.profileDescription;
-        }
+        [self otherUserView];
     }
 
+}
+
+- (void)currentUserView {
+    self.cameraButton.hidden = NO;
+    self.cameraButton.layer.cornerRadius = self.cameraButton.frame.size.width / 2;
+    self.navigationItem.leftBarButtonItem = self.logoutButton;
+    if (!self.user.profileDescription) {
+        [self setPlaceholderText:self.descriptionField];
+    } else {
+        self.descriptionField.text = self.user.profileDescription;
+        self.descriptionField.textColor = UIColor.blackColor;
+        self.descriptionField.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
+    }
+}
+
+
+- (void)otherUserView {
+    self.cameraButton.hidden = YES;
+    [self.partyButton setImage:nil forState:UIControlStateNormal];
+    self.partyButton.enabled = NO;
+    self.navigationItem.leftBarButtonItem = nil;
+    self.descriptionField.editable = NO;
+    if (!self.user.profileDescription) {
+        self.descriptionField.text = @"No Description Written";
+        self.descriptionField.textColor = UIColor.lightGrayColor;
+        self.descriptionField.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
+        
+    } else {
+        self.descriptionField.text = self.user.profileDescription;
+        self.descriptionField.textColor = UIColor.blackColor;
+        self.descriptionField.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
+    }
 }
 
 - (void)setUpViews {
@@ -81,7 +93,6 @@
     self.tableViewParty.hidden = YES;
     self.usernameLabel.text = self.user.username;
     [self setProfilePhoto];
-    NSLog(@"User's party choice is %@", self.user.party);
     if (!self.user.party) {
         [self.partyButton setTitle:[Utils getPartyAt:0] forState:UIControlStateNormal];
         self.user.party = [Utils getPartyAt:0];
@@ -199,14 +210,30 @@
     UIImagePickerController *imagePickerVC = [UIImagePickerController new];
     imagePickerVC.delegate = self;
     imagePickerVC.allowsEditing = YES;
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
-    }
-    else {
-        NSLog(@"Camera 🚫 available so we will use photo library instead");
-        imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    }
-    [self presentViewController:imagePickerVC animated:YES completion:nil];
+    UIAlertController *alert = [Utils makeBottomAlert:@"Choose Media" :@"Which form of media would you like to use for your profile photo?"];
+    
+    UIAlertAction *camera = [UIAlertAction actionWithTitle:@"Camera" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+            imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
+            [self presentViewController:imagePickerVC animated:YES completion:nil];
+        } else {
+            [Utils displayAlertWithOk:@"Camera not Found" message:@"Cannot access camera from current phone" viewController:self];
+        }
+    }];
+    [alert addAction:camera];
+    
+    UIAlertAction *photoLibrary = [UIAlertAction actionWithTitle:@"Photo Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+            imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            [self presentViewController:imagePickerVC animated:YES completion:nil];
+        } else {
+            [Utils displayAlertWithOk:@"Photo Library not Found" message:@"Cannot access photo library from current phone" viewController:self];
+        }
+    }];
+    [alert addAction:photoLibrary];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+
 }
 
 #pragma mark - UIImagePickerController

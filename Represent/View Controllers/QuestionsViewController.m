@@ -35,9 +35,13 @@
     [self fetchQuestions];
     [self initRefreshControl];
     [MBProgressHUD hideHUDForView:self.view animated:true];
-
-    
 }
+
+//- (void)viewDidAppear:(BOOL)animated {
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    [self setUpViews];
+//    [self fetchQuestions];
+//}
 
 #pragma mark - Setup
 
@@ -79,6 +83,7 @@
 - (void)fetchQuestions {
     PFQuery *questionQuery = [Question query];
     [questionQuery orderByDescending:@"voteCount"];
+    [questionQuery addAscendingOrder:@"createdAt"];
     [questionQuery includeKey:@"author"];
     [questionQuery includeKey:@"representative"];
     [questionQuery whereKey:@"representative" equalTo:self.currentRepresentative];
@@ -99,13 +104,16 @@
 - (void)fetchMoreQuestions: (BOOL)justPosted {
     PFQuery *questionQuery = [Question query];
     [questionQuery orderByDescending:@"voteCount"];
+    [questionQuery addAscendingOrder:@"createdAt"];
     [questionQuery includeKey:@"author"];
     [questionQuery includeKey:@"representative"];
     [questionQuery whereKey:@"representative" equalTo:self.currentRepresentative];
     questionQuery.skip = self.questions.count;
     
     [questionQuery findObjectsInBackgroundWithBlock:^(NSArray<Question *> * _Nullable questions, NSError * _Nullable error) {
-        if (questions) {
+        if (error) {
+            NSLog(@"There was a problem fetching more Questions: %@", error.localizedDescription);
+        } else {
             NSLog(@"Successfully received more questions!");
             for (Question *question in questions) {
                 [self.questions addObject:question];
@@ -114,9 +122,7 @@
             if (justPosted) {
                 [self goToCell:(int)self.questions.count - 1];
             }
-
-        } else {
-            NSLog(@"There was a problem fetching more Questions: %@", error.localizedDescription);
+            [MBProgressHUD hideHUDForView:self.view animated:true];
         }
     }];
 }
@@ -239,8 +245,8 @@
         } else {
             NSLog(@"Successfully posted Question %@ for %@!", questionText, self.currentRepresentative.username);
             [self setUpViews];
+            [self fetchQuestions];
             [self fetchMoreQuestions:YES];
-            [MBProgressHUD hideHUDForView:self.view animated:true];
         }
     }];
 }

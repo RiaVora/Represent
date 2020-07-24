@@ -25,6 +25,7 @@
 @dynamic votedQuestions;
 @dynamic lastVoted;
 @dynamic availableVoteCount;
+@dynamic representativeID;
 
 #pragma mark - Init
 
@@ -46,24 +47,28 @@
     self.availableVoteCount = [NSNumber numberWithInt:5];
     if (!isRepresentative) {
         self.email = email;
-        [self getRepresentatives];
+        [self findRepresentatives];
     }
     [self signUpInBackgroundWithBlock: completion];
 }
 
-- (void)getRepresentatives {
+- (void)findRepresentatives {
+    NSLog(@"find representatives is running");
     NSString *state = self.state;
     PFQuery *userQuery = [User query];
     [userQuery whereKey:@"state" matchesText:state];
     [userQuery whereKey:@"isRepresentative" equalTo:@(YES)];
+    [userQuery whereKey:@"shortPosition" equalTo:@"Sen."];
     [userQuery findObjectsInBackgroundWithBlock:^(NSArray <User *>* _Nullable users, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error with fetching representatives: %@", error.localizedDescription);
         } else {
-            NSLog(@"Successfully fetched Users to check if representatives exist!");
+            NSLog(@"Successfully fetched Users to get representatives! Found %lu reps", users.count);
             for (User *user in users) {
                 [self addObject:user forKey:@"followedRepresentatives"];
             }
+            [self save];
+
         }
     }];
 }
@@ -75,10 +80,10 @@
     user.party = representative[@"party"];
     user.contact = representative[@"contact_form"];
     user.lastName = representative[@"last_name"];
-    user.objectId = representative[@"id"];
+    user.representativeID = representative[@"id"];
     [user signUpUser:representative[@"first_name"] email:@"" state:representative[@"state"] username:representative[@"id"] password:representative[@"date_of_birth"] isRepresentative:YES withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (error) {
-            NSLog(@"Error adding representative: %@", error.localizedDescription);
+            NSLog(@"Error adding representative %@: %@", representative[@"id"], error.localizedDescription);
         } else {
             NSLog(@"Successfully added Representative %@", user.username);
         }
