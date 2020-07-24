@@ -55,6 +55,7 @@ static int OFFSET = 20;
         }
         
     }];
+   
 }
 
 - (void)updateBills {

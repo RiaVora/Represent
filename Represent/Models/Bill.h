@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSInteger votesAgainst;
 @property (nonatomic) NSInteger votesAbstain;
 @property (nonatomic, assign) BOOL *headBill;
+@property (nonatomic, strong) NSString *votesURL;
 @property (nonatomic, strong) NSString *committee;
 @property (nonatomic, strong) NSString *forDescription;
 @property (nonatomic, strong) NSString *againstDescription;

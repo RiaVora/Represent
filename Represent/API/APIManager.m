@@ -43,7 +43,7 @@ static NSString * const baseURLString = @"https://api.propublica.org/congress/v1
 
 #pragma mark - Representative Data
 
-- (void) fetchSenators:(void(^)(NSArray *senators, NSError *error))completion {
+- (void)fetchSenators:(void(^)(NSArray *senators, NSError *error))completion {
     NSMutableURLRequest *request = [self createRequest: @"116/senate/members.json"];
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
@@ -59,7 +59,7 @@ static NSString * const baseURLString = @"https://api.propublica.org/congress/v1
     [task resume];
 }
 
-- (void) fetchHouseReps:(void(^)(NSArray *reps, NSError *error))completion {
+- (void)fetchHouseReps:(void(^)(NSArray *reps, NSError *error))completion {
     NSMutableURLRequest *request = [self createRequest: @"116/house/members.json"];
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
@@ -73,6 +73,24 @@ static NSString * const baseURLString = @"https://api.propublica.org/congress/v1
         }
     }];
     [task resume];
+}
+
+- (void)fetchVotes: (NSString *)votesURL :(void(^)(NSArray *votes, NSError *error))completion {
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL: [NSURL URLWithString:votesURL]];
+    [request setValue:@"PQr31zdf3ibsr3mz9neLib2acbI3FhAn4SvN1cBx" forHTTPHeaderField:@"X-API-KEY"];
+    NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error) {
+            NSLog(@"Error fetching votes: %@", error.localizedDescription);
+            completion(nil, error);
+        }
+        else {
+            NSLog(@"Success fetching votes!");
+            NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            completion(dataDictionary[@"results"][@"votes"][@"vote"][@"positions"], nil);
+        }
+    }];
+    [task resume];
+
 }
 
 

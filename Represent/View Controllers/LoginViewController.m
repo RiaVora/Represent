@@ -95,7 +95,6 @@
     }
 }
 - (IBAction)pressedFacebook:(FBSDKLoginButton *)sender {
-    //    NSLog(@"Thank god I have the access token when I log in");
     [PFFacebookUtils logInInBackgroundWithReadPermissions:@[@"public_profile", @"email"] block:^(PFUser * _Nullable user, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error with logging in given Facebook user with Parse: %@", error.localizedDescription);

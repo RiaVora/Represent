@@ -25,6 +25,7 @@
 @dynamic votesAgainst;
 @dynamic votesAbstain;
 @dynamic headBill;
+@dynamic votesURL;
 @dynamic committee;
 @dynamic forDescription;
 @dynamic againstDescription;
@@ -75,6 +76,7 @@
     self.votesFor = [dictionary[@"total"][@"yes"] integerValue];
     self.votesAgainst = [dictionary[@"total"][@"no"] integerValue];
     self.votesAbstain = [dictionary[@"total"][@"not_voting"] integerValue];
+    self.votesURL = dictionary[@"vote_uri"];
 }
 
 - (void)findSponsor:(NSString *)sponsorID {
