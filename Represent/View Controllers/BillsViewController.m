@@ -61,12 +61,12 @@ static int OFFSET = 20;
     [self fetchBills:NO];
 }
 
-- (void)getBillsParse: (BOOL)getNewBills {
+- (void)getBillsParse: (BOOL)shouldLoadMore {
     PFQuery *billQuery = [Bill query];
     [billQuery orderByDescending:@"date"];
     [billQuery whereKey:@"headBill" equalTo:@(YES)];
     billQuery.limit = 20;
-    if (getNewBills) {
+    if (shouldLoadMore) {
         billQuery.skip = self.bills.count;
     }
     [billQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable bills, NSError * _Nullable error) {
@@ -74,7 +74,7 @@ static int OFFSET = 20;
             NSLog(@"Error with fetching bills from Parse: %@", error.localizedDescription);
         } else {
             NSLog(@"Success with fetching bills from Parse!");
-            if (getNewBills) {
+            if (shouldLoadMore) {
                 for (Bill *bill in bills) {
                     [self.bills addObject:bill];
                 }

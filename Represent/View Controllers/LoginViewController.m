@@ -11,10 +11,15 @@
 #import <Parse/Parse.h>
 #import "Utils.h"
 #import "APIManager.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
+#import "PFFacebookUtils.h"
 
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
+@property (weak, nonatomic) IBOutlet UIButton *facebookButton;
+
 
 @end
 
@@ -25,31 +30,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.facebookButton.frame = CGRectMake(0,0,180,40);
+
+//    if ([FBSDKAccessToken currentAccessToken]) {
+         //[PFFacebookUtils logInInBackgroundWithReadPermissions:@[@"public_profile", @"email"]];
+//         [self performSegueWithIdentifier:@"loginSegue" sender:nil];
+//     }
     //    [self setUpSenators];
+//    FBSDKLoginButton *loginButton = [[FBSDKLoginButton alloc] init];
+    // Optional: Place the button in the center of your view.
+//    self.facebookButton = loginButton;
+//    [self.view addSubview:self.facebookButton];
     
-    //    [Question postUserQuestion:@"test question" forRepresentative:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
-    //        if (succeeded) {
-    //            NSLog(@"Question successfully saved!");
-    //        } else {
-    //            NSLog(@"Unable to save question: %@", error.localizedDescription);
-    //        }
-    //    }];
-    //    PFQuery *questionQuery = [Question query];
-    //    [questionQuery orderByDescending:@"createdAt"];
-    //    [questionQuery includeKey:@"author"];
-    //    questionQuery.limit = 20;
-    //
-    //    [questionQuery findObjectsInBackgroundWithBlock:^(NSArray<Question *> * _Nullable questions, NSError * _Nullable error) {
-    //        if (questions) {
-    //            NSLog(@"Successfully received questions!");
-    //            for (Question *question in questions) {
-    //                NSLog(@"this questions asks %@", question.text);
-    //            }
-    //        } else {
-    //            NSLog(@"There was a problem fetching Questions: %@", error.localizedDescription);
-    //        }
-    //    }];
+//        [self loginThroughFacebook: [FBSDKAccessToken currentAccessToken]];
+//        [self performSegueWithIdentifier:@"loginSegue" sender:nil];
+
     
+
 }
 
 #pragma mark - Setup
@@ -89,6 +86,51 @@
         }];
     }
 }
+- (IBAction)pressedFacebook:(FBSDKLoginButton *)sender {
+    //    NSLog(@"Thank god I have the access token when I log in");
+    [PFFacebookUtils logInInBackgroundWithReadPermissions:@[@"public_profile", @"email"] block:^(PFUser * _Nullable user, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error with logging in given Facebook user with Parse: %@", error.localizedDescription);
+        } else if (!user) {
+            NSLog(@"User cancelled!");
+        } else if (user.isNew){
+            NSLog(@"Successfully logged in new Facebook user with Parse! %@", user.username);
+            [self signUpFacebookUser:user];
+        } else {
+            NSLog(@"Successfully logged in new Facebook user with Parse! %@", user.username);
+            [self logInFacebookUser:user];
+        }
+    }];
+    
+
+}
+
+- (void)signUpFacebookUser: (PFUser *)user {
+    FBSDKProfile *profile = [FBSDKProfile currentProfile];
+    User *newUser = [User new];
+    [newUser signUpUser:profile.firstName email:user.email state:@"CA" username:profile.name password:user.username isRepresentative:NO withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error with logging in given Facebook user as a Represent User: %@", error.localizedDescription);
+        } else {
+            NSLog(@"Successfully logged in given Facebook user as a Represent User!");
+            [self performSegueWithIdentifier:@"loginSegue" sender:nil];
+        }
+    }];
+}
+
+- (void)logInFacebookUser: (PFUser *)user {
+    FBSDKProfile *profile = [FBSDKProfile currentProfile];
+    [User logInWithUsernameInBackground:profile.name password:user.username block:^(PFUser * _Nullable user, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error with logging in with existing user using Facebook: %@", error.localizedDescription);
+        } else {
+            NSLog(@"Successfully logged in with existing user using Facebook!");
+            [self performSegueWithIdentifier:@"loginSegue" sender:nil];
+        }
+    }];
+}
+
+
 - (IBAction)pressedSignUp:(id)sender {
     [self performSegueWithIdentifier:@"signUpSegue" sender:sender];
 }

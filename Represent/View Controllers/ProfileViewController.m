@@ -192,13 +192,7 @@
 }
 
 - (IBAction)pressedLogout:(id)sender {
-    [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"Error logging out: %@", error.localizedDescription);
-        } else {
-            [self logoutAlert: self.user.username: sender];
-        }
-    }];
+    [self logoutAlert: self.user.username: sender];
 }
 
 - (IBAction)pressedCamera:(id)sender {
@@ -245,7 +239,16 @@
     UIAlertController *alert = [Utils makeAlert:title :@"Are you sure you want to logout?"];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                      handler:^(UIAlertAction * _Nonnull action) {
-        [self performSegueWithIdentifier:@"logoutSegue" sender:sender];
+        [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
+            if (error) {
+                NSLog(@"Error logging out: %@", error.localizedDescription);
+            } else {
+                FBSDKLoginManager *loginManager = [FBSDKLoginManager new];
+                [loginManager logOut];
+                [self performSegueWithIdentifier:@"logoutSegue" sender:sender];
+            }
+        }];
+        
     }];
     
     [alert addAction:okAction];

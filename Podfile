@@ -10,6 +10,7 @@ pod 'AFNetworking'
 pod 'DateTools'
 pod 'Parse'
 pod 'MBProgressHUD'
+pod 'Parse/FacebookUtils'
 
   target 'RepresentTests' do
     inherit! :search_paths

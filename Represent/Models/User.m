@@ -130,7 +130,7 @@
 
 - (void)updateAvailableVotes {
     NSDate *now = [NSDate date];
-    if (![[NSCalendar currentCalendar] isDate:now inSameDayAsDate:self.lastVoted]) {
+    if (!self.lastVoted || ![[NSCalendar currentCalendar] isDate:now inSameDayAsDate:self.lastVoted]) {
         self.availableVoteCount = [NSNumber numberWithInt:5];
         [self saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             if (!succeeded) {

@@ -25,6 +25,7 @@
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
+//    [User logOut];
     [super viewDidLoad];
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
     [self setUpTableViews];

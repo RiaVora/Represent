@@ -8,6 +8,9 @@
 
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
+#import "PFFacebookUtils.h"
+
 
 @interface AppDelegate ()
 
@@ -17,6 +20,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [FBSDKProfile enableUpdatesOnAccessTokenChange:YES];
     ParseClientConfiguration *config = [ParseClientConfiguration   configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
         
         configuration.applicationId = @"ria-represent";
@@ -24,21 +28,24 @@
     }];
     
     [Parse initializeWithConfiguration:config];
-    
-//    PFObject *gameScore = [PFObject objectWithClassName:@"GameScore"];
-//    gameScore[@"score"] = @1337;
-//    gameScore[@"playerName"] = @"Ria Vora";
-//    gameScore[@"cheatMode"] = @NO;
-//    [gameScore saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-//      if (succeeded) {
-//         NSLog(@"Object saved!");
-//      } else {
-//         NSLog(@"Error: %@", error.description);
-//      }
-//    }];
-    
+    [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
+    [FBSDKApplicationDelegate.sharedInstance application:application didFinishLaunchingWithOptions:launchOptions];
+
     return YES;
 }
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    return [[FBSDKApplicationDelegate sharedInstance] application:app openURL:url options:options];
+}
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+  [FBSDKAppEvents activateApp];
+}
+//
+//- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+//
+//    return [[FBSDKApplicationDelegate sharedInstance] application:app openURL:url sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey] annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
+//}
+    
 
 
 #pragma mark - UISceneSession lifecycle
