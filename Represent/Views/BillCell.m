@@ -10,7 +10,7 @@
 
 
 
-@interface BillCell ()
+@interface BillCell () <UICollectionViewDelegate, UICollectionViewDataSource>
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *shortSummaryLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timestampLabel;
@@ -19,6 +19,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *votesForLabel;
 @property (weak, nonatomic) IBOutlet UILabel *votesAgainstLabel;
 @property (weak, nonatomic) IBOutlet UILabel *votesAbstainLabel;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (strong, nonatomic) NSMutableArray *votes;
+@property (strong, nonatomic) User *user;
 
 
 @end
@@ -27,6 +30,11 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
+    self.user = [User currentUser];
+    self.votes = [[NSMutableArray alloc] init];
+    [self setUpCollectionView];
     // Initialization code
 }
 
@@ -34,6 +42,19 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (void)setUpCollectionView {
+    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)
+    self.collectionView.collectionViewLayout;
+    
+    layout.minimumInteritemSpacing = 5;
+    layout.minimumLineSpacing = 5;
+    CGFloat votesPerLine = 6;
+    CGFloat itemWidth = (self.collectionView.frame.size.width - layout.minimumInteritemSpacing * (votesPerLine - 1)) / votesPerLine;
+    CGFloat itemHeight = 1.5 * itemWidth;
+    
+    layout.itemSize = CGSizeMake(itemWidth, itemHeight);
 }
 
 - (void)updateValues {
@@ -56,14 +77,13 @@
     self.votesForLabel.text = [NSString stringWithFormat:@"%ld", (long)self.bill.votesFor];
     self.votesAgainstLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAgainst];
     self.votesAbstainLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAbstain];
-//
-//    BOOL cont = [self.bill.type isEqualToString:@"Senate"];
-//    if (self.vote1Label && cont) {
-//        [self updateVotes];
-//    } if (!cont && self.vote1Label) {
-//        self.vote1Label.text = @"";
-//        self.vote2Label.text = @"";
-//    }
+
+    BOOL cont = [self.bill.type isEqualToString:@"Senate"];
+    if (cont) {
+        [self updateVotes];
+    } else {
+        self.collectionView.hidden = YES;
+    }
 
 }
 
@@ -74,26 +94,33 @@
             NSLog(@"Error with fetching votes from API");
         } else {
             NSLog(@"Success with fetching votes from API!");
-            User *currentUser = [User currentUser];
-            User *rep1 = currentUser.followedRepresentatives[0];
-            User *rep2 = currentUser.followedRepresentatives[1];
-            NSString *ID1 = rep1.representativeID;
-            NSString *ID2 = rep2.representativeID;
-            NSArray *filteredData1 = [votes filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(member_id ==[c]%@)", ID1]];
-            NSArray *filteredData2 = [votes filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(member_id ==[c]%@)", ID2]];
-
-                
-                
-                
-//                for (NSDictionary *repVote in filteredData) {
-//                    NSLog(@"found the rep %@ with vote %@", repVote[@"name"], repVote[@"vote_position"]);
-//                }
+            for (User *rep in self.user.followedRepresentatives) {
+                NSArray *filteredData = [votes filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(member_id ==[c]%@)", rep.representativeID]];
+                [self.votes addObject:filteredData[0]];
+            }            
+            [self.collectionView reloadData];
 
         }
     }];
     
 }
 
+#pragma mark - UICollectionViewDataSource
 
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    VoteCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"VoteCell" forIndexPath:indexPath];
+    cell.vote = self.votes[indexPath.row];
+    cell.representative = self.user.followedRepresentatives[indexPath.row];
+    cell.layer.borderColor =  UIColor.lightGrayColor.CGColor;
+    cell.layer.borderWidth = 1;
+    cell.layer.cornerRadius = 10;
+    [cell updateValues];
+    return cell;
+    
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.votes.count;
+}
 
 @end

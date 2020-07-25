@@ -121,6 +121,23 @@ static const NSArray *parties = [NSArray arrayWithObjects: @"No Party Chosen", @
     [button setTitle:partyString forState:UIControlStateNormal];
 }
 
++ (void)setPartyLabel: (NSString *)partyString :(UILabel *)label{
+    if ([partyString.uppercaseString isEqualToString:@"DEMOCRAT"] || [partyString.uppercaseString isEqualToString:@"D"]) {
+        label.textColor = UIColor.systemBlueColor;
+        partyString = @"Democrat";
+    } else if ([partyString.uppercaseString isEqualToString:@"REPUBLICAN"] || [partyString.uppercaseString isEqualToString:@"R"]) {
+        label.textColor = UIColor.systemRedColor;
+        partyString = @"Republican";
+    } else if ([partyString.uppercaseString isEqualToString:@"INDEPENDENT"] || [partyString.uppercaseString isEqualToString:@"ID"] || [partyString.uppercaseString isEqualToString:@"I"]) {
+        label.textColor = UIColor.systemPurpleColor;
+        partyString = @"Independent";
+    } else {
+        label.textColor = UIColor.systemGrayColor;
+        partyString = @"Non-Affiliated";
+    }
+    label.text = partyString;
+}
+
 + (NSString *)getPartyAt: (int)index {
     return parties[index];
 }

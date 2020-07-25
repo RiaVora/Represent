@@ -14,7 +14,6 @@
 @property (strong, nonatomic) NSDate *lastRefreshed;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (assign, nonatomic) BOOL isMoreDataLoading;
-
 @end
 
 static int OFFSET = 20;

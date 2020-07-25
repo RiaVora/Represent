@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIImage *)resizeImage:(UIImage *)image withSize:(CGSize)size;
 + (void)setResultLabel: (NSString *)resultString forLabel:(UILabel *)label;
 + (void)setPartyButton: (NSString *)partyString :(UIButton *)button;
++ (void)setPartyLabel: (NSString *)partyString :(UILabel *)label;
 + (NSString *)getPartyAt: (int)index;
 + (NSInteger)getPartyLength;
 
