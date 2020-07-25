@@ -20,7 +20,7 @@
 @implementation VoteCell
 
 - (void)updateValues {
-    self.firstNameLabel.text = self.representative.firstName;
+    self.firstNameLabel.text = [NSString stringWithFormat: @"%@ %@", self.representative.shortPosition, self.representative.firstName];
     self.lastNameLabel.text = self.representative.lastName;
     [Utils setPartyLabel:self.representative.party :self.partyLabel];
     NSString *vote = self.vote[@"vote_position"];
