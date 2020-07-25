@@ -24,7 +24,6 @@ static int OFFSET = 20;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"Offset is %d", OFFSET);
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.bills = [[NSMutableArray alloc] init];
@@ -67,6 +66,7 @@ static int OFFSET = 20;
     [billQuery orderByDescending:@"date"];
     [billQuery whereKey:@"headBill" equalTo:@(YES)];
     [billQuery includeKey:@"sponsor"];
+
     billQuery.limit = 20;
     if (shouldLoadMore) {
         billQuery.skip = self.bills.count;

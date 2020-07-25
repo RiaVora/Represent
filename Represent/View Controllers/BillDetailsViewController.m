@@ -42,9 +42,9 @@
     
     [Utils setResultLabel:self.bill.result forLabel:self.resultLabel];
     self.timestampLabel.text = [NSString stringWithFormat:@"%@", self.bill.date.timeAgoSinceNow];
-    self.votesForLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesFor];
-    self.votesAgainstLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAgainst];
-    self.votesAbstainLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAbstain];
+    self.votesForLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesFor.count];
+    self.votesAgainstLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAgainst.count];
+    self.votesAbstainLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAbstain.count];
 }
 
 - (void)fetchBills {

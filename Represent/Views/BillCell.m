@@ -20,8 +20,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *votesAgainstLabel;
 @property (weak, nonatomic) IBOutlet UILabel *votesAbstainLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (strong, nonatomic) NSMutableArray *votes;
 @property (strong, nonatomic) User *user;
+@property (strong, nonatomic) NSMutableArray *reccomendedReps;
 
 
 @end
@@ -33,28 +33,21 @@
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.user = [User currentUser];
-    self.votes = [[NSMutableArray alloc] init];
+    self.reccomendedReps = [[NSMutableArray alloc] init];
     [self setUpCollectionView];
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 - (void)setUpCollectionView {
-    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)
-    self.collectionView.collectionViewLayout;
+//    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)
+//    self.collectionView.collectionViewLayout;
     
-    layout.minimumInteritemSpacing = 5;
-    layout.minimumLineSpacing = 5;
-    CGFloat votesPerLine = 6;
-    CGFloat itemWidth = (self.collectionView.frame.size.width - layout.minimumInteritemSpacing * (votesPerLine - 1)) / votesPerLine;
-    CGFloat itemHeight = 1.5 * itemWidth;
-    
-    layout.itemSize = CGSizeMake(itemWidth, itemHeight);
+//    layout.minimumInteritemSpacing = 5;
+//    layout.minimumLineSpacing = 5;
+//    CGFloat votesPerLine = 6;
+//    CGFloat itemWidth = (self.collectionView.frame.size.width - layout.minimumInteritemSpacing * (votesPerLine - 1)) / votesPerLine;
+//    CGFloat itemHeight = 1.5 * itemWidth;
+//    
+//    layout.itemSize = CGSizeMake(itemWidth, itemHeight);
 }
 
 - (void)updateValues {
@@ -74,43 +67,46 @@
         self.typeLabel.text = self.bill.type;
     }
     
-    self.votesForLabel.text = [NSString stringWithFormat:@"%ld", (long)self.bill.votesFor];
-    self.votesAgainstLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAgainst];
-    self.votesAbstainLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAbstain];
-
+    self.votesForLabel.text = [NSString stringWithFormat:@"%ld", (long)self.bill.votesFor.count];
+    self.votesAgainstLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAgainst.count];
+    self.votesAbstainLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAbstain.count];
     BOOL cont = [self.bill.type isEqualToString:@"Senate"];
     if (cont) {
-        [self updateVotes];
+        [self updateVotesSenate];
     } else {
-        self.collectionView.hidden = YES;
+        [self updateVotesHouse];
     }
 
 }
 
-- (void)updateVotes {
-    APIManager *manager = [APIManager new];
-    [manager fetchVotes:self.bill.votesURL :^(NSArray * _Nonnull votes, NSError * _Nonnull error) {
-        if (error) {
-            NSLog(@"Error with fetching votes from API");
-        } else {
-            NSLog(@"Success with fetching votes from API!");
-            for (User *rep in self.user.followedRepresentatives) {
-                NSArray *filteredData = [votes filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(member_id ==[c]%@)", rep.representativeID]];
-                [self.votes addObject:filteredData[0]];
-            }            
-            [self.collectionView reloadData];
+- (void)updateVotesSenate {
+    for (User *followedRep in self.user.followedRepresentatives) {
+        if ([followedRep.shortPosition isEqualToString:@"Sen."]) {
+            [self.reccomendedReps addObject:followedRep];
+        }
+    }
+}
 
+- (void)updateVotesHouse {
+    PFQuery *userQuery = [User query];
+    userQuery.limit = 20;
+    [userQuery whereKey:@"state" matchesText:self.user.state];
+    [userQuery whereKey:@"isRepresentative" equalTo:@(YES)];
+    [userQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable reps, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error with finding reps in this state: %@", error.localizedDescription);
+        } else {
+            [self.reccomendedReps addObjectsFromArray:reps];
         }
     }];
-    
 }
 
 #pragma mark - UICollectionViewDataSource
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     VoteCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"VoteCell" forIndexPath:indexPath];
-    cell.vote = self.votes[indexPath.row];
-    cell.representative = self.user.followedRepresentatives[indexPath.row];
+    cell.bill = self.bill;
+    cell.representative = self.reccomendedReps[indexPath.row];
     cell.layer.borderColor =  UIColor.lightGrayColor.CGColor;
     cell.layer.borderWidth = 1;
     cell.layer.cornerRadius = 10;
@@ -120,7 +116,7 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.votes.count;
+    return self.reccomendedReps.count;
 }
 
 @end

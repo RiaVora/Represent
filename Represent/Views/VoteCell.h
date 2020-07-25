@@ -9,12 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "User.h"
 #import "Utils.h"
+#import "Bill.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface VoteCell : UICollectionViewCell
 
-@property (strong, nonatomic) NSDictionary *vote;
+@property (strong, nonatomic) Bill *bill;
 @property (strong, nonatomic) User *representative;
 
 - (void)updateValues;

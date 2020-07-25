@@ -27,9 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSDate *date;
 @property (nonatomic, strong) NSString *question;
 @property (nonatomic, strong) NSString *result;
-@property (nonatomic) NSInteger votesFor;
-@property (nonatomic) NSInteger votesAgainst;
-@property (nonatomic) NSInteger votesAbstain;
+@property (nonatomic) NSMutableArray *votesFor;
+@property (nonatomic) NSMutableArray *votesAgainst;
+@property (nonatomic) NSMutableArray *votesAbstain;
 @property (nonatomic, assign) BOOL *headBill;
 @property (nonatomic, strong) NSString *votesURL;
 @property (nonatomic, strong) NSString *committee;
@@ -38,6 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (Bill *) updateBills: (NSDictionary *)dictionary;
 + (NSDate *)formatDate:(NSString *)dateString :(NSString *)timeString;
+- (NSString *)voteOfRepresentative: (NSString *)repID;
 
 @end
 
