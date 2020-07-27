@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *votesForLabel;
 @property (weak, nonatomic) IBOutlet UILabel *votesAgainstLabel;
 @property (weak, nonatomic) IBOutlet UILabel *votesAbstainLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *resultImageView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSMutableArray *reccomendedReps;
@@ -34,7 +35,6 @@
     self.collectionView.dataSource = self;
     self.user = [User currentUser];
     self.reccomendedReps = [[NSMutableArray alloc] init];
-    [self setUpCollectionView];
 }
 
 - (void)setUpCollectionView {
@@ -51,6 +51,9 @@
 }
 
 - (void)updateValues {
+    if (self.collectionView) {
+        [MBProgressHUD showHUDAddedTo:self.collectionView animated:YES];
+    }
     self.titleLabel.text = self.bill.title;
     if (self.bill.shortSummary) {
         self.shortSummaryLabel.text = self.bill.shortSummary;
@@ -58,7 +61,13 @@
         self.shortSummaryLabel.text = @"";
     }
     [Utils setResultLabel:self.bill.result forLabel:self.resultLabel];
-    
+    if ([self.resultLabel.textColor isEqual:UIColor.systemGreenColor]) {
+        [self.resultImageView setHighlighted:NO];
+        [self.resultImageView setTintColor:UIColor.systemGreenColor];
+    } else {
+        [self.resultImageView setHighlighted:YES];
+        [self.resultImageView setTintColor:UIColor.systemRedColor];
+    }
 
     self.timestampLabel.text = [NSString stringWithFormat:@"%@", self.bill.date.timeAgoSinceNow];
     if ([self.bill.type isEqualToString:@"House"]) {
@@ -81,10 +90,23 @@
 
 - (void)updateVotesSenate {
     for (User *followedRep in self.user.followedRepresentatives) {
-        if ([followedRep.shortPosition isEqualToString:@"Sen."]) {
+        if ([followedRep.shortPosition isEqualToString:@"Sen."] && ![self hasRep:followedRep]) {
             [self.reccomendedReps addObject:followedRep];
         }
     }
+//    [self.reccomendedReps addObject:self.bill.sponsor];
+    [self.collectionView reloadData];
+    [MBProgressHUD hideHUDForView:self.collectionView animated:YES];
+
+}
+
+- (BOOL)hasRep: (User *)newRep {
+    for (User *rep in self.reccomendedReps) {
+        if ([rep.representativeID isEqualToString:newRep.representativeID]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 - (void)updateVotesHouse {
@@ -92,11 +114,14 @@
     userQuery.limit = 20;
     [userQuery whereKey:@"state" matchesText:self.user.state];
     [userQuery whereKey:@"isRepresentative" equalTo:@(YES)];
+    [userQuery whereKey:@"shortPosition" containsString:@"Rep"];
     [userQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable reps, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error with finding reps in this state: %@", error.localizedDescription);
         } else {
             [self.reccomendedReps addObjectsFromArray:reps];
+            [self.collectionView reloadData];
+            [MBProgressHUD hideHUDForView:self.collectionView animated:YES];
         }
     }];
 }

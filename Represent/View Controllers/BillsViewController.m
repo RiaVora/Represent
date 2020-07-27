@@ -24,13 +24,17 @@ static int OFFSET = 20;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [MBProgressHUD showHUDAddedTo:self.view animated:true];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.bills = [[NSMutableArray alloc] init];
     [self initRefreshControl];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.isMoreDataLoading = false;
     self.lastRefreshed = [NSDate now];
+    [self getBillsParse:NO];
+    if (self.bills.count == 0) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:true];
+    }
     [self updateBills];
 }
 
@@ -45,15 +49,37 @@ static int OFFSET = 20;
             NSLog(@"Error with fetching recent bills: %@", error.localizedDescription);
         } else {
             NSLog(@"Successfully fetched new bills");
-            for (NSDictionary *dictionary in bills) {
-                [Bill updateBills:dictionary];
-            }
-            [self getBillsParse:getNewBills];
-            [MBProgressHUD hideHUDForView:self.view animated:true];
+            [self updateBillsAsync:bills:getNewBills];
+            
         }
         
     }];
    
+}
+
+- (void)updateBillsAsync: (NSArray *)bills :(BOOL)getNewBills {
+    dispatch_semaphore_t semaphoreGroup = dispatch_semaphore_create(0);
+    
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        
+        for (NSDictionary *dictionary in bills) {
+            [Bill updateBills:dictionary withCompletion:^(BOOL complete) {
+                if (complete) {
+                    NSLog(@"Successfully saved bill in for loop");
+                } else {
+                    NSLog(@"Found duplicate, did not save bill");
+                }
+                dispatch_semaphore_signal(semaphoreGroup);
+            }];
+            
+            dispatch_semaphore_wait(semaphoreGroup, DISPATCH_TIME_FOREVER);
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^(void){
+            NSLog(@"Finished queue");
+            [self getBillsParse:getNewBills];
+        });
+    });
 }
 
 - (void)updateBills {
@@ -66,7 +92,6 @@ static int OFFSET = 20;
     [billQuery orderByDescending:@"date"];
     [billQuery whereKey:@"headBill" equalTo:@(YES)];
     [billQuery includeKey:@"sponsor"];
-
     billQuery.limit = 20;
     if (shouldLoadMore) {
         billQuery.skip = self.bills.count;
@@ -82,11 +107,12 @@ static int OFFSET = 20;
                 }
                 self.isMoreDataLoading = false;
                 OFFSET += 20;
-            } else {
+            } else if (bills.count > 0) {
                 self.bills = [NSMutableArray arrayWithArray:bills];
             }
             [self.tableView reloadData];
             [self.refreshControl endRefreshing];
+            [MBProgressHUD hideHUDForView:self.view animated:true];
         }
     }];
 }

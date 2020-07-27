@@ -34,7 +34,6 @@
 //        [self postTestQuestion:@"thank you for your service"];
     [self fetchQuestions];
     [self initRefreshControl];
-    [MBProgressHUD hideHUDForView:self.view animated:true];
 }
 
 //- (void)viewDidAppear:(BOOL)animated {
@@ -95,6 +94,7 @@
             self.questions = [NSMutableArray arrayWithArray:questions];
             [self.tableView reloadData];
             [self.refreshControl endRefreshing];
+            [MBProgressHUD hideHUDForView:self.view animated:true];
         } else {
             NSLog(@"There was a problem fetching Questions: %@", error.localizedDescription);
         }

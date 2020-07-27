@@ -34,9 +34,9 @@
         [self.voteImageView setHighlighted:YES];
         [self.voteImageView setTintColor:UIColor.systemRedColor];
     } else {
+        [self.voteImageView setImage:nil];
 //        NSLog(@"The vote is not a yes or no, it is %@", vote);
-    }
-    
+    }    
 }
 
 @end

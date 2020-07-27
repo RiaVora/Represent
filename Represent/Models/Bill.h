@@ -31,12 +31,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSMutableArray *votesAgainst;
 @property (nonatomic) NSMutableArray *votesAbstain;
 @property (nonatomic, assign) BOOL *headBill;
-@property (nonatomic, strong) NSString *votesURL;
 @property (nonatomic, strong) NSString *committee;
 @property (nonatomic, strong) NSString *forDescription;
 @property (nonatomic, strong) NSString *againstDescription;
 
-+ (Bill *) updateBills: (NSDictionary *)dictionary;
++ (void) updateBills: (NSDictionary *)dictionary withCompletion:(void(^)(BOOL complete))completion;
++ (void) updateBills2: (NSDictionary *)dictionary;
 + (NSDate *)formatDate:(NSString *)dateString :(NSString *)timeString;
 - (NSString *)voteOfRepresentative: (NSString *)repID;
 
