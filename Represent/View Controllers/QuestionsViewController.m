@@ -183,6 +183,23 @@
     }
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete && [tableView isEqual:self.tableView]) {
+        //remove the deleted object from your data source.
+        //If your data source is an NSMutableArray, do this
+        Question *question = self.questions[indexPath.row];
+        [self.questions removeObjectAtIndex:indexPath.row];
+        [question deleteInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            if (succeeded) {
+                NSLog(@"Question successfully deleted!");
+            } else {
+                NSLog(@"Error with deleting question: %@", error.localizedDescription);
+            }
+        }];
+        [tableView reloadData]; // tell table to refresh now
+    }
+}
+
 #pragma mark - Actions
 
 - (IBAction)pushedRepresentative:(id)sender {
