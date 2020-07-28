@@ -35,8 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *forDescription;
 @property (nonatomic, strong) NSString *againstDescription;
 
-+ (void) updateBills: (NSDictionary *)dictionary withCompletion:(void(^)(BOOL complete))completion;
-+ (void) updateBills2: (NSDictionary *)dictionary;
++ (void) updateBills: (NSDictionary *)dictionary withCompletion:(void(^)(BOOL isDuplicate, Bill *bill))completion;
++ (void) updateBillsFromSearch: (NSDictionary *)dictionary withCompletion:(void(^)(Bill *bill))completion;
 + (NSDate *)formatDate:(NSString *)dateString :(NSString *)timeString;
 - (NSString *)voteOfRepresentative: (NSString *)repID;
 

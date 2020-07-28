@@ -37,7 +37,7 @@
 
 #pragma mark - Setup
 
-+ (void) updateBills: (NSDictionary *)dictionary withCompletion:(void(^)(BOOL complete))completion {
++ (void) updateBills: (NSDictionary *)dictionary withCompletion:(void(^)(BOOL isDuplicate, Bill *bill))completion {
     Bill *bill = [Bill new];
     if (dictionary[@"bill"][@"bill_id"]) {
         [bill setUpBill:dictionary[@"bill"]:dictionary];
@@ -55,50 +55,43 @@
                 [bill saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                     if (succeeded) {
                         NSLog(@"Bill %@ successfully saved", bill.billID);
-                        completion(TRUE);
+                        completion(NO, bill);
                     } else {
-                        completion(FALSE);
+                        completion(NO, nil);
                     }
                 }];
             } else {
-                completion(FALSE);
+                completion(NO, nil);
             }
         }];
     } else {
-        completion(FALSE);
+        completion(YES, bill);
     }
 }
 
-//+ (void) updateBills2: (NSDictionary *)dictionary {
-//    Bill *bill = [Bill new];
-//    if (dictionary[@"bill"][@"bill_id"]) {
-//        [bill setUpBill:dictionary[@"bill"]:dictionary];
-//    } else if (dictionary[@"nomination"][@"nomination_id"]) {
-//        [bill setUpNomination:dictionary[@"nomination"]:dictionary];
-//    } else {
-//        NSLog(@"THIS BILL IS NOT A NOMINATION OR BILL");
-//    }
-//    bill.date = [Bill formatDate:dictionary[@"date"] :dictionary[@"time"]];
-//    BOOL isDuplicate = [bill setHeadBill];
-//    if (!isDuplicate) {
-//        [bill setUpValues:dictionary];
-//        [bill setUpVotes:dictionary[@"vote_uri"] withCompletion:^(BOOL complete) {
-//            if (complete) {
-//                [bill saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-//                    if (succeeded) {
-//                        NSLog(@"Bill %@ successfully saved", bill.billID);
-//                    }
-//                }];
-//        }
-//            }];
-//    }
-//}
++ (void) updateBillsFromSearch: (NSDictionary *)dictionary withCompletion:(void(^)(Bill *bill))completion {
+    Bill *bill = [Bill new];
+    [bill setUpBill:dictionary:nil];
+    [bill setUpValues:dictionary];
+    [bill addVotes:dictionary[@"votes"]];
+    [bill saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+            NSLog(@"Bill %@ successfully saved", bill.billID);
+            completion(bill);
+        } else {
+            completion(nil);
+        }
+    }];
+}
+    
 
 - (void)setUpBill: (NSDictionary *)billDictionary :(NSDictionary *)dictionary {
     self.billID = billDictionary[@"bill_id"];
     self.number = billDictionary[@"number"];
     self.shortSummary = billDictionary[@"title"];
-    self.question = dictionary[@"question"];
+    if (dictionary) {
+        self.question = dictionary[@"question"];
+    }
 }
 
 - (void)setUpNomination: (NSDictionary *)nominationDictionary :(NSDictionary *)dictionary {
@@ -172,7 +165,6 @@
 - (BOOL)setHeadBill {
     PFQuery *billQuery = [PFQuery queryWithClassName:@"Bill"];
     [billQuery whereKey:@"billID" equalTo:self.billID];
-    NSLog(@"bill id is %@", self.billID);
     [billQuery orderByDescending:@"date"];
 
     NSArray *bills = [billQuery findObjects];
@@ -231,27 +223,5 @@
         return NO;
     }
 }
-
-//- (BOOL)repVotedFor:(NSString *)repID {
-//    return [self repVoted: self.votesFor forRep:repID];
-//}
-//
-//- (BOOL)repVotedAgainst:(NSString *)repID {
-//    return [self repVoted: self.votesAgainst forRep:repID];
-//}
-//
-//- (BOOL)repDidNotVote:(NSString *)repID {
-//    return [self repVoted: self.votesAbstain forRep:repID];
-//}
-//
-//- (BOOL)repVoted: (NSArray *)arrayOfVotes forRep:(NSString *)repID {
-//    for (User *currentRep in arrayOfVotes) {
-//        [currentRep fetchIfNeeded];
-//        if ([currentRep.representativeID isEqualToString:repID]) {
-//            return YES;
-//        }
-//    }
-//    return NO;
-//}
 
 @end

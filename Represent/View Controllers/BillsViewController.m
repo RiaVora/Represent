@@ -16,6 +16,7 @@
 @property (strong, nonatomic) NSDate *lastRefreshed;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (assign, nonatomic) BOOL isMoreDataLoading;
+@property (strong, nonatomic) APIManager *manager;
 @end
 
 static int OFFSET = 20;
@@ -27,30 +28,41 @@ static int OFFSET = 20;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.searchBar.delegate = self;
-    self.bills = [[NSMutableArray alloc] init];
-    [self initRefreshControl];
-    self.isMoreDataLoading = false;
-    self.lastRefreshed = [NSDate now];
+    [self setUpViews];
     [self getBillsParse:NO];
     [self updateBills];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    if (self.lastRefreshed.minutesAgo > 30) {
+        [self updateBills];
+    }
+}
+
+
+- (void)setUpViews {
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.searchBar.delegate = self;
+    self.bills = [[NSMutableArray alloc] init];
+    self.manager = [APIManager new];
+    self.isMoreDataLoading = false;
+    self.lastRefreshed = [NSDate now];
+    [self initRefreshControl];
+}
+
+
 - (void)fetchBills: (BOOL)getNewBills {
-    APIManager *manager = [APIManager new];
     int offset = 0;
     if (getNewBills) {
         offset = OFFSET;
     }
-    [manager fetchRecentBills:offset :^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
+    [self.manager fetchRecentBills:offset :^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
         if (error) {
             NSLog(@"Error with fetching recent bills: %@", error.localizedDescription);
         } else {
             NSLog(@"Successfully fetched new bills");
             [self checkBillsAsync:bills:getNewBills];
-            
         }
         
     }];
@@ -59,15 +71,21 @@ static int OFFSET = 20;
 
 - (void)checkBillsAsync: (NSArray *)bills :(BOOL)getNewBills {
     dispatch_semaphore_t semaphoreGroup = dispatch_semaphore_create(0);
-    
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         
+        int __block uniqueCount = 0;
         for (NSDictionary *dictionary in bills) {
-            [Bill updateBills:dictionary withCompletion:^(BOOL complete) {
-                if (complete) {
+            [Bill updateBills:dictionary withCompletion:^(BOOL isDuplicate, Bill *bill) {
+                if (bill) {
                     NSLog(@"Successfully saved bill in for loop");
+                    if (!isDuplicate) {
+                        NSLog(@"Found unique bill");
+                        uniqueCount++;
+                    } else {
+                        NSLog(@"Found duplicate, did not save bill");
+                    }
                 } else {
-                    NSLog(@"Found duplicate, did not save bill");
+                    NSLog(@"Error with checking existing bills with new bills");
                 }
                 dispatch_semaphore_signal(semaphoreGroup);
             }];
@@ -77,7 +95,10 @@ static int OFFSET = 20;
         
         dispatch_async(dispatch_get_main_queue(), ^(void){
             NSLog(@"Finished queue");
-            [self getBillsParse:getNewBills];
+            if (uniqueCount > 0) {
+                [self getBillsParse:getNewBills];
+            }
+            [self.refreshControl endRefreshing];
         });
     });
 }
@@ -114,7 +135,7 @@ static int OFFSET = 20;
             }
             [self.tableView reloadData];
             [self.refreshControl endRefreshing];
-            [UIView animateWithDuration:5 animations:^{
+            [UIView animateWithDuration:3 animations:^{
                 [MBProgressHUD hideHUDForView:self.view animated:true];
             }];
         }
@@ -157,25 +178,60 @@ static int OFFSET = 20;
 
 #pragma mark - Search Bar Delegate
 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    
-    if (searchText.length != 0) {
-        
-        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(Bill *evaluatedObject, NSDictionary *bindings) {
-            return [evaluatedObject.description containsString:searchText]; }];
-
-        self.filteredBills = [NSMutableArray arrayWithArray:[self.bills filteredArrayUsingPredicate:predicate]];
-        
-        NSLog(@"%@", self.filteredBills);
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    if (searchBar.text.length != 0) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [self fetchSearchedBills:searchBar.text];
         
     }
     else {
         self.filteredBills = self.bills;
     }
     
-    [self.tableView reloadData];
- 
 }
+
+- (void)fetchSearchedBills: (NSString *)query {
+    [self.manager fetchSearchedBills:query :^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
+        if (error) {
+            NSLog(@"Error with fetching searched bills from the API: %@", error.localizedDescription);
+        } else {
+            NSLog(@"Success with fetching searched bills from API!");
+            [self setUpSearchedBills: bills];
+        }
+    }];
+}
+
+- (void)setUpSearchedBills: (NSArray *)bills {
+    
+    dispatch_semaphore_t semaphoreGroup = dispatch_semaphore_create(0);
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        
+        for (NSDictionary *dictionary in bills) {
+            
+            [Bill updateBillsFromSearch:dictionary withCompletion:^(Bill * _Nonnull bill) {
+                if (bill) {
+                    NSLog(@"Found unique bill");
+                    self.filteredBills = [[NSMutableArray alloc] init];
+                    [self.filteredBills addObject:bill];
+                } else {
+                    NSLog(@"Error with checking existing bills with new bills");
+                }
+                dispatch_semaphore_signal(semaphoreGroup);
+            }];
+            
+            dispatch_semaphore_wait(semaphoreGroup, DISPATCH_TIME_FOREVER);
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^(void){
+            NSLog(@"Finished adding searched bills");
+            [self.tableView reloadData];
+            [UIView animateWithDuration:3 animations:^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+            }];
+        });
+    });
+}
+
 
 #pragma mark - Navigation
  

@@ -94,7 +94,7 @@
             self.questions = [NSMutableArray arrayWithArray:questions];
             [self.tableView reloadData];
             [self.refreshControl endRefreshing];
-            [UIView animateWithDuration:5 animations:^{
+            [UIView animateWithDuration:3 animations:^{
                 [MBProgressHUD hideHUDForView:self.view animated:true];
             }];
         } else {
@@ -124,7 +124,9 @@
 //            if (justPosted) {
 //                [self goToCell:(int)self.questions.count - 1];
 //            }
-            [MBProgressHUD hideHUDForView:self.view animated:true];
+            [UIView animateWithDuration:3 animations:^{
+                [MBProgressHUD hideHUDForView:self.view animated:true];
+            }];
         }
     }];
 }

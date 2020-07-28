@@ -37,19 +37,6 @@
     self.reccomendedReps = [[NSMutableArray alloc] init];
 }
 
-- (void)setUpCollectionView {
-//    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)
-//    self.collectionView.collectionViewLayout;
-    
-//    layout.minimumInteritemSpacing = 5;
-//    layout.minimumLineSpacing = 5;
-//    CGFloat votesPerLine = 6;
-//    CGFloat itemWidth = (self.collectionView.frame.size.width - layout.minimumInteritemSpacing * (votesPerLine - 1)) / votesPerLine;
-//    CGFloat itemHeight = 1.5 * itemWidth;
-//    
-//    layout.itemSize = CGSizeMake(itemWidth, itemHeight);
-}
-
 - (void)updateValues {
     self.titleLabel.text = self.bill.title;
     if (self.bill.shortSummary) {
@@ -83,37 +70,10 @@
             [self.collectionView reloadData];
         }
     }];
-//    BOOL cont = [self.bill.type isEqualToString:@"Senate"];
-//    if (cont) {
-//        [self updateVotesSenate];
-//        NSLog(@"This bill %@ is of type %@ and ran for Senate", self.bill.title, self.bill.type);
-////        NSLog(@"Representatives array is %@", self.reccomendedReps);
-//    } else {
-//        [self updateVotesHouse];
-//        NSLog(@"This bill %@ is of type %@ and ran for House", self.bill.title, self.bill.type);
-////        NSLog(@"Representatives array is %@", self.reccomendedReps);
-//    }
+
 
 }
 
-//- (void)updateVotesSenate {
-//    for (User *followedRep in self.user.followedRepresentatives) {
-//        [followedRep fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable followedRep, NSError * _Nullable error) {
-//            if (error) {
-//                NSLog(@"Error with fetching representative in followed Reps %@", error.localizedDescription);
-//            } else {
-//                User *followedRepresentative = (User *)followedRep;
-//                if ([followedRepresentative.shortPosition isEqualToString:@"Sen."] && ![self hasRep:followedRepresentative]) {
-//                    [self.reccomendedReps addObject:followedRep];
-//                }
-//            }
-//        }];
-//
-//    }
-//    [self addSponsor];
-//    [self.collectionView reloadData];
-//
-//}
 
 
 - (void)updateVotes: (NSString *)type withCompletion:(void(^)(BOOL success))completion {
