@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Question : PFObject<PFSubclassing>
 
+/*PROPERTIES*/
+
 /*The user who wrote the question.*/
 @property (nonatomic, strong) User *author;
 
@@ -28,6 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*The representative that the question is written for.*/
 @property (nonatomic, strong) User *representative;
+
+
+/*METHODS*/
 
 /*Is used externally to create a Question with the given arguments.*/
 + (void) postUserQuestion: ( NSString * _Nullable )question forRepresentative: ( User * _Nullable )representative withCompletion: (PFBooleanResultBlock  _Nullable)completion;

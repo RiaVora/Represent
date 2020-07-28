@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BillDetailsViewController : UIViewController
 
+/*PROPERTIES*/
+
 /*The bill of the cell that was tapped in the BillsViewController, used to pass the bill and its information to the detailed view.*/
 @property (strong, nonatomic) Bill *bill;
 

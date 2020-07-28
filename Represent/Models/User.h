@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface User : PFUser<PFSubclassing>
 
+/*PROPERTIES*/
+
 /*The first name of the user.*/
 @property (nonatomic, strong) NSString *firstName;
 
@@ -66,16 +68,30 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *representativeID;
 
 
+/*METHODS*/
 
-
+/*When creating a new User, returns the correct User sub-classed of PFUser.*/
 +(User*)user;
+
+/*Creates a new User object with the given parameters.*/
 - (void)signUpUser: (NSString *)firstName email:(NSString *)email state:(NSString *)state username:(NSString *)username password:(NSString *)password isRepresentative:(BOOL)isRepresentative withCompletion: (PFBooleanResultBlock  _Nullable)completion;
-- (void)findRepresentatives;
+
+/*Creates a new Representative User with the given dictionary.*/
 + (void) signUpRepresentative: (NSDictionary *)representative;
+
+/*Creates the full title of a representative User with their short position, first name, and last name.*/
 - (NSString *)fullTitleRepresentative;
+
+/*Returns whether the User has voted on a particular Question.*/
 - (BOOL)hasVoted:(Question *)question;
+
+/*If possible, has the User vote on the Question by changing vote count and voted Questions array.*/
 - (BOOL)voteOnQuestion:(Question *)question;
+
+/*Returns whether the User has votes remaining in their available vote count.*/
 - (BOOL)votesLeft;
+
+/*Checks when the user has last votes and updates their available vote count accordingly.*/
 - (void)updateAvailableVotes;
 
 @end

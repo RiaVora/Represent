@@ -181,6 +181,8 @@
     
 }
 
+#pragma mark - References
+
 - (NSString *)voteOfRepresentative: (NSString *)repID {
     if ([self repVotedFor:repID]) {
         return @"Yes";
@@ -195,6 +197,8 @@
         return @"No Vote Found";
     }
 }
+
+#pragma mark - Helpers
 
 - (BOOL)repVotedFor:(NSString *)repID {
     return [self repVoted: self.votesFor forRep:repID];

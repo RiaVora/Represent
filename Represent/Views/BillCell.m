@@ -29,6 +29,8 @@
 
 @implementation BillCell
 
+#pragma mark - Init
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.collectionView.delegate = self;
@@ -36,6 +38,8 @@
     self.user = [User currentUser];
     self.reccomendedReps = [[NSMutableArray alloc] init];
 }
+
+#pragma mark - Setup
 
 - (void)updateValues {
     self.titleLabel.text = self.bill.title;
@@ -70,11 +74,7 @@
             [self.collectionView reloadData];
         }
     }];
-    
-    
 }
-
-
 
 - (void)updateVotes: (NSString *)type withCompletion:(void(^)(BOOL success))completion {
     [self addFollowed:type];
@@ -83,6 +83,8 @@
         completion(success);
     }];
 }
+
+#pragma mark - Helpers
 
 - (void)addSponsor {
     [self.bill.sponsor fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable sponsor, NSError * _Nullable error) {

@@ -40,7 +40,6 @@
 - (void)setupValues {
     self.questionField.text = @"What do you want to ask?";
     self.questionField.textColor = UIColor.lightGrayColor;
-    
     self.representatives = [User currentUser].followedRepresentatives;
     [self.currentRepresentative fetch];
     [self.representativeButton setTitle:[self.currentRepresentative fullTitleRepresentative] forState:UIControlStateNormal];

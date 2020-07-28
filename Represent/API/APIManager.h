@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface APIManager : NSObject
 
+/*METHODS*/
+
 /*Fetches 20 recent bills from the API, offset by the given parameter.*/
 - (void)fetchRecentBills:(int)offset :(void(^)(NSArray *bills, NSError *error))completion;
 

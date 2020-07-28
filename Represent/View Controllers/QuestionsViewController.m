@@ -26,22 +26,14 @@
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
-    //    [User logOut];
+    // [User logOut];
     [super viewDidLoad];
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
     [self setUpTableViews];
     [self setUpViews];
-    //        [self postTestQuestion:@"i really have to know"];
-    //        [self postTestQuestion:@"thank you for your service"];
     [self fetchQuestions];
     [self initRefreshControl];
 }
-
-//- (void)viewDidAppear:(BOOL)animated {
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    [self setUpViews];
-//    [self fetchQuestions];
-//}
 
 #pragma mark - Setup
 

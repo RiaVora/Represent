@@ -21,12 +21,18 @@
 
 @implementation VoteCell
 
+#pragma mark - Setup
+
 - (void)updateValues {
     self.firstNameLabel.text = [NSString stringWithFormat: @"%@ %@", self.representative.shortPosition, self.representative.firstName];
     self.lastNameLabel.text = self.representative.lastName;
-    
-    [Utils setPartyLabel:self.representative.party :self.partyLabel];
     self.stateLabel.text = self.representative.state.uppercaseString;
+    [Utils setPartyLabel:self.representative.party :self.partyLabel];
+    [self setVote];
+    [self setSponsor];
+}
+
+- (void)setVote {
     NSString *vote = [self.bill voteOfRepresentative:self.representative.representativeID];
     if ([vote isEqualToString:@"Yes"]) {
         [self.voteImageView setHighlighted:NO];
@@ -37,7 +43,9 @@
     } else {
         [self.voteImageView setImage:nil];
     }
-    
+}
+
+- (void)setSponsor {
     if ([self.representative.representativeID isEqualToString:self.bill.sponsor.representativeID]) {
         [self.sponsorImageView setHidden:NO];
     } else {

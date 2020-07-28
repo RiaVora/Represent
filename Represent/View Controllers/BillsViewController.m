@@ -39,6 +39,7 @@ static int OFFSET = 20;
     }
 }
 
+#pragma mark - Setup
 
 - (void)setUpViews {
     self.tableView.delegate = self;
@@ -51,6 +52,13 @@ static int OFFSET = 20;
     [self initRefreshControl];
 }
 
+- (void)initRefreshControl {
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(updateBills) forControlEvents:UIControlEventValueChanged];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
+}
+
+#pragma mark - Data Query
 
 - (void)fetchBills: (BOOL)getNewBills {
     int offset = 0;
@@ -64,9 +72,7 @@ static int OFFSET = 20;
             NSLog(@"Successfully fetched new bills");
             [self checkBillsAsync:bills:getNewBills];
         }
-        
     }];
-    
 }
 
 - (void)checkBillsAsync: (NSArray *)bills :(BOOL)getNewBills {
@@ -142,11 +148,6 @@ static int OFFSET = 20;
     }];
 }
 
-- (void)initRefreshControl {
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(updateBills) forControlEvents:UIControlEventValueChanged];
-    [self.tableView insertSubview:self.refreshControl atIndex:0];
-}
 
 #pragma mark - UITableViewDataSource
 
@@ -202,7 +203,6 @@ static int OFFSET = 20;
 }
 
 - (void)setUpSearchedBills: (NSArray *)bills {
-    
     dispatch_semaphore_t semaphoreGroup = dispatch_semaphore_create(0);
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         

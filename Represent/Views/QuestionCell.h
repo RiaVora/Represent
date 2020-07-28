@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface QuestionCell : UITableViewCell
 
+/*PROPERTIES*/
+
 /*Represents the question associated with this QuestionCell, and is assigned externally by the QuestionsViewController.*/
 @property (strong, nonatomic) Question *question;
 
@@ -31,6 +33,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*Part of the QuestionCellDelegate implementation, and is assigned externally by the QuestionsViewController.*/
 @property (nonatomic, weak) id<QuestionCellDelegate> delegate;
+
+
+/*METHODS*/
 
 /*Used to update the labels, buttons, and views in the QuestionCell, and is called externally by the QuestionsViewController.*/
 - (void)updateValues: (NSInteger)row;

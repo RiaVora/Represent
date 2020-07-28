@@ -27,21 +27,9 @@
 
 #pragma mark - UIViewController
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.facebookButton.layer.cornerRadius = 10;
-    
-    //    FBSDKLoginButton *loginButton = [[FBSDKLoginButton alloc] init];
-    // Optional: Place the button in the center of your view.
-    //    self.facebookButton = loginButton;
-    //    [self.view addSubview:self.facebookButton];
-    
-    //        [self loginThroughFacebook: [FBSDKAccessToken currentAccessToken]];
-    //        [self performSegueWithIdentifier:@"loginSegue" sender:nil];
-    
-    
-    
 }
 
 #pragma mark - Setup
@@ -111,6 +99,8 @@
     
     
 }
+
+#pragma mark - Helpers
 
 - (void)signUpFacebookUser: (PFUser *)user {
     FBSDKProfile *profile = [FBSDKProfile currentProfile];

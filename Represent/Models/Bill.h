@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Bill : PFObject<PFSubclassing>
 
+/*PROPERTIES*/
+
 /*The unique bill ID assigned by Congress, used to distinguish updates, duplicates, and new bills.*/
 @property (nonatomic, strong) NSString *billID;
 
@@ -58,6 +60,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*A short description of the argument for voting "No" to the bill.*/
 @property (nonatomic, strong) NSString *againstDescription;
+
+
+/*METHODS*/
 
 /*Creates a new bill or discards a duplicate based on the dictionary passed in, used by BillsViewController.*/
 + (void) updateBills: (NSDictionary *)dictionary withCompletion:(void(^)(BOOL isDuplicate, Bill *bill))completion;
