@@ -114,7 +114,9 @@ static int OFFSET = 20;
             }
             [self.tableView reloadData];
             [self.refreshControl endRefreshing];
-            [MBProgressHUD hideHUDForView:self.view animated:true];
+            [UIView animateWithDuration:5 animations:^{
+                [MBProgressHUD hideHUDForView:self.view animated:true];
+            }];
         }
     }];
 }
