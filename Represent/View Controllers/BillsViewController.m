@@ -32,9 +32,6 @@ static int OFFSET = 20;
     self.isMoreDataLoading = false;
     self.lastRefreshed = [NSDate now];
     [self getBillsParse:NO];
-    if (self.bills.count == 0) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:true];
-    }
     [self updateBills];
 }
 
@@ -49,7 +46,7 @@ static int OFFSET = 20;
             NSLog(@"Error with fetching recent bills: %@", error.localizedDescription);
         } else {
             NSLog(@"Successfully fetched new bills");
-            [self updateBillsAsync:bills:getNewBills];
+            [self checkBillsAsync:bills:getNewBills];
             
         }
         
@@ -57,7 +54,7 @@ static int OFFSET = 20;
    
 }
 
-- (void)updateBillsAsync: (NSArray *)bills :(BOOL)getNewBills {
+- (void)checkBillsAsync: (NSArray *)bills :(BOOL)getNewBills {
     dispatch_semaphore_t semaphoreGroup = dispatch_semaphore_create(0);
     
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){

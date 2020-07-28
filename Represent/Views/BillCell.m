@@ -82,19 +82,39 @@
     BOOL cont = [self.bill.type isEqualToString:@"Senate"];
     if (cont) {
         [self updateVotesSenate];
+        NSLog(@"This bill %@ is of type %@ and ran for Senate", self.bill.title, self.bill.type);
+        NSLog(@"Representatives array is %@", self.reccomendedReps);
     } else {
         [self updateVotesHouse];
+//        NSLog(@"This bill %@ is of type %@ and ran for House", self.bill.title, self.bill.type);
+//        NSLog(@"Representatives array is %@", self.reccomendedReps);
     }
 
 }
 
 - (void)updateVotesSenate {
     for (User *followedRep in self.user.followedRepresentatives) {
-        if ([followedRep.shortPosition isEqualToString:@"Sen."] && ![self hasRep:followedRep]) {
-            [self.reccomendedReps addObject:followedRep];
-        }
+        [followedRep fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable followedRep, NSError * _Nullable error) {
+            if (error) {
+                NSLog(@"Error with fetching representative in followed Reps %@", error.localizedDescription);
+            } else {
+                User *followedRepresentative = (User *)followedRep;
+                if ([followedRepresentative.shortPosition isEqualToString:@"Sen."] && ![self hasRep:followedRepresentative]) {
+                    [self.reccomendedReps addObject:followedRep];
+                }
+            }
+        }];
+        
     }
-//    [self.reccomendedReps addObject:self.bill.sponsor];
+    [self.bill.sponsor fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable sponsor, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error with fetching sponsor: %@", error.localizedDescription);
+        } else {
+            if (![self hasRep:self.bill.sponsor]) {
+                [self.reccomendedReps addObject:sponsor];
+            }
+        }
+    }];
     [self.collectionView reloadData];
     [MBProgressHUD hideHUDForView:self.collectionView animated:YES];
 

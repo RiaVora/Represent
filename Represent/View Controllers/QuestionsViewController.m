@@ -119,9 +119,9 @@
                 [self.questions addObject:question];
             }
             [self.tableView reloadData];
-            if (justPosted) {
-                [self goToCell:(int)self.questions.count - 1];
-            }
+//            if (justPosted) {
+//                [self goToCell:(int)self.questions.count - 1];
+//            }
             [MBProgressHUD hideHUDForView:self.view animated:true];
         }
     }];
@@ -129,9 +129,10 @@
 
 - (void)goToCell: (int)row {
     NSIndexPath *newQuestionPath = [NSIndexPath indexPathForRow:row inSection:0];
-    [self.tableView scrollToRowAtIndexPath: newQuestionPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     QuestionCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"QuestionCell" forIndexPath:newQuestionPath];
+    [self.tableView scrollToRowAtIndexPath: newQuestionPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     [cell setSelected:YES animated:YES];
+    
 }
 
 
@@ -185,8 +186,6 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete && [tableView isEqual:self.tableView]) {
-        //remove the deleted object from your data source.
-        //If your data source is an NSMutableArray, do this
         Question *question = self.questions[indexPath.row];
         [self.questions removeObjectAtIndex:indexPath.row];
         [question deleteInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
@@ -196,7 +195,7 @@
                 NSLog(@"Error with deleting question: %@", error.localizedDescription);
             }
         }];
-        [tableView reloadData]; // tell table to refresh now
+        [tableView reloadData];
     }
 }
 
@@ -251,7 +250,6 @@
         [self postQuestion: questionText];
     }
 
-
 }
 
 - (void)postQuestion: (NSString *)questionText {
@@ -263,7 +261,7 @@
             NSLog(@"Successfully posted Question %@ for %@!", questionText, self.currentRepresentative.username);
             [self setUpViews];
             [self fetchQuestions];
-            [self fetchMoreQuestions:YES];
+//            [self fetchMoreQuestions:YES];
         }
     }];
 }

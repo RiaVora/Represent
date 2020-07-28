@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *partyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *stateLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *voteImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *sponsorImageView;
 
 @end
 
@@ -36,7 +37,13 @@
     } else {
         [self.voteImageView setImage:nil];
 //        NSLog(@"The vote is not a yes or no, it is %@", vote);
-    }    
+    }
+    
+    if ([self.representative.representativeID isEqualToString:self.bill.sponsor.representativeID]) {
+        [self.sponsorImageView setHidden:NO];
+    } else {
+        [self.sponsorImageView setHidden:YES];
+    }
 }
 
 @end

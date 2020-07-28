@@ -229,7 +229,7 @@
                                                 <constraint firstItem="QUQ-91-UlW" firstAttribute="leading" secondItem="o7t-aE-qBR" secondAttribute="leading" id="nmR-oz-pJ8"/>
                                                 <constraint firstItem="o7t-aE-qBR" firstAttribute="top" secondItem="mWD-il-cPI" secondAttribute="bottom" constant="15" id="qgV-hw-8Pr"/>
                                                 <constraint firstItem="ueZ-wK-gz9" firstAttribute="bottom" secondItem="pUe-IJ-hAi" secondAttribute="bottom" id="r93-oI-glO"/>
-                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="QUQ-91-UlW" secondAttribute="bottom" constant="20" id="rZm-Hx-he4"/>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="QUQ-91-UlW" secondAttribute="bottom" constant="10" id="rZm-Hx-he4"/>
                                                 <constraint firstItem="o7t-aE-qBR" firstAttribute="top" secondItem="eON-tz-drz" secondAttribute="top" id="s1N-gy-8MD"/>
                                                 <constraint firstItem="pUe-IJ-hAi" firstAttribute="leading" secondItem="V4F-j5-FhU" secondAttribute="trailing" constant="2" id="tZC-cP-3dS"/>
                                                 <constraint firstItem="pUe-IJ-hAi" firstAttribute="bottom" secondItem="V4F-j5-FhU" secondAttribute="bottom" id="wOf-4A-QKk"/>
@@ -544,13 +544,23 @@
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="FM6-aL-xAk">
+                                                                        <rect key="frame" x="74" y="14.5" width="20" height="20"/>
+                                                                        <color key="tintColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="21" id="AbI-nI-jpb"/>
+                                                                            <constraint firstAttribute="width" constant="20" id="FRn-Cu-hFT"/>
+                                                                        </constraints>
+                                                                    </imageView>
                                                                 </subviews>
                                                                 <constraints>
+                                                                    <constraint firstItem="ui0-kG-5uG" firstAttribute="top" secondItem="FM6-aL-xAk" secondAttribute="bottom" constant="3" id="BzZ-lJ-Rhv"/>
                                                                     <constraint firstAttribute="bottom" secondItem="ui0-kG-5uG" secondAttribute="bottom" constant="6" id="C2m-1f-EX6"/>
                                                                     <constraint firstItem="J74-Et-Fvl" firstAttribute="leading" secondItem="E8C-EI-kar" secondAttribute="trailing" constant="2" id="FFQ-uP-jHC"/>
                                                                     <constraint firstItem="J74-Et-Fvl" firstAttribute="top" secondItem="E8C-EI-kar" secondAttribute="top" id="Hdk-yJ-CV0"/>
                                                                     <constraint firstItem="ui0-kG-5uG" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="eW2-UA-bnQ" secondAttribute="trailing" constant="7" id="JFO-P8-ZmQ"/>
                                                                     <constraint firstItem="E8C-EI-kar" firstAttribute="top" secondItem="aku-p8-r6b" secondAttribute="bottom" constant="3" id="Oy3-Ts-0QL"/>
+                                                                    <constraint firstItem="ui0-kG-5uG" firstAttribute="leading" secondItem="FM6-aL-xAk" secondAttribute="leading" id="PWP-zg-dEy"/>
                                                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="aku-p8-r6b" secondAttribute="trailing" constant="5" id="Q2h-Q8-GcU"/>
                                                                     <constraint firstItem="jIz-Ue-tu3" firstAttribute="leading" secondItem="jEF-T4-I8r" secondAttribute="leading" constant="10" id="UQI-zi-NHB"/>
                                                                     <constraint firstAttribute="trailing" secondItem="ui0-kG-5uG" secondAttribute="trailing" constant="6" id="Vtn-Ts-lb0"/>
@@ -568,6 +578,7 @@
                                                                 <outlet property="firstNameLabel" destination="jIz-Ue-tu3" id="aQH-oX-IVK"/>
                                                                 <outlet property="lastNameLabel" destination="aku-p8-r6b" id="HZu-56-Y2Y"/>
                                                                 <outlet property="partyLabel" destination="E8C-EI-kar" id="RdQ-hz-P0X"/>
+                                                                <outlet property="sponsorImageView" destination="FM6-aL-xAk" id="IoN-VE-K17"/>
                                                                 <outlet property="stateLabel" destination="eW2-UA-bnQ" id="t7l-uy-S3s"/>
                                                                 <outlet property="voteImageView" destination="ui0-kG-5uG" id="OXI-jq-SEt"/>
                                                             </connections>
@@ -1313,6 +1324,7 @@
         <image name="chevron.down" catalog="system" width="128" height="72"/>
         <image name="person" catalog="system" width="128" height="117"/>
         <image name="questionmark.circle" catalog="system" width="128" height="121"/>
+        <image name="star.circle.fill" catalog="system" width="128" height="121"/>
         <image name="xmark.circle.fill" catalog="system" width="128" height="121"/>
     </resources>
 </document>
