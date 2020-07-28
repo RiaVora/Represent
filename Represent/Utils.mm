@@ -11,6 +11,8 @@
 static const NSArray *passed = [NSArray arrayWithObjects: @"Passed", @"Agreed to", @"Amendment Agreed to", @"Nomination Confirmed", @"Bill Passed", @"Cloture Motion Agreed to", @"Motion Agreed to", @"Motion to Proceed Agreed to", @"Motion to Table Agreed to", @"Cloture on the Motion to Proceed Agreed to", nil];
 static const NSArray *failed = [NSArray arrayWithObjects: @"Failed", @"Amendment Rejected", @"Cloture Motion Rejected", @"Motion Rejected", @"Motion to Proceed Rejected", @"Motion to Table Rejected", @"Cloture on the Motion to Proceed Rejected", @"Bill Failed", @"Veto Sustained", @"Motion Rejected", nil];
 static const NSArray *parties = [NSArray arrayWithObjects: @"No Party Chosen", @"Democrat", @"Republican", @"Independent", @"Non-Affiliated", nil];
+static const NSArray *filters = [NSArray arrayWithObjects: @"Senate", @"House", nil];
+
 
 @implementation Utils
 
@@ -143,6 +145,14 @@ static const NSArray *parties = [NSArray arrayWithObjects: @"No Party Chosen", @
 
 + (NSInteger)getPartyLength {
     return parties.count;
+}
+
++ (NSString *)getFilterAt: (int)index {
+    return filters[index];
+}
+
++ (NSInteger)getFilterLength {
+    return filters.count;
 }
 
 @end

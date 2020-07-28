@@ -60,6 +60,13 @@ NS_ASSUME_NONNULL_BEGIN
 /*Returns the number of parties, used for a dropdown menu in the ProfileViewController.*/
 + (NSInteger)getPartyLength;
 
+/*Returns a party given an index, used for a dropdown filter menu in the BillsViewController.*/
++ (NSString *)getFilterAt: (int)index;
+
+/*Returns the number of filters, used for a dropdown filter menu in the BillsViewController.*/
++ (NSInteger)getFilterLength;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

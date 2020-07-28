@@ -103,9 +103,16 @@
 #pragma mark - Helpers
 
 - (void)signUpFacebookUser: (PFUser *)user {
+    
+//    FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:@"/{person-id}/" parameters:nil HTTPMethod:@"GET"];
+//    [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
+//                                          id result,
+//                                          NSError *error) {
+//    }];
+    NSLog(@"email2 is %@", user.email);
     FBSDKProfile *profile = [FBSDKProfile currentProfile];
     User *newUser = [User new];
-    [newUser signUpUser:profile.firstName email:user.email state:@"CA" username:profile.name password:user.username isRepresentative:NO withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+    [newUser signUpUser:profile.firstName email:user.email state:@"CA" username:profile.name password:[FBSDKAccessToken currentAccessToken].userID isRepresentative:NO withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error with logging in given Facebook user as a Represent User: %@", error.localizedDescription);
         } else {
@@ -116,8 +123,9 @@
 }
 
 - (void)logInFacebookUser: (PFUser *)user {
+    NSLog(@"email is %@", user.email);
     FBSDKProfile *profile = [FBSDKProfile currentProfile];
-    [User logInWithUsernameInBackground:profile.name password:user.username block:^(PFUser * _Nullable user, NSError * _Nullable error) {
+    [User logInWithUsernameInBackground:profile.name password:[FBSDKAccessToken currentAccessToken].userID block:^(PFUser * _Nullable user, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error with logging in with existing user using Facebook: %@", error.localizedDescription);
         } else {

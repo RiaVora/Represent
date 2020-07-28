@@ -201,7 +201,6 @@
 
 - (IBAction)pressedParty:(id)sender {
     self.tableViewParty.hidden = !(self.tableViewParty.hidden);
-    
 }
 
 - (IBAction)pressedLogout:(id)sender {
@@ -272,8 +271,10 @@
             if (error) {
                 NSLog(@"Error logging out: %@", error.localizedDescription);
             } else {
-                FBSDKLoginManager *loginManager = [FBSDKLoginManager new];
-                [loginManager logOut];
+                if ([FBSDKAccessToken currentAccessToken]) {
+                    FBSDKLoginManager *loginManager = [[FBSDKLoginManager alloc] init];
+                    [loginManager logOut];
+                }
                 [self performSegueWithIdentifier:@"logoutSegue" sender:sender];
             }
         }];

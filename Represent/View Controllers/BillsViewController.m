@@ -10,6 +10,7 @@
 
 @interface BillsViewController () <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UITableView *tableViewFilter;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) NSMutableArray *bills;
 @property (strong, nonatomic) NSMutableArray *filteredBills;
@@ -17,6 +18,8 @@
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (assign, nonatomic) BOOL isMoreDataLoading;
 @property (strong, nonatomic) APIManager *manager;
+@property (strong, nonatomic) NSMutableArray *filters;
+
 @end
 
 static int OFFSET = 20;
@@ -30,7 +33,6 @@ static int OFFSET = 20;
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
     [self setUpViews];
     [self getBillsParse:NO];
-    [self updateBills];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -44,8 +46,14 @@ static int OFFSET = 20;
 - (void)setUpViews {
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableViewFilter.delegate = self;
+    self.tableViewFilter.dataSource = self;
+    self.tableViewFilter.hidden = YES;
     self.searchBar.delegate = self;
+    [self.searchBar setImage:[UIImage systemImageNamed:@"line.horizontal.3"] forSearchBarIcon:UISearchBarIconBookmark state:UIControlStateNormal];
     self.bills = [[NSMutableArray alloc] init];
+    self.filteredBills = [[NSMutableArray alloc] init];
+    self.filters = [[NSMutableArray alloc] init];
     self.manager = [APIManager new];
     self.isMoreDataLoading = false;
     self.lastRefreshed = [NSDate now];
@@ -77,7 +85,7 @@ static int OFFSET = 20;
 
 - (void)checkBillsAsync: (NSArray *)bills :(BOOL)getNewBills {
     dispatch_semaphore_t semaphoreGroup = dispatch_semaphore_create(0);
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         
         int __block uniqueCount = 0;
         for (NSDictionary *dictionary in bills) {
@@ -103,13 +111,19 @@ static int OFFSET = 20;
             NSLog(@"Finished queue");
             if (uniqueCount > 0) {
                 [self getBillsParse:getNewBills];
+            } else {
+                [self.refreshControl endRefreshing];
+                [UIView animateWithDuration:3 animations:^{
+                    [MBProgressHUD hideHUDForView:self.view animated:true];
+                }];
             }
-            [self.refreshControl endRefreshing];
+
         });
     });
 }
 
 - (void)updateBills {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.lastRefreshed = [NSDate now];
     [self fetchBills:NO];
 }
@@ -118,6 +132,9 @@ static int OFFSET = 20;
     PFQuery *billQuery = [Bill query];
     [billQuery orderByDescending:@"date"];
     [billQuery whereKey:@"headBill" equalTo:@(YES)];
+    if (self.filters.count > 0) {
+        [billQuery whereKey:@"type" containedIn:self.filters];
+    }
     [billQuery includeKey:@"sponsor"];
     billQuery.limit = 20;
     if (shouldLoadMore) {
@@ -152,14 +169,47 @@ static int OFFSET = 20;
 #pragma mark - UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    BillCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BillCell"];
-    cell.bill = self.filteredBills[indexPath.row];
-    [cell updateValues];
-    return cell;
+    if ([tableView isEqual: self.tableView]) {
+        BillCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BillCell"];
+        cell.bill = self.filteredBills[indexPath.row];
+        [cell updateValues];
+        return cell;
+    } else {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleCell"];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SimpleCell"];
+        }
+        cell.textLabel.text = [Utils getFilterAt:(int)indexPath.row];
+        return cell;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.filteredBills.count;
+    if ([tableView isEqual: self.tableView]) {
+        return self.filteredBills.count;
+    } else {
+        return [Utils getFilterLength];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([tableView isEqual: self.tableViewFilter]) {
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        [self updateFilters:cell.textLabel.text forCell:cell];
+        self.tableViewFilter.hidden = YES;
+        [self getBillsParse:NO];
+    }
+
+}
+
+- (void)updateFilters: (NSString *)filter forCell:(UITableViewCell *)cell {
+    if ([self.filters containsObject:filter]) {
+        [self.filters removeObject:filter];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    } else {
+        [self.filters addObject:filter];
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -183,12 +233,15 @@ static int OFFSET = 20;
     if (searchBar.text.length != 0) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [self fetchSearchedBills:searchBar.text];
-        
     }
     else {
         self.filteredBills = self.bills;
     }
     
+}
+
+- (void)searchBarBookmarkButtonClicked:(UISearchBar *)searchBar {
+    self.tableViewFilter.hidden = !(self.tableViewFilter.hidden);
 }
 
 - (void)fetchSearchedBills: (NSString *)query {

@@ -58,7 +58,6 @@ static NSString * const baseURLString = @"https://api.propublica.org/congress/v1
         else {
             NSLog(@"Success fetching searched bills!");
             NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            //            NSLog(@"bills are %@", dataDictionary[@"results"][@"bills"]);
             completion(dataDictionary[@"results"][0][@"bills"], nil);
         }
     }];
