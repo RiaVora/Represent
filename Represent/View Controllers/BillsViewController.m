@@ -205,16 +205,15 @@ static int OFFSET = 20;
 - (void)setUpSearchedBills: (NSArray *)bills {
     dispatch_semaphore_t semaphoreGroup = dispatch_semaphore_create(0);
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-        
+        self.filteredBills = [[NSMutableArray alloc] init];
         for (NSDictionary *dictionary in bills) {
             
             [Bill updateBillsFromSearch:dictionary withCompletion:^(Bill * _Nonnull bill) {
                 if (bill) {
-                    NSLog(@"Found unique bill");
-                    self.filteredBills = [[NSMutableArray alloc] init];
+                    NSLog(@"Found bill that has been on the floor");
                     [self.filteredBills addObject:bill];
                 } else {
-                    NSLog(@"Error with checking existing bills with new bills");
+                    NSLog(@"Either an error or the bill has not been on the floor");
                 }
                 dispatch_semaphore_signal(semaphoreGroup);
             }];

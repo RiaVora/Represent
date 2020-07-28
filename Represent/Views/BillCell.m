@@ -36,7 +36,6 @@
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.user = [User currentUser];
-    self.reccomendedReps = [[NSMutableArray alloc] init];
 }
 
 #pragma mark - Setup
@@ -67,6 +66,7 @@
     self.votesForLabel.text = [NSString stringWithFormat:@"%ld", (long)self.bill.votesFor.count];
     self.votesAgainstLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAgainst.count];
     self.votesAbstainLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAbstain.count];
+    self.reccomendedReps = [[NSMutableArray alloc] init];
     [self updateVotes:self.bill.type withCompletion:^(BOOL success) {
         if (!success) {
             NSLog(@"Error with finding reccomended representatives");

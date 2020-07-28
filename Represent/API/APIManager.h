@@ -30,6 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*Fetches the votes of each representative, and is associated with a recent bill.*/
 - (void)fetchVotes: (NSString *)votesURL :(void(^)(NSArray *votes, NSError *error))completion;
+
+/*Fetches the contents of a bill given a URL.*/
+- (void)fetchSpecificBill: (NSString *)billURL :(void(^)(NSDictionary *bill, NSError *error))completion;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -37,7 +37,7 @@
 + (void) updateBills: (NSDictionary *)dictionary withCompletion:(void(^)(BOOL isDuplicate, Bill *bill))completion {
     Bill *bill = [Bill new];
     if (dictionary[@"bill"][@"bill_id"]) {
-        [bill setUpBill:dictionary[@"bill"]:dictionary];
+        [bill setUpBill:dictionary[@"bill"]];
     } else if (dictionary[@"nomination"][@"nomination_id"]) {
         [bill setUpNomination:dictionary[@"nomination"]:dictionary];
     } else {
@@ -68,21 +68,53 @@
 
 + (void) updateBillsFromSearch: (NSDictionary *)dictionary withCompletion:(void(^)(Bill *bill))completion {
     Bill *bill = [Bill new];
-    [bill setUpBill:dictionary:nil];
-    [bill setUpValues:dictionary];
-    [bill addVotes:dictionary[@"votes"]];
-    [bill saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (succeeded) {
-            NSLog(@"Bill %@ successfully saved", bill.billID);
-            completion(bill);
+    [bill getFullBill:dictionary[@"bill_uri"] withCompletion:^(NSDictionary *billDictionary) {
+        if (billDictionary) {
+            if ([billDictionary[@"votes"] count] != 0) {
+                [bill setUpValuesSearch:billDictionary:billDictionary[@"votes"][0]];
+                BOOL isDuplicate = [bill setHeadBill];
+                [bill setUpVotes:billDictionary[@"votes"][0][@"api_url"] withCompletion:^(BOOL complete) {
+                    if (complete) {
+                        if (isDuplicate) {
+                            completion(bill);
+                        } else {
+                            [bill saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                                if (succeeded) {
+                                    NSLog(@"Bill %@ successfully saved", bill.billID);
+                                    completion(bill);
+                                } else {
+                                    completion(nil);
+                                }
+                            }];
+                        }
+                        
+                    } else {
+                        completion(nil);
+                    }
+                }];
+            } else {
+                completion(nil);
+            }
         } else {
             completion(nil);
         }
     }];
 }
 
+- (void)getFullBill: (NSString *)billURL withCompletion:(void(^)(NSDictionary *billDictionary))completion{
+    APIManager *manager = [APIManager new];
+    [manager fetchSpecificBill:billURL :^(NSDictionary * _Nonnull bill, NSError * _Nonnull error) {
+        if (error) {
+            NSLog(@"Error with fetching full bill from API: %@", error.localizedDescription);
+            completion(nil);
+        } else {
+            completion(bill);
+        }
+    }];
+}
 
-- (void)setUpBill: (NSDictionary *)billDictionary :(NSDictionary *)dictionary {
+
+- (void)setUpBill: (NSDictionary *)billDictionary {
     self.billID = billDictionary[@"bill_id"];
     self.shortSummary = billDictionary[@"title"];
 }
@@ -102,6 +134,21 @@
     self.title = dictionary[@"description"];
     self.result = dictionary[@"result"];
 }
+- (void)setUpValuesSearch:(NSDictionary *)billDictionary :(NSDictionary *)voteDictionary  {
+    self.billID = billDictionary[@"bill_id"];
+    self.date = [Bill formatDate:voteDictionary[@"date"] :voteDictionary[@"time"]];
+    self.votesFor = [[NSMutableArray alloc] init];
+    self.votesAgainst = [[NSMutableArray alloc] init];
+    self.votesAbstain = [[NSMutableArray alloc] init];
+    [self findSponsor:billDictionary[@"sponsor_id"]];
+    self.title = billDictionary[@"short_title"];
+    self.shortSummary = billDictionary[@"summary_short"];
+    self.result = voteDictionary[@"result"];
+    self.type = voteDictionary[@"chamber"];
+    NSLog(@"CHAMBER SET IS %@", voteDictionary[@"chamber"]);
+}
+
+
 
 - (void)setUpVotes: (NSString *)votesURL withCompletion:(void(^)(BOOL complete))completion {
     APIManager *manager = [APIManager new];
