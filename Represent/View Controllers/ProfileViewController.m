@@ -43,6 +43,8 @@
     [self setUpViews];
 }
 
+#pragma mark - Setup
+
 - (void)checkUser {
     if (!self.user) {
         self.user = [User currentUser];

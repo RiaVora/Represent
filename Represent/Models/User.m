@@ -110,6 +110,20 @@
     return !hasVoted;
 }
 
+- (void)updateAvailableVotes {
+    NSDate *now = [NSDate date];
+    if (!self.lastVoted || ![[NSCalendar currentCalendar] isDate:now inSameDayAsDate:self.lastVoted]) {
+        self.availableVoteCount = [NSNumber numberWithInt:5];
+        [self saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            if (!succeeded) {
+                NSLog(@"Error with refreshing available votes %@", error.localizedDescription);
+            } else {
+                NSLog(@"Success with refreshing available votes!");
+            }
+        }];
+    }
+}
+
 #pragma mark - Helpers
 
 - (NSString *)fullTitleRepresentative {
@@ -131,20 +145,6 @@
 
 - (BOOL)votesLeft {
     return [self.availableVoteCount intValue] > 0;
-}
-
-- (void)updateAvailableVotes {
-    NSDate *now = [NSDate date];
-    if (!self.lastVoted || ![[NSCalendar currentCalendar] isDate:now inSameDayAsDate:self.lastVoted]) {
-        self.availableVoteCount = [NSNumber numberWithInt:5];
-        [self saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-            if (!succeeded) {
-                NSLog(@"Error with refreshing available votes %@", error.localizedDescription);
-            } else {
-                NSLog(@"Success with refreshing available votes!");
-            }
-        }];
-    }
 }
 
 @end

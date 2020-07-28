@@ -23,6 +23,8 @@
 
 @implementation BillDetailsViewController
 
+#pragma mark - UIViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView.delegate = self;
@@ -31,6 +33,8 @@
     [self updateValues];
     [self fetchBills];
 }
+
+#pragma mark - Setup
 
 - (void)updateValues {
     self.titleLabel.text = self.bill.title;
@@ -47,6 +51,8 @@
     self.votesAbstainLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAbstain.count];
 }
 
+#pragma mark - Data Query
+
 - (void)fetchBills {
     PFQuery *billQuery = [Bill query];
     [billQuery whereKey:@"billID" equalTo:self.bill.billID];
@@ -62,6 +68,8 @@
     
 }
 
+#pragma mark - UITableViewDataSource
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     BillCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BillCell"];
     cell.bill = self.bills[indexPath.row];
@@ -74,14 +82,5 @@
     return self.bills.count;
     
 }
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

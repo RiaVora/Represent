@@ -44,23 +44,18 @@ static const NSArray *parties = [NSArray arrayWithObjects: @"No Party Chosen", @
 + (void)displayAlertWithOk:(NSString *)title message:(NSString *)message viewController:(UIViewController *)viewController {
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
-    
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                      handler:^(UIAlertAction * _Nonnull action) {}];
-    
     [alert addAction:okAction];
-    
     [viewController presentViewController:alert animated:YES completion:^{}];
 }
 
 + (UIAlertController *)makeAlert:(NSString *)title :(NSString *)message {
-    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
     return alert;
 }
 
 + (UIAlertController *)makeBottomAlert:(NSString *)title :(NSString *)message {
-    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleActionSheet)];
     return alert;
 }
@@ -71,7 +66,7 @@ static const NSArray *parties = [NSArray arrayWithObjects: @"No Party Chosen", @
     if (!image) {
         return nil;
     }
-    
+
     NSData *imageData = UIImagePNGRepresentation(image);
     if (!imageData) {
         return nil;
@@ -84,7 +79,7 @@ static const NSArray *parties = [NSArray arrayWithObjects: @"No Party Chosen", @
     UIImageView *resizeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
     resizeImageView.contentMode = UIViewContentModeScaleAspectFill;
     resizeImageView.image = image;
-    
+
     UIGraphicsBeginImageContext(size);
     [resizeImageView.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -92,6 +87,8 @@ static const NSArray *parties = [NSArray arrayWithObjects: @"No Party Chosen", @
     
     return newImage;
 }
+
+#pragma mark - Labels/Buttons
 
 + (void)setResultLabel: (NSString *)resultString forLabel:(UILabel *)label {
     label.text = resultString;
@@ -137,6 +134,8 @@ static const NSArray *parties = [NSArray arrayWithObjects: @"No Party Chosen", @
     }
     label.text = partyString;
 }
+
+#pragma mark - Dropdown TableView
 
 + (NSString *)getPartyAt: (int)index {
     return parties[index];

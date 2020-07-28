@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Utils : NSObject
 
+/*METHODS*/
+
 /*Returns whether the text is not empty, and creates and displays an alert if the given text does not exist.*/
 + (BOOL)checkExists:(NSString *)text :(NSString *)field :(UIViewController *)viewController;
 
