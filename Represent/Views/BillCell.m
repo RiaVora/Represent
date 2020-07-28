@@ -52,7 +52,7 @@
         [self.resultImageView setHighlighted:YES];
         [self.resultImageView setTintColor:UIColor.systemRedColor];
     }
-
+    
     self.timestampLabel.text = [NSString stringWithFormat:@"%@", self.bill.date.timeAgoSinceNow];
     if ([self.bill.type isEqualToString:@"House"]) {
         self.typeLabel.text = @"House of Representatives";
@@ -70,8 +70,8 @@
             [self.collectionView reloadData];
         }
     }];
-
-
+    
+    
 }
 
 

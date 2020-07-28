@@ -10,8 +10,6 @@
 
 @implementation Question
 
-@dynamic createdAt;
-@dynamic questionID;
 @dynamic author;
 @dynamic text;
 @dynamic voteCount;

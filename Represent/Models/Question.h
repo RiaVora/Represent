@@ -14,17 +14,27 @@
 
 NS_ASSUME_NONNULL_BEGIN
 @class User;
+
 @interface Question : PFObject<PFSubclassing>
 
-@property (nonatomic, strong) NSDate *createdAt;
-@property (nonatomic, strong) NSString *questionID;
+/*The user who wrote the question.*/
 @property (nonatomic, strong) User *author;
+
+/*The content of the question (the question as written by the author).*/
 @property (nonatomic, strong) NSString *text;
+
+/*The number of votes for the question.*/
 @property (nonatomic, strong) NSNumber *voteCount;
+
+/*The representative that the question is written for.*/
 @property (nonatomic, strong) User *representative;
 
+/*Is used externally to create a Question with the given arguments.*/
 + (void) postUserQuestion: ( NSString * _Nullable )question forRepresentative: ( User * _Nullable )representative withCompletion: (PFBooleanResultBlock  _Nullable)completion;
+
+/*Is used to increase the voteCount of a Question.*/
 - (void)vote:(BOOL)vote;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ProfileViewController : UIViewController
 
+/*If initialized from tapping on a QuestionCell, the user is used to identify whether the view should be editable (the user is the same as the logged-in user) or view-only (the user is viewing another user's profile).*/
 @property User *user;
 
 @end

@@ -68,7 +68,7 @@
                 [self addObject:user forKey:@"followedRepresentatives"];
             }
             [self save];
-
+            
         }
     }];
 }
@@ -143,7 +143,7 @@
             } else {
                 NSLog(@"Success with refreshing available votes!");
             }
-         }];
+        }];
     }
 }
 

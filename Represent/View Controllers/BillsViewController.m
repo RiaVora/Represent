@@ -66,7 +66,7 @@ static int OFFSET = 20;
         }
         
     }];
-   
+    
 }
 
 - (void)checkBillsAsync: (NSArray *)bills :(BOOL)getNewBills {
@@ -234,11 +234,11 @@ static int OFFSET = 20;
 
 
 #pragma mark - Navigation
- 
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-     BillCell *cell = sender;
-     BillDetailsViewController *billDetailsVC = [segue destinationViewController];
-     billDetailsVC.bill = cell.bill;
- }
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    BillCell *cell = sender;
+    BillDetailsViewController *billDetailsVC = [segue destinationViewController];
+    billDetailsVC.bill = cell.bill;
+}
 
 @end

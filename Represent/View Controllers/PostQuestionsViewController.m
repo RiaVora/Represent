@@ -34,7 +34,7 @@
     self.tableViewRepresentatives.dataSource = self;
     self.tableViewRepresentatives.hidden = YES;
     self.tableViewRepresentatives.tableFooterView = [[UIView alloc]
-    initWithFrame:CGRectZero];
+                                                     initWithFrame:CGRectZero];
 }
 
 - (void)setupValues {

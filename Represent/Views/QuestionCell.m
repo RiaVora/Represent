@@ -22,7 +22,7 @@
 
 @implementation QuestionCell
 
-#pragma mark - init
+#pragma mark - Init
 
 //- (void)awakeFromNib {
 //    [super awakeFromNib];
@@ -76,7 +76,7 @@
         [self.voteButton setTitleColor:UIColor.systemYellowColor forState:UIControlStateNormal];
         [self.voteButton setTitle:@"Vote" forState:UIControlStateNormal];
         [self.checkmarkImage setHighlighted:YES];
-
+        
     }
     self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
 }
@@ -109,7 +109,7 @@
     }
     [self.question vote:addingVote];
     [self updateVoteButton:addingVote];
-
+    
     [self.question saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (!succeeded) {
             NSLog(@"Error with voting on question: %@", error.localizedDescription);
@@ -124,12 +124,12 @@
 - (void)removeExtraVoteAlert {
     UIAlertController *alert = [Utils makeAlert:@"Cannot add more votes" :@"You can only have up to 5 votes at a time! This removed vote will not give you a vote back."];
     UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault
-                        handler:^(UIAlertAction * _Nonnull action) {
-         [self executeVote:NO];
+                                                           handler:^(UIAlertAction * _Nonnull action) {
+        [self executeVote:NO];
     }];
     [alert addAction:continueAction];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel
-                        handler:^(UIAlertAction * _Nonnull action) {}];
+                                                         handler:^(UIAlertAction * _Nonnull action) {}];
     [alert addAction:cancelAction];
     
     [self.controllerDelegate presentViewController:alert animated:YES completion:^{}];

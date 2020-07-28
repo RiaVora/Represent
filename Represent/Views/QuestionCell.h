@@ -16,15 +16,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol QuestionCellDelegate
 
+/*Is called in the QuestionsViewController to update the voteCount when a user votes.*/
 - (void)didVote:(Question *)question;
 
 @end
 
 @interface QuestionCell : UITableViewCell
 
+/*Represents the question associated with this QuestionCell, and is assigned externally by the QuestionsViewController.*/
 @property (strong, nonatomic) Question *question;
+
+/*Represents the outside view and is used to send alerts. Is assigned externally by the QuestionsViewController.*/
 @property (nonatomic, weak) __kindof UIViewController *controllerDelegate;
+
+/*Part of the QuestionCellDelegate implementation, and is assigned externally by the QuestionsViewController.*/
 @property (nonatomic, weak) id<QuestionCellDelegate> delegate;
+
+/*Used to update the labels, buttons, and views in the QuestionCell, and is called externally by the QuestionsViewController.*/
 - (void)updateValues: (NSInteger)row;
 
 @end

@@ -33,7 +33,7 @@
     [self checkUser];
     self.descriptionField.delegate = self;
     [self setUpViews];
-
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -52,7 +52,7 @@
     } else {
         [self otherUserView];
     }
-
+    
 }
 
 - (void)currentUserView {
@@ -110,13 +110,13 @@
                 NSLog(@"Error with getting data from Image: %@", error.localizedDescription);
             } else {
                 self.profileView.image = [Utils resizeImage:[UIImage imageWithData:data] withSize:(CGSizeMake(200, 200))];
-                    self.profileView.layer.cornerRadius = self.profileView.frame.size.width / 2;
+                self.profileView.layer.cornerRadius = self.profileView.frame.size.width / 2;
             }
         }];
     } else {
         NSLog(@"Error, no profile photo set");
     }
-
+    
 }
 
 #pragma mark - UITextViewDelegate
@@ -199,7 +199,7 @@
 
 - (IBAction)pressedParty:(id)sender {
     self.tableViewParty.hidden = !(self.tableViewParty.hidden);
-
+    
 }
 
 - (IBAction)pressedLogout:(id)sender {
@@ -233,7 +233,7 @@
     [alert addAction:photoLibrary];
     
     [self presentViewController:alert animated:YES completion:nil];
-
+    
 }
 
 #pragma mark - UIImagePickerController

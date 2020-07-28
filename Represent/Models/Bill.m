@@ -12,14 +12,11 @@
 @implementation Bill
 
 @dynamic billID;
-@dynamic number;
 @dynamic type;
 @dynamic sponsor;
 @dynamic title;
 @dynamic shortSummary;
-@dynamic longSummary;
 @dynamic date;
-@dynamic question;
 @dynamic result;
 @dynamic votesFor;
 @dynamic votesAgainst;
@@ -83,20 +80,15 @@
         }
     }];
 }
-    
+
 
 - (void)setUpBill: (NSDictionary *)billDictionary :(NSDictionary *)dictionary {
     self.billID = billDictionary[@"bill_id"];
-    self.number = billDictionary[@"number"];
     self.shortSummary = billDictionary[@"title"];
-    if (dictionary) {
-        self.question = dictionary[@"question"];
-    }
 }
 
 - (void)setUpNomination: (NSDictionary *)nominationDictionary :(NSDictionary *)dictionary {
     self.billID = nominationDictionary[@"nomination_id"];
-    self.number = nominationDictionary[@"number"];
 }
 
 - (void)setUpValues:(NSDictionary *)dictionary {
@@ -117,7 +109,7 @@
         if (error) {
             NSLog(@"Error with fetching votes from API");
             completion(FALSE);
-
+            
         } else {
             NSLog(@"Success with fetching votes from API!");
             [self addVotes:votes];
@@ -166,7 +158,7 @@
     PFQuery *billQuery = [PFQuery queryWithClassName:@"Bill"];
     [billQuery whereKey:@"billID" equalTo:self.billID];
     [billQuery orderByDescending:@"date"];
-
+    
     NSArray *bills = [billQuery findObjects];
     if (bills.count > 0) {
         for (Bill *oldBill in bills) {
@@ -195,11 +187,11 @@
     } else if ([self repVotedAgainst:repID]) {
         return @"No";
     }
-//    else if ([self repDidNotVote:repID]) {
-//        return @"Abstain";
-//    }
+    //    else if ([self repDidNotVote:repID]) {
+    //        return @"Abstain";
+    //    }
     else {
-//        NSLog(@"No vote found for rep of ID %@ for bill %@", repID, self.title);
+        //        NSLog(@"No vote found for rep of ID %@ for bill %@", repID, self.title);
         return @"No Vote Found";
     }
 }

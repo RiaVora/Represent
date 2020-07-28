@@ -24,7 +24,7 @@
 - (void)updateValues {
     self.firstNameLabel.text = [NSString stringWithFormat: @"%@ %@", self.representative.shortPosition, self.representative.firstName];
     self.lastNameLabel.text = self.representative.lastName;
-
+    
     [Utils setPartyLabel:self.representative.party :self.partyLabel];
     self.stateLabel.text = self.representative.state.uppercaseString;
     NSString *vote = [self.bill voteOfRepresentative:self.representative.representativeID];
@@ -36,7 +36,6 @@
         [self.voteImageView setTintColor:UIColor.systemRedColor];
     } else {
         [self.voteImageView setImage:nil];
-//        NSLog(@"The vote is not a yes or no, it is %@", vote);
     }
     
     if ([self.representative.representativeID isEqualToString:self.bill.sponsor.representativeID]) {

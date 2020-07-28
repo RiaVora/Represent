@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *representativeButton;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (weak, nonatomic) IBOutlet UILabel *availableVotesLabel;
+@property (strong, nonatomic) User *currentRepresentative;
 
 @end
 
@@ -25,13 +26,13 @@
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
-//    [User logOut];
+    //    [User logOut];
     [super viewDidLoad];
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
     [self setUpTableViews];
     [self setUpViews];
-//        [self postTestQuestion:@"i really have to know"];
-//        [self postTestQuestion:@"thank you for your service"];
+    //        [self postTestQuestion:@"i really have to know"];
+    //        [self postTestQuestion:@"thank you for your service"];
     [self fetchQuestions];
     [self initRefreshControl];
 }
@@ -121,9 +122,9 @@
                 [self.questions addObject:question];
             }
             [self.tableView reloadData];
-//            if (justPosted) {
-//                [self goToCell:(int)self.questions.count - 1];
-//            }
+            //            if (justPosted) {
+            //                [self goToCell:(int)self.questions.count - 1];
+            //            }
             [UIView animateWithDuration:3 animations:^{
                 [MBProgressHUD hideHUDForView:self.view animated:true];
             }];
@@ -211,7 +212,7 @@
         }
     }
     return UITableViewCellEditingStyleNone;
-
+    
 }
 
 #pragma mark - Actions
@@ -240,7 +241,7 @@
     } else if ([segue.identifier isEqualToString:@"profileSegue"]) {
         [self profileSegue:segue sender:sender];
     }
-
+    
 }
 
 - (void)postQuestionSegue: (UIStoryboardSegue *)segue sender:(id)sender {
@@ -264,7 +265,7 @@
     if (questionText) {
         [self postQuestion: questionText];
     }
-
+    
 }
 
 - (void)postQuestion: (NSString *)questionText {
@@ -276,7 +277,7 @@
             NSLog(@"Successfully posted Question %@ for %@!", questionText, self.currentRepresentative.username);
             [self setUpViews];
             [self fetchQuestions];
-//            [self fetchMoreQuestions:YES];
+            //            [self fetchMoreQuestions:YES];
         }
     }];
 }
