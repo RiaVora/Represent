@@ -51,9 +51,6 @@
 }
 
 - (void)updateValues {
-    if (self.collectionView) {
-        [MBProgressHUD showHUDAddedTo:self.collectionView animated:YES];
-    }
     self.titleLabel.text = self.bill.title;
     if (self.bill.shortSummary) {
         self.shortSummaryLabel.text = self.bill.shortSummary;
@@ -79,33 +76,55 @@
     self.votesForLabel.text = [NSString stringWithFormat:@"%ld", (long)self.bill.votesFor.count];
     self.votesAgainstLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAgainst.count];
     self.votesAbstainLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesAbstain.count];
-    BOOL cont = [self.bill.type isEqualToString:@"Senate"];
-    if (cont) {
-        [self updateVotesSenate];
-        NSLog(@"This bill %@ is of type %@ and ran for Senate", self.bill.title, self.bill.type);
-        NSLog(@"Representatives array is %@", self.reccomendedReps);
-    } else {
-        [self updateVotesHouse];
+    [self updateVotes:self.bill.type withCompletion:^(BOOL success) {
+        if (!success) {
+            NSLog(@"Error with finding reccomended representatives");
+        } else {
+            [self.collectionView reloadData];
+        }
+    }];
+//    BOOL cont = [self.bill.type isEqualToString:@"Senate"];
+//    if (cont) {
+//        [self updateVotesSenate];
+//        NSLog(@"This bill %@ is of type %@ and ran for Senate", self.bill.title, self.bill.type);
+////        NSLog(@"Representatives array is %@", self.reccomendedReps);
+//    } else {
+//        [self updateVotesHouse];
 //        NSLog(@"This bill %@ is of type %@ and ran for House", self.bill.title, self.bill.type);
-//        NSLog(@"Representatives array is %@", self.reccomendedReps);
-    }
+////        NSLog(@"Representatives array is %@", self.reccomendedReps);
+//    }
 
 }
 
-- (void)updateVotesSenate {
-    for (User *followedRep in self.user.followedRepresentatives) {
-        [followedRep fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable followedRep, NSError * _Nullable error) {
-            if (error) {
-                NSLog(@"Error with fetching representative in followed Reps %@", error.localizedDescription);
-            } else {
-                User *followedRepresentative = (User *)followedRep;
-                if ([followedRepresentative.shortPosition isEqualToString:@"Sen."] && ![self hasRep:followedRepresentative]) {
-                    [self.reccomendedReps addObject:followedRep];
-                }
-            }
-        }];
-        
-    }
+//- (void)updateVotesSenate {
+//    for (User *followedRep in self.user.followedRepresentatives) {
+//        [followedRep fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable followedRep, NSError * _Nullable error) {
+//            if (error) {
+//                NSLog(@"Error with fetching representative in followed Reps %@", error.localizedDescription);
+//            } else {
+//                User *followedRepresentative = (User *)followedRep;
+//                if ([followedRepresentative.shortPosition isEqualToString:@"Sen."] && ![self hasRep:followedRepresentative]) {
+//                    [self.reccomendedReps addObject:followedRep];
+//                }
+//            }
+//        }];
+//
+//    }
+//    [self addSponsor];
+//    [self.collectionView reloadData];
+//
+//}
+
+
+- (void)updateVotes: (NSString *)type withCompletion:(void(^)(BOOL success))completion {
+    [self addFollowed:type];
+    [self addSponsor];
+    [self addRelevant:type withCompletion:^(BOOL success) {
+        completion(success);
+    }];
+}
+
+- (void)addSponsor {
     [self.bill.sponsor fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable sponsor, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error with fetching sponsor: %@", error.localizedDescription);
@@ -115,10 +134,55 @@
             }
         }
     }];
-    [self.collectionView reloadData];
-    [MBProgressHUD hideHUDForView:self.collectionView animated:YES];
-
 }
+
+
+- (void)addFollowed: (NSString *)type {
+    NSString *shortPosition = @"Rep.";
+    if ([type isEqualToString:@"Senate"]) {
+        shortPosition = @"Sen.";
+    }
+    for (User *followedRep in self.user.followedRepresentatives) {
+        [followedRep fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable followedRep, NSError * _Nullable error) {
+            if (error) {
+                NSLog(@"Error with fetching representative in followed Reps %@", error.localizedDescription);
+            } else {
+                User *followedRepresentative = (User *)followedRep;
+                if ([followedRepresentative.shortPosition isEqualToString:shortPosition] && ![self hasRep:followedRepresentative]) {
+                    [self.reccomendedReps addObject:followedRep];
+                }
+            }
+        }];
+        
+    }
+}
+
+- (void)addRelevant: (NSString *)type withCompletion:(void(^)(BOOL success))completion {
+    PFQuery *userQuery = [User query];
+    userQuery.limit = 10;
+    NSString *shortPosition = @"Rep.";
+    if ([type isEqualToString:@"Senate"]) {
+        shortPosition = @"Sen.";
+    } else {
+        [userQuery whereKey:@"state" matchesText:self.user.state];
+    }
+    [userQuery whereKey:@"isRepresentative" equalTo:@(YES)];
+    [userQuery whereKey:@"shortPosition" containsString:shortPosition];
+    [userQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable reps, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error with finding reps in this state: %@", error.localizedDescription);
+            completion(NO);
+        } else {
+            for (User *rep in reps) {
+                if (![self hasRep:rep]) {
+                    [self.reccomendedReps addObjectsFromArray:reps];
+                }
+            }
+            completion(YES);
+        }
+    }];
+}
+
 
 - (BOOL)hasRep: (User *)newRep {
     for (User *rep in self.reccomendedReps) {
@@ -127,23 +191,6 @@
         }
     }
     return NO;
-}
-
-- (void)updateVotesHouse {
-    PFQuery *userQuery = [User query];
-    userQuery.limit = 20;
-    [userQuery whereKey:@"state" matchesText:self.user.state];
-    [userQuery whereKey:@"isRepresentative" equalTo:@(YES)];
-    [userQuery whereKey:@"shortPosition" containsString:@"Rep"];
-    [userQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable reps, NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"Error with finding reps in this state: %@", error.localizedDescription);
-        } else {
-            [self.reccomendedReps addObjectsFromArray:reps];
-            [self.collectionView reloadData];
-            [MBProgressHUD hideHUDForView:self.collectionView animated:YES];
-        }
-    }];
 }
 
 #pragma mark - UICollectionViewDataSource

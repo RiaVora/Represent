@@ -8,9 +8,11 @@
 
 #import "BillsViewController.h"
 
-@interface BillsViewController () <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
+@interface BillsViewController () <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) NSMutableArray *bills;
+@property (strong, nonatomic) NSMutableArray *filteredBills;
 @property (strong, nonatomic) NSDate *lastRefreshed;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (assign, nonatomic) BOOL isMoreDataLoading;
@@ -27,6 +29,7 @@ static int OFFSET = 20;
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.searchBar.delegate = self;
     self.bills = [[NSMutableArray alloc] init];
     [self initRefreshControl];
     self.isMoreDataLoading = false;
@@ -101,11 +104,13 @@ static int OFFSET = 20;
             if (shouldLoadMore) {
                 for (Bill *bill in bills) {
                     [self.bills addObject:bill];
+                    [self.filteredBills addObject:bill];
                 }
                 self.isMoreDataLoading = false;
                 OFFSET += 20;
             } else if (bills.count > 0) {
                 self.bills = [NSMutableArray arrayWithArray:bills];
+                self.filteredBills = self.bills;
             }
             [self.tableView reloadData];
             [self.refreshControl endRefreshing];
@@ -124,13 +129,13 @@ static int OFFSET = 20;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     BillCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BillCell"];
-    cell.bill = self.bills[indexPath.row];
+    cell.bill = self.filteredBills[indexPath.row];
     [cell updateValues];
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.bills.count;
+    return self.filteredBills.count;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -148,7 +153,29 @@ static int OFFSET = 20;
     }
 }
 
- #pragma mark - Navigation
+#pragma mark - Search Bar Delegate
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    
+    if (searchText.length != 0) {
+        
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(Bill *evaluatedObject, NSDictionary *bindings) {
+            return [evaluatedObject.description containsString:searchText]; }];
+
+        self.filteredBills = [NSMutableArray arrayWithArray:[self.bills filteredArrayUsingPredicate:predicate]];
+        
+        NSLog(@"%@", self.filteredBills);
+        
+    }
+    else {
+        self.filteredBills = self.bills;
+    }
+    
+    [self.tableView reloadData];
+ 
+}
+
+#pragma mark - Navigation
  
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
      BillCell *cell = sender;

@@ -220,10 +220,6 @@
     return [self repVoted: self.votesAgainst forRep:repID];
 }
 
-//- (BOOL)repDidNotVote:(NSString *)repID {
-//    return [self repVoted: self.votesAbstain forRep:repID];
-//}
-
 - (BOOL)repVoted: (NSArray *)arrayOfVotes forRep:(NSString *)repID {
     NSArray *vote = [arrayOfVotes filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(member_id ==[c]%@)", repID]];
     if (vote.count > 0) {

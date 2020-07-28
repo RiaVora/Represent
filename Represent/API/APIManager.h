@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)fetchSenators:(void(^)(NSArray *senators, NSError *error))completion;
 - (void)fetchHouseReps:(void(^)(NSArray *reps, NSError *error))completion;
 - (void)fetchVotes: (NSString *)votesURL :(void(^)(NSArray *votes, NSError *error))completion;
+- (void)fetchSearchedBills: (NSString *)query :(void(^)(NSArray *bills, NSError *error))completion;
 @end
 
 NS_ASSUME_NONNULL_END
