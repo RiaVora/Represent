@@ -199,6 +199,17 @@
     }
 }
 
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.tableView isEqual:tableView]) {
+        Question *question = self.questions[indexPath.row];
+        if ([question.author.username isEqualToString:self.currentUser.username]) {
+            return UITableViewCellEditingStyleDelete;
+        }
+    }
+    return UITableViewCellEditingStyleNone;
+
+}
+
 #pragma mark - Actions
 
 - (IBAction)pushedRepresentative:(id)sender {
