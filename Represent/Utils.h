@@ -48,6 +48,9 @@ NS_ASSUME_NONNULL_BEGIN
 /*Sets a label indicating a bill's result to the correct color and text.*/
 + (void)setResultLabel: (NSString *)resultString forLabel:(UILabel *)label;
 
+/*Returns whether the bill's result string is a pass, a fail, or neither.*/
++ (BOOL)passed: (NSString *)resultString;
+
 /*Sets a button indicating a user's party to the correct color and text.*/
 + (void)setPartyButton: (NSString *)partyString :(UIButton *)button;
 

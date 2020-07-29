@@ -11,7 +11,7 @@
 static const NSArray *passed = [NSArray arrayWithObjects: @"Passed", @"Agreed to", @"Amendment Agreed to", @"Nomination Confirmed", @"Bill Passed", @"Cloture Motion Agreed to", @"Motion Agreed to", @"Motion to Proceed Agreed to", @"Motion to Table Agreed to", @"Cloture on the Motion to Proceed Agreed to", nil];
 static const NSArray *failed = [NSArray arrayWithObjects: @"Failed", @"Amendment Rejected", @"Cloture Motion Rejected", @"Motion Rejected", @"Motion to Proceed Rejected", @"Motion to Table Rejected", @"Cloture on the Motion to Proceed Rejected", @"Bill Failed", @"Veto Sustained", @"Motion Rejected", nil];
 static const NSArray *parties = [NSArray arrayWithObjects: @"No Party Chosen", @"Democrat", @"Republican", @"Independent", @"Non-Affiliated", nil];
-static const NSArray *filters = [NSArray arrayWithObjects: @"Senate", @"House", nil];
+static const NSArray *filters = [NSArray arrayWithObjects: @"Senate", @"House", @"Passed", @"Failed", nil];
 
 
 @implementation Utils
@@ -94,12 +94,22 @@ static const NSArray *filters = [NSArray arrayWithObjects: @"Senate", @"House", 
 
 + (void)setResultLabel: (NSString *)resultString forLabel:(UILabel *)label {
     label.text = resultString;
-    if ([passed containsObject:resultString] || [resultString containsString:@"Passed"] || [resultString containsString:@"Agreed to"]) {
+    if ([self passed:resultString]) {
         label.textColor = UIColor.systemGreenColor;
-    } else if ([failed containsObject:resultString] || [resultString containsString:@"Failed"] || [resultString containsString: @"Rejected"]) {
+    } else if (![self passed:resultString]) {
         label.textColor = UIColor.systemRedColor;
     } else {
         label.textColor = UIColor.systemBlueColor;
+    }
+}
+
++ (BOOL)passed: (NSString *)resultString {
+    if ([passed containsObject:resultString] || [resultString containsString:@"Passed"] || [resultString containsString:@"Agreed to"]) {
+        return YES;
+    } else if ([failed containsObject:resultString] || [resultString containsString:@"Failed"] || [resultString containsString: @"Rejected"]) {
+        return NO;
+    } else {
+        return nil;
     }
 }
 

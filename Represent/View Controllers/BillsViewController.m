@@ -19,10 +19,11 @@
 @property (assign, nonatomic) BOOL isMoreDataLoading;
 @property (strong, nonatomic) APIManager *manager;
 @property (strong, nonatomic) NSMutableArray *filters;
+@property (strong, nonatomic) NSString *searchText;
 
 @end
 
-static int OFFSET = 20;
+static int OFFSET = 60;
 
 @implementation BillsViewController
 
@@ -51,6 +52,7 @@ static int OFFSET = 20;
     self.tableViewFilter.hidden = YES;
     self.searchBar.delegate = self;
     [self.searchBar setImage:[UIImage systemImageNamed:@"line.horizontal.3"] forSearchBarIcon:UISearchBarIconBookmark state:UIControlStateNormal];
+    self.searchText = @"";
     self.bills = [[NSMutableArray alloc] init];
     self.filteredBills = [[NSMutableArray alloc] init];
     self.filters = [[NSMutableArray alloc] init];
@@ -132,14 +134,13 @@ static int OFFSET = 20;
     PFQuery *billQuery = [Bill query];
     [billQuery orderByDescending:@"date"];
     [billQuery whereKey:@"headBill" equalTo:@(YES)];
-    if (self.filters.count > 0) {
-        [billQuery whereKey:@"type" containedIn:self.filters];
-    }
+    [self setQueryWithFilters:billQuery];
     [billQuery includeKey:@"sponsor"];
-    billQuery.limit = 20;
+    billQuery.limit = 60;
     if (shouldLoadMore) {
         billQuery.skip = self.bills.count;
     }
+
     [billQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable bills, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error with fetching bills from Parse: %@", error.localizedDescription);
@@ -148,21 +149,47 @@ static int OFFSET = 20;
             if (shouldLoadMore) {
                 for (Bill *bill in bills) {
                     [self.bills addObject:bill];
-                    [self.filteredBills addObject:bill];
+                    self.filteredBills = self.bills;
                 }
                 self.isMoreDataLoading = false;
                 OFFSET += 20;
-            } else if (bills.count > 0) {
+            } else {
                 self.bills = [NSMutableArray arrayWithArray:bills];
                 self.filteredBills = self.bills;
             }
             [self.tableView reloadData];
             [self.refreshControl endRefreshing];
+            self.searchText = @"";
             [UIView animateWithDuration:3 animations:^{
                 [MBProgressHUD hideHUDForView:self.view animated:true];
             }];
         }
     }];
+}
+
+- (void)setQueryWithFilters: (PFQuery *)billQuery {
+    if (self.filters.count > 0 && self.filters.count < [Utils getFilterLength]) {
+        NSMutableArray *types = [[NSMutableArray alloc] init];
+        if ([self.filters containsObject:@"House"]) {
+            [types addObject:@"House"];
+        }
+        if ([self.filters containsObject:@"Senate"]) {
+            [types addObject:@"Senate"];
+        }
+        if (types.count > 0) {
+            [billQuery whereKey:@"type" containedIn:types];
+        }
+        NSMutableArray *results = [[NSMutableArray alloc] init];
+        if ([self.filters containsObject:@"Passed"]) {
+            [results addObjectsFromArray:@[@"Passed", @"Agreed to"]];
+        }
+        if ([self.filters containsObject:@"Failed"]) {
+            [results addObjectsFromArray:@[@"Failed", @"Rejected"]];
+        }
+        if (results.count > 0) {
+            [billQuery whereKey:@"result" containedIn:results];
+        }
+    }
 }
 
 
@@ -197,6 +224,7 @@ static int OFFSET = 20;
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         [self updateFilters:cell.textLabel.text forCell:cell];
         self.tableViewFilter.hidden = YES;
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [self getBillsParse:NO];
     }
 
@@ -229,59 +257,29 @@ static int OFFSET = 20;
 
 #pragma mark - Search Bar Delegate
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    if (searchBar.text.length != 0) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [self fetchSearchedBills:searchBar.text];
-    }
-    else {
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+
+    if (searchText.length != 0) {
+        NSPredicate *predicateTitle = [NSPredicate predicateWithBlock:^BOOL(Bill *bill, NSDictionary *bindings) {
+            return [bill.title containsString:searchText];
+        }];
+        NSPredicate *predicateSummary = [NSPredicate predicateWithBlock:^BOOL(Bill *bill, NSDictionary *bindings) {
+            return [bill.shortSummary containsString:searchText];
+        }];
+
+        NSCompoundPredicate *predicateCombined = [NSCompoundPredicate orPredicateWithSubpredicates:@[predicateTitle, predicateSummary]];
+
+        self.filteredBills = [NSMutableArray arrayWithArray:[self.bills filteredArrayUsingPredicate:predicateCombined]];
+    } else {
+        self.searchText = @"";
         self.filteredBills = self.bills;
     }
-    
+    [self.tableView reloadData];
+
 }
 
 - (void)searchBarBookmarkButtonClicked:(UISearchBar *)searchBar {
     self.tableViewFilter.hidden = !(self.tableViewFilter.hidden);
-}
-
-- (void)fetchSearchedBills: (NSString *)query {
-    [self.manager fetchSearchedBills:query :^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
-        if (error) {
-            NSLog(@"Error with fetching searched bills from the API: %@", error.localizedDescription);
-        } else {
-            NSLog(@"Success with fetching searched bills from API!");
-            [self setUpSearchedBills: bills];
-        }
-    }];
-}
-
-- (void)setUpSearchedBills: (NSArray *)bills {
-    dispatch_semaphore_t semaphoreGroup = dispatch_semaphore_create(0);
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-        self.filteredBills = [[NSMutableArray alloc] init];
-        for (NSDictionary *dictionary in bills) {
-            
-            [Bill updateBillsFromSearch:dictionary withCompletion:^(Bill * _Nonnull bill) {
-                if (bill) {
-                    NSLog(@"Found bill that has been on the floor");
-                    [self.filteredBills addObject:bill];
-                } else {
-                    NSLog(@"Either an error or the bill has not been on the floor");
-                }
-                dispatch_semaphore_signal(semaphoreGroup);
-            }];
-            
-            dispatch_semaphore_wait(semaphoreGroup, DISPATCH_TIME_FOREVER);
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), ^(void){
-            NSLog(@"Finished adding searched bills");
-            [self.tableView reloadData];
-            [UIView animateWithDuration:3 animations:^{
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-            }];
-        });
-    });
 }
 
 
