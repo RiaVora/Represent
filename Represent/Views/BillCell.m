@@ -33,14 +33,15 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.collectionView.delegate = self;
-    self.collectionView.dataSource = self;
-    self.user = [User currentUser];
+
 }
 
 #pragma mark - Setup
 
 - (void)updateValues {
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
+    self.user = [User currentUser];
     self.titleLabel.text = self.bill.title;
     if (self.bill.shortSummary) {
         self.shortSummaryLabel.text = self.bill.shortSummary;
@@ -49,11 +50,14 @@
     }
     [Utils setResultLabel:self.bill.result forLabel:self.resultLabel];
     if ([self.resultLabel.textColor isEqual:UIColor.systemGreenColor]) {
-        [self.resultImageView setHighlighted:NO];
+        [self.resultImageView setImage:[UIImage systemImageNamed: @"checkmark.circle.fill"]];
         [self.resultImageView setTintColor:UIColor.systemGreenColor];
-    } else {
-        [self.resultImageView setHighlighted:YES];
+    } else if ([self.resultLabel.textColor isEqual:UIColor.systemRedColor]) {
+        [self.resultImageView setImage:[UIImage systemImageNamed: @"xmark.circle.fill"]];
         [self.resultImageView setTintColor:UIColor.systemRedColor];
+    } else {
+        [self.resultImageView setImage:[UIImage systemImageNamed:@"minus.circle.fill"]];
+        [self.resultImageView setTintColor:UIColor.systemGrayColor];
     }
     
     self.timestampLabel.text = [NSString stringWithFormat:@"%@", self.bill.date.timeAgoSinceNow];
@@ -86,19 +90,6 @@
 
 #pragma mark - Helpers
 
-- (void)addSponsor {
-    [self.bill.sponsor fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable sponsor, NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"Error with fetching sponsor: %@", error.localizedDescription);
-        } else {
-            if (![self hasRep:self.bill.sponsor]) {
-                [self.reccomendedReps addObject:sponsor];
-            }
-        }
-    }];
-}
-
-
 - (void)addFollowed: (NSString *)type {
     NSString *shortPosition = @"Rep.";
     if ([type isEqualToString:@"Senate"]) {
@@ -117,6 +108,18 @@
         }];
         
     }
+}
+
+- (void)addSponsor {
+    [self.bill.sponsor fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable sponsor, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error with fetching sponsor: %@", error.localizedDescription);
+        } else {
+            if (![self hasRep:self.bill.sponsor]) {
+                [self.reccomendedReps addObject:sponsor];
+            }
+        }
+    }];
 }
 
 - (void)addRelevant: (NSString *)type withCompletion:(void(^)(BOOL success))completion {

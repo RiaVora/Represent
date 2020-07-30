@@ -35,14 +35,21 @@
 - (void)setVote {
     NSString *vote = [self.bill voteOfRepresentative:self.representative.representativeID];
     if ([vote isEqualToString:@"Yes"]) {
-        [self.voteImageView setHighlighted:NO];
+        [self.voteImageView setImage:[UIImage systemImageNamed:@"checkmark.circle.fill"]];
         [self.voteImageView setTintColor:UIColor.systemGreenColor];
     } else if ([vote isEqualToString:@"No"]) {
-        [self.voteImageView setHighlighted:YES];
+        [self.voteImageView setImage:[UIImage systemImageNamed:@"xmark.circle.fill"]];
         [self.voteImageView setTintColor:UIColor.systemRedColor];
     } else {
-        [self.voteImageView setImage:nil];
+        [self.voteImageView setImage:[UIImage systemImageNamed:@"minus.circle.fill"]];
+        [self.voteImageView setTintColor:UIColor.systemGrayColor];
     }
+    
+//    if ([self.representative.firstName isEqualToString:@"Pete"]) {
+//        NSLog(@"Pete voted %@ on bill %@", vote, self.bill.title);
+//    } else if ([self.representative.firstName isEqualToString:@"Kamala"]) {
+//        NSLog(@"Kamala voted %@ on bill %@", vote, self.bill.title);
+//    }
 }
 
 - (void)setSponsor {

@@ -166,12 +166,11 @@
 		5864A6F124BCC8BD008EB431 /* Represent */ = {
 			isa = PBXGroup;
 			children = (
+				58A0181724D3481800B2C275 /* Utils */,
 				5864A72A24BD0698008EB431 /* API */,
 				5864A72924BD0694008EB431 /* Views */,
 				5864A72824BD068B008EB431 /* Models */,
 				5864A72724BD0669008EB431 /* View Controllers */,
-				58E9B91D24BD1EB300263BF6 /* Utils.h */,
-				58E9B91E24BD1EB300263BF6 /* Utils.mm */,
 				5864A6F224BCC8BD008EB431 /* AppDelegate.h */,
 				5864A6F324BCC8BD008EB431 /* AppDelegate.m */,
 				5864A6F524BCC8BD008EB431 /* SceneDelegate.h */,
@@ -259,6 +258,15 @@
 				5845E72F24BE424D00D46103 /* APIManager.m */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		58A0181724D3481800B2C275 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				58E9B91D24BD1EB300263BF6 /* Utils.h */,
+				58E9B91E24BD1EB300263BF6 /* Utils.mm */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		64F1C31549370D71B2B9052A /* Frameworks */ = {
