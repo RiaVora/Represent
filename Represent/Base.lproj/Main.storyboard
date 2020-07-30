@@ -1078,6 +1078,7 @@
                         <outlet property="descriptionField" destination="duE-Kl-Knh" id="aYD-Gz-ABh"/>
                         <outlet property="logoutButton" destination="rtS-M3-bhf" id="QIR-Co-fNZ"/>
                         <outlet property="partyButton" destination="vMh-C8-v2l" id="VcB-y6-NgC"/>
+                        <outlet property="partyButtonXConstraint" destination="ZGd-Ga-GsC" id="ww6-HG-cpO"/>
                         <outlet property="profileView" destination="OKA-ZY-Okm" id="4xc-Q3-XZ8"/>
                         <outlet property="saveButton" destination="S8g-ba-bsN" id="cyA-mv-hIT"/>
                         <outlet property="tableViewParty" destination="ycc-2F-30C" id="Pnh-fC-Uhd"/>

@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet UIButton *partyButton;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewParty;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *partyButtonXConstraint;
 
 @end
 
@@ -73,7 +74,9 @@
 
 - (void)otherUserView {
     self.cameraButton.hidden = YES;
-    [self.partyButton setImage:nil forState:UIControlStateNormal];
+    self.partyButton.imageView.alpha = 0;
+    [self.partyButtonXConstraint setConstant:-23];
+    
     self.partyButton.enabled = NO;
     self.navigationItem.leftBarButtonItem = nil;
     self.descriptionField.editable = NO;
