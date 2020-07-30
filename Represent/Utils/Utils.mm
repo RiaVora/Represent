@@ -165,4 +165,8 @@ static const NSArray *filters = [NSArray arrayWithObjects: @"Senate", @"House", 
     return filters.count;
 }
 
++ (BOOL)valueExists: (NSDictionary *)dictionary forKey:(NSString *)key {
+    return ([dictionary objectForKey:key] != nil && [dictionary objectForKey:key] != [NSNull null]);
+}
+
 @end

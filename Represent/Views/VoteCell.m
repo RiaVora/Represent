@@ -44,12 +44,6 @@
         [self.voteImageView setImage:[UIImage systemImageNamed:@"minus.circle.fill"]];
         [self.voteImageView setTintColor:UIColor.systemGrayColor];
     }
-    
-//    if ([self.representative.firstName isEqualToString:@"Pete"]) {
-//        NSLog(@"Pete voted %@ on bill %@", vote, self.bill.title);
-//    } else if ([self.representative.firstName isEqualToString:@"Kamala"]) {
-//        NSLog(@"Kamala voted %@ on bill %@", vote, self.bill.title);
-//    }
 }
 
 - (void)setSponsor {

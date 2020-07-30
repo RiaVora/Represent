@@ -69,6 +69,8 @@ NS_ASSUME_NONNULL_BEGIN
 /*Returns the number of filters, used for a dropdown filter menu in the BillsViewController.*/
 + (NSInteger)getFilterLength;
 
++ (BOOL)valueExists: (NSDictionary *)dictionary forKey:(NSString *)key;
+
 
 @end
 

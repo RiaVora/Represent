@@ -23,8 +23,6 @@
 
 @end
 
-static int OFFSET = 60;
-
 @implementation BillsViewController
 
 #pragma mark - UIViewController
@@ -33,13 +31,15 @@ static int OFFSET = 60;
     [super viewDidLoad];
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
     [self setUpViews];
-    [self getBillsParse:NO];
+    [self fetchBillsParse:NO];
 }
+
 
 - (void)viewDidAppear:(BOOL)animated {
     if (self.lastRefreshed.minutesAgo > 30) {
         [self updateBills];
     }
+    
 }
 
 #pragma mark - Setup
@@ -70,22 +70,18 @@ static int OFFSET = 60;
 
 #pragma mark - Data Query
 
-- (void)fetchBills: (BOOL)getNewBills {
-    int offset = 0;
-    if (getNewBills) {
-        offset = OFFSET;
-    }
-    [self.manager fetchRecentBills:offset :^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
+- (void)fetchBillsAPI {
+    [self.manager fetchRecentBills:0 :^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
         if (error) {
             NSLog(@"Error with fetching recent bills: %@", error.localizedDescription);
         } else {
             NSLog(@"Successfully fetched new bills");
-            [self checkBillsAsync:bills:getNewBills];
+            [self checkBillsAsync:bills];
         }
     }];
 }
 
-- (void)checkBillsAsync: (NSArray *)bills :(BOOL)getNewBills {
+- (void)checkBillsAsync: (NSArray *)bills{
     dispatch_semaphore_t semaphoreGroup = dispatch_semaphore_create(0);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         
@@ -112,7 +108,7 @@ static int OFFSET = 60;
         dispatch_async(dispatch_get_main_queue(), ^(void){
             NSLog(@"Finished queue");
             if (uniqueCount > 0) {
-                [self getBillsParse:getNewBills];
+                [self fetchBillsParse:NO];
             } else {
                 [self.refreshControl endRefreshing];
                 [UIView animateWithDuration:3 animations:^{
@@ -127,16 +123,16 @@ static int OFFSET = 60;
 - (void)updateBills {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.lastRefreshed = [NSDate now];
-    [self fetchBills:NO];
+    [self fetchBillsAPI];
 }
 
-- (void)getBillsParse: (BOOL)shouldLoadMore {
+- (void)fetchBillsParse: (BOOL)shouldLoadMore {
     PFQuery *billQuery = [Bill query];
     [billQuery orderByDescending:@"date"];
     [billQuery whereKey:@"headBill" equalTo:@(YES)];
     [self setQueryWithFilters:billQuery];
     [billQuery includeKey:@"sponsor"];
-    billQuery.limit = 60;
+    billQuery.limit = 20;
     if (shouldLoadMore) {
         billQuery.skip = self.bills.count;
     }
@@ -152,7 +148,6 @@ static int OFFSET = 60;
                     self.filteredBills = self.bills;
                 }
                 self.isMoreDataLoading = false;
-                OFFSET += 20;
             } else {
                 self.bills = [NSMutableArray arrayWithArray:bills];
                 self.filteredBills = self.bills;
@@ -225,7 +220,7 @@ static int OFFSET = 60;
         [self updateFilters:cell.textLabel.text forCell:cell];
         self.tableViewFilter.hidden = YES;
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [self getBillsParse:NO];
+        [self fetchBillsParse:NO];
     }
 
 }
@@ -250,7 +245,7 @@ static int OFFSET = 60;
         if (scrollView.contentOffset.y > scrollOffsetThreshold && self.tableView.isDragging) {
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             self.isMoreDataLoading = true;
-            [self fetchBills:YES];
+            [self fetchBillsParse:YES];
         }
     }
 }
@@ -289,6 +284,51 @@ static int OFFSET = 60;
     BillCell *cell = sender;
     BillDetailsViewController *billDetailsVC = [segue destinationViewController];
     billDetailsVC.bill = cell.bill;
+}
+
+#pragma mark - Helpers
+
+
+/*Loads in bills in 20 increments with the given @param offset, and used to convert data from the API into bills.*/
+- (void)load20Bills: (int)offset{
+    [self.manager fetchRecentBills:offset :^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
+        if (error) {
+            NSLog(@"Error with fetching recent bills: %@", error.localizedDescription);
+        } else {
+            NSLog(@"Successfully fetched new bills");
+            [self createBillsAsync:bills];
+        }
+    }];
+
+}
+
+- (void)createBillsAsync: (NSArray *)bills {
+    dispatch_semaphore_t semaphoreGroup = dispatch_semaphore_create(0);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        
+        for (NSDictionary *dictionary in bills) {
+            [Bill updateBills:dictionary withCompletion:^(BOOL isDuplicate, Bill *bill) {
+                if (bill) {
+                    NSLog(@"Successfully saved bill in for loop");
+                    if (!isDuplicate) {
+                        NSLog(@"Found unique bill");
+                    } else {
+                        NSLog(@"Found duplicate, did not save bill");
+                    }
+                } else {
+                    NSLog(@"Error with checking existing bills with new bills");
+                }
+                dispatch_semaphore_signal(semaphoreGroup);
+            }];
+            
+            dispatch_semaphore_wait(semaphoreGroup, DISPATCH_TIME_FOREVER);
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^(void){
+            NSLog(@"Finished queue");
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        });
+    });
 }
 
 @end

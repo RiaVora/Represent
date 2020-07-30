@@ -37,6 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 /*The date of action for this bill on the floor.*/
 @property (nonatomic, strong) NSDate *date;
 
+/*The question raised about the bill on the floor (i.e. "On agreeing to Amendement").*/
+@property (nonatomic, strong) NSString *question;
+
 /*The result of the bill (i.e. "Passed", "Failed").*/
 @property (nonatomic, strong) NSString *result;
 
@@ -61,14 +64,14 @@ NS_ASSUME_NONNULL_BEGIN
 /*A short description of the argument for voting "No" to the bill.*/
 @property (nonatomic, strong) NSString *againstDescription;
 
+/*A url to a detailed description of the bill, including all past votes*/
+@property (nonatomic, strong) NSString *billURL;
+
 
 /*METHODS*/
 
 /*Creates a new bill or discards a duplicate based on the dictionary passed in, used by BillsViewController.*/
 + (void) updateBills: (NSDictionary *)dictionary withCompletion:(void(^)(BOOL isDuplicate, Bill *bill))completion;
-
-/*Creates a new search bill or discards a duplicate based on the dictionary passed in, used by BillsViewController.*/
-+ (void) updateBillsFromSearch: (NSDictionary *)dictionary withCompletion:(void(^)(Bill *bill))completion;
 
 /*Returns the vote of a representative based off of the bill's vote arrays and the given representative ID.*/
 - (NSString *)voteOfRepresentative: (NSString *)repID;
