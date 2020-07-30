@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *partyButton;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewParty;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *partyButtonXConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *partyButtonYConstraint;
 
 @end
 
@@ -55,6 +56,7 @@
     } else {
         [self otherUserView];
     }
+    [self.partyButtonYConstraint setConstant:0];
     
 }
 
@@ -105,7 +107,8 @@
     } else {
         [Utils setPartyButton:self.user.party:self.partyButton];
     }
-    [self hideEditingButtons:YES];
+    self.saveButton.alpha = 0;
+    self.cancelButton.alpha = 0;
 }
 
 - (void)setProfilePhoto {
@@ -305,8 +308,20 @@
 }
 
 - (void)hideEditingButtons: (BOOL)hide {
-    self.saveButton.hidden = hide;
-    self.cancelButton.hidden = hide;
+    int alpha = 1;
+    float constant = 10;
+    if (hide) {
+        alpha = 0;
+        constant = -10;
+    }
+    [UIView animateWithDuration:0.3 animations:^{
+        self.partyButtonYConstraint.constant += constant;
+        self.saveButton.alpha = alpha;
+        self.cancelButton.alpha = alpha;
+
+    }];
+    
+    
 }
 
 
