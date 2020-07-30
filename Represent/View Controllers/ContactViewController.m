@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableViewRepresentatives;
 @property NSArray *representatives;
 @property User *currentRepresentative;
+@property (weak, nonatomic) IBOutlet WKWebView *contactWebView;
 
 
 @end
@@ -45,10 +46,20 @@
             NSLog(@"Error with fetching representative to show in dropdown menu: %@", error.localizedDescription);
         } else {
             [self.representativeButton setTitle:[self.currentRepresentative fullTitleRepresentative] forState:UIControlStateNormal];
+            [self fetchContactForm];
         }
     }];
-
 }
+
+#pragma mark - Data Query
+
+- (void)fetchContactForm {
+    NSString *urlString = self.currentRepresentative.contact;
+    NSURL *url = [NSURL URLWithString: urlString];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
+    [self.contactWebView loadRequest:request];
+}
+
 
 #pragma mark - Actions
 
@@ -80,12 +91,17 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     RepresentativeCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     [self.representativeButton setTitle:[cell.representative fullTitleRepresentative] forState:UIControlStateNormal];
     self.currentRepresentative = cell.representative;
     tableView.hidden = YES;
-}
+    [self fetchContactForm];
+    [UIView animateWithDuration:3 animations:^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
 
+}
 
 
 /*

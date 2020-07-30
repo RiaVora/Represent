@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "User.h"
 #import "RepresentativeCell.h"
+#import "Utils.h"
+#import "MBProgressHUD.h"
 #import "WebKit/WebKit.h"
 
 NS_ASSUME_NONNULL_BEGIN
