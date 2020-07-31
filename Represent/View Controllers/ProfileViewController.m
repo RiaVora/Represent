@@ -10,7 +10,7 @@
 
 
 
-@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *profileView;
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
@@ -36,6 +36,7 @@
     [super viewDidLoad];
     [self checkUser];
     self.descriptionField.delegate = self;
+    self.stateField.delegate = self;
     [self setUpViews];
     self.editButtonsYConstraint.constant = 5;
     
@@ -157,6 +158,13 @@
     textView.textColor = UIColor.lightGrayColor;
 }
 
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    [self hideEditingButtons:NO];
+    return true;
+}
+
 #pragma mark - UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -246,12 +254,6 @@
     return NO;
     
 }
-
-/*THIS METHOD IS NOT WORKING PROPERLY*/
-- (IBAction)changedState:(id)sender {
-    [self hideEditingButtons:NO];
-}
-
 
 - (IBAction)pressedCancel:(id)sender {
     [self.descriptionField resignFirstResponder];

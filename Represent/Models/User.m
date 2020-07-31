@@ -149,6 +149,17 @@
     return NO;
 }
 
+- (BOOL)hasRep:(User *)newRep {
+    [newRep fetch];
+    for (User *rep in self.followedRepresentatives) {
+        [rep fetch];
+        if ([rep.representativeID isEqualToString:newRep.representativeID]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 - (BOOL)votesLeft {
     return [self.availableVoteCount intValue] > 0;
 }

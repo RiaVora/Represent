@@ -31,8 +31,11 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
     [self setUpTableViews];
     [self setUpViews];
-    [self fetchQuestions];
     [self initRefreshControl];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [self setUpViews];
 }
 
 #pragma mark - Setup
@@ -50,18 +53,17 @@
     self.currentUser = [User currentUser];
     [self.currentUser updateAvailableVotes];
     [self.availableVotesLabel setText:[NSString stringWithFormat:@"%@", self.currentUser.availableVoteCount]];
-    if (!self.currentRepresentative) {
+    if (!self.currentRepresentative || ![self.currentUser hasRep:self.currentRepresentative]) {
         self.currentRepresentative = self.currentUser.followedRepresentatives[0];
-        [self.currentRepresentative fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-            if (error) {
-                NSLog(@"Error with fetching representative %@", error.localizedDescription);
-            } else {
-                [self.representativeButton setTitle:[self.currentRepresentative fullTitleRepresentative] forState:UIControlStateNormal];
-            }
-        }];
-    } else {
-        [self.representativeButton setTitle:[self.currentRepresentative fullTitleRepresentative] forState:UIControlStateNormal];
     }
+    [self.currentRepresentative fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error with fetching representative %@", error.localizedDescription);
+        } else {
+            [self.representativeButton setTitle:[self.currentRepresentative fullTitleRepresentative] forState:UIControlStateNormal];
+            [self fetchQuestions];
+        }
+    }];
 }
 
 - (void)initRefreshControl {

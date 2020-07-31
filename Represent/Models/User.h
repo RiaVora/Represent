@@ -85,6 +85,9 @@ NS_ASSUME_NONNULL_BEGIN
 /*Returns whether the User has voted on a particular Question.*/
 - (BOOL)hasVoted:(Question *)question;
 
+/*Returns whether the User is following the given representative*/
+- (BOOL)hasRep:(User *)newRep;
+
 /*If possible, has the User vote on the Question by changing vote count and voted Questions array.*/
 - (BOOL)voteOnQuestion:(Question *)question;
 
