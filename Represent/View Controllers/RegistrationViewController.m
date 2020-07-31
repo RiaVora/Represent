@@ -53,7 +53,7 @@
 - (BOOL)checkAllCorrect {
     BOOL firstNameExists = [Utils checkExists:self.firstNameField.text :@"First Name" :self];
     BOOL emailExists = [Utils checkExists:self.emailField.text :@"Email" :self];
-    BOOL stateExists = [Utils checkExists:self.stateField.text :@"Zipcode" :self];
+    BOOL stateExists = [Utils checkExists:self.stateField.text :@"State" :self];
     BOOL usernameExists = [Utils checkExists:self.usernameField.text :@"Username" :self];
     BOOL passwordExists = [Utils checkExists:self.passwordField.text :@"Password" :self];
     BOOL confirmPasswordExists = [Utils checkExists:self.confirmPasswordField.text :@"Confirm Password" :self];

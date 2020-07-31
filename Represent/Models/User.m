@@ -53,7 +53,6 @@
 }
 
 - (void)findRepresentatives {
-    NSLog(@"find representatives is running");
     NSString *state = self.state;
     PFQuery *userQuery = [User query];
     [userQuery whereKey:@"state" matchesText:state];
@@ -123,6 +122,13 @@
         }];
     }
 }
+
+- (void)changeState: (NSString *)state {
+    self.state = state;
+    self.followedRepresentatives = [[NSMutableArray alloc] init];
+    [self findRepresentatives];
+}
+
 
 #pragma mark - Helpers
 

@@ -22,7 +22,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *partyButton;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewParty;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *partyButtonXConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *partyButtonYConstraint;
+@property (weak, nonatomic) IBOutlet UITextField *stateField;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *stateTextFieldCenterConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *editButtonsYConstraint;
 
 @end
 
@@ -35,14 +37,21 @@
     [self checkUser];
     self.descriptionField.delegate = self;
     [self setUpViews];
+    self.editButtonsYConstraint.constant = 5;
     
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:YES];
-    [self.user fetch];
-    [self checkUser];
-    [self setUpViews];
+    [self.user fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error with fetching user %@", error.localizedDescription);
+        } else {
+            [self checkUser];
+            [self setUpViews];
+        }
+    }];
+
+    
 }
 
 #pragma mark - Setup
@@ -56,7 +65,6 @@
     } else {
         [self otherUserView];
     }
-    [self.partyButtonYConstraint setConstant:0];
     
 }
 
@@ -82,6 +90,9 @@
     self.partyButton.enabled = NO;
     self.navigationItem.leftBarButtonItem = nil;
     self.descriptionField.editable = NO;
+    [self.stateField setUserInteractionEnabled:NO];
+    self.stateField.borderStyle = UITextBorderStyleNone;
+    self.stateTextFieldCenterConstraint.constant += -0.5;
     if (!self.user.profileDescription) {
         self.descriptionField.text = @"No Description Written";
         self.descriptionField.textColor = UIColor.lightGrayColor;
@@ -99,6 +110,8 @@
     self.tableViewParty.dataSource = self;
     self.tableViewParty.hidden = YES;
     self.usernameLabel.text = self.user.username;
+    self.stateField.text = self.user.state;
+
     [self setProfilePhoto];
     if (!self.user.party) {
         [self.partyButton setTitle:[Utils getPartyAt:0] forState:UIControlStateNormal];
@@ -162,36 +175,83 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     [Utils setPartyButton:cell.textLabel.text :self.partyButton];
-    self.user.party = cell.textLabel.text;
     self.tableViewParty.hidden = YES;
-    [self.user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (!succeeded) {
-            NSLog(@"Error with saving user's party!: %@", error.localizedDescription);
-        } else {
-            NSLog(@"Successfully saved user's party choice!");
-        }
-    }];
+    if (![self.user.party isEqualToString:cell.textLabel.text]) {
+        [self hideEditingButtons:NO];
+    } else {
+        [self hideEditingButtons:YES];
+    }
 }
 
 #pragma mark - Actions
 
 - (IBAction)pressedSave:(id)sender {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    BOOL descriptionChanged = [self setDescription];
+    BOOL partyChanged = [self setParty];
+    BOOL stateChanged = [self setState];
+    if (descriptionChanged || partyChanged || stateChanged) {
+        [self.user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            if (!succeeded) {
+                NSLog(@"Error with saving description!: %@", error.localizedDescription);
+            } else {
+                NSLog(@"User successfully saved!");
+                [self hideEditingButtons:YES];
+                [self viewDidLoad];
+                [UIView animateWithDuration:3 animations:^{
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                }];
+            }
+        }];
+    } else {
+        [self hideEditingButtons:YES];
+        [UIView animateWithDuration:3 animations:^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        }];
+    }
+
+}
+
+- (BOOL)setDescription {
     [self.descriptionField resignFirstResponder];
     if ([self.descriptionField.text isEqualToString:@""]) {
         [self setPlaceholderText:self.descriptionField];
     }
-    
-    self.user.profileDescription = self.descriptionField.text;
-    [self.user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (!succeeded) {
-            NSLog(@"Error with saving description!: %@", error.localizedDescription);
-        } else {
-            NSLog(@"User successfully saved!");
-            [self hideEditingButtons:YES];
-            [self viewDidLoad];
-        }
-    }];
+    NSString *description = self.descriptionField.text;
+    if (![self.user.profileDescription isEqualToString:description]) {
+        self.user.profileDescription = description;
+        return YES;
+    }
+    return NO;
 }
+
+- (BOOL)setParty {
+    NSString *party = self.partyButton.titleLabel.text;
+    if (![self.user.party isEqualToString:party]) {
+        self.user.party = party;
+        return YES;
+    }
+    return NO;
+    
+}
+
+- (BOOL)setState {
+    NSString *state = self.stateField.text;
+    BOOL stateExists = [Utils checkExists:state :@"State" :self];
+    BOOL stateLengthCorrect = [Utils checkLength:state :@(2) :@"State" :self];
+    if (stateExists && stateLengthCorrect && ![self.user.state isEqualToString:state]) {
+        [self.user changeState:state];
+        return YES;
+    }
+    return NO;
+    
+}
+
+- (IBAction)changedState:(id)sender {
+    [self hideEditingButtons:NO];
+
+}
+
 
 - (IBAction)pressedCancel:(id)sender {
     [self.descriptionField resignFirstResponder];
@@ -242,6 +302,7 @@
     [self presentViewController:alert animated:YES completion:nil];
     
 }
+
 
 #pragma mark - UIImagePickerController
 
@@ -314,10 +375,10 @@
         alpha = 0;
         constant = -10;
     }
-    [UIView animateWithDuration:0.3 animations:^{
-        self.partyButtonYConstraint.constant += constant;
+    [UIView animateWithDuration:0.2 animations:^{
         self.saveButton.alpha = alpha;
         self.cancelButton.alpha = alpha;
+        self.editButtonsYConstraint.constant += constant;
 
     }];
     

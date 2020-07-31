@@ -94,6 +94,9 @@ NS_ASSUME_NONNULL_BEGIN
 /*Checks when the user has last votes and updates their available vote count accordingly.*/
 - (void)updateAvailableVotes;
 
+/*Updates the user's representatives to reflect their new state.*/
+- (void)changeState: (NSString *)state;
+
 @end
 
 NS_ASSUME_NONNULL_END
