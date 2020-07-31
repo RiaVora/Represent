@@ -1006,7 +1006,10 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vMh-C8-v2l">
-                                        <rect key="frame" x="75" y="465" width="189" height="22"/>
+                                        <rect key="frame" x="75" y="465" width="200" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="200" id="gpE-Qz-N7b"/>
+                                        </constraints>
                                         <inset key="titleEdgeInsets" minX="7" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="No Party Chosen" image="chevron.down" catalog="system">
                                             <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1051,9 +1054,8 @@
                                     <constraint firstItem="vMh-C8-v2l" firstAttribute="centerY" secondItem="TTV-wO-MrM" secondAttribute="centerY" constant="-0.25" id="VnT-PX-2fa"/>
                                     <constraint firstItem="hOh-2A-6KQ" firstAttribute="top" secondItem="OKA-ZY-Okm" secondAttribute="bottom" constant="30" id="Yjd-hJ-yIl"/>
                                     <constraint firstItem="vMh-C8-v2l" firstAttribute="leading" secondItem="TTV-wO-MrM" secondAttribute="trailing" constant="2" id="ZGd-Ga-GsC"/>
-                                    <constraint firstItem="Xxe-h9-2gr" firstAttribute="trailing" secondItem="vMh-C8-v2l" secondAttribute="trailing" constant="150" id="b8v-sv-AN3"/>
                                     <constraint firstItem="fRL-yp-cOc" firstAttribute="top" secondItem="S8g-ba-bsN" secondAttribute="top" id="c4g-37-2RE"/>
-                                    <constraint firstItem="ZsC-3R-tqX" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="ycc-2F-30C" secondAttribute="bottom" constant="180" id="dum-8J-5zh"/>
+                                    <constraint firstItem="ZsC-3R-tqX" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="ycc-2F-30C" secondAttribute="bottom" constant="300" id="dum-8J-5zh"/>
                                     <constraint firstItem="TTV-wO-MrM" firstAttribute="leading" secondItem="ofP-8D-cB1" secondAttribute="leading" id="e96-m2-XgI"/>
                                     <constraint firstItem="ofP-8D-cB1" firstAttribute="leading" secondItem="HYr-wh-Ne4" secondAttribute="leading" constant="20" id="f7D-Tz-Vgz"/>
                                     <constraint firstItem="ofP-8D-cB1" firstAttribute="top" secondItem="OKA-ZY-Okm" secondAttribute="bottom" constant="80" id="gIx-wz-PFR"/>

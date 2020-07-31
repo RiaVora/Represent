@@ -247,9 +247,9 @@
     
 }
 
+/*THIS METHOD IS NOT WORKING PROPERLY*/
 - (IBAction)changedState:(id)sender {
     [self hideEditingButtons:NO];
-
 }
 
 
@@ -261,8 +261,16 @@
         self.descriptionField.text = self.user.profileDescription;
     }
     
+    if (![self.partyButton.titleLabel.text isEqualToString:self.user.party]) {
+        [Utils setPartyButton:self.user.party :self.partyButton];
+    }
+    
+    if (![self.stateField.text isEqualToString:self.user.state]) {
+        self.stateField.text = self.user.state;
+    }
+    
     [self hideEditingButtons:YES];
-    [self viewDidLoad];
+    [self viewDidAppear:YES];
 }
 
 - (IBAction)pressedParty:(id)sender {
