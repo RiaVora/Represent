@@ -61,6 +61,7 @@
             NSLog(@"Error with fetching representative %@", error.localizedDescription);
         } else {
             [self.representativeButton setTitle:[self.currentRepresentative fullTitleRepresentative] forState:UIControlStateNormal];
+            [self.tableViewRepresentatives reloadData];
             [self fetchQuestions];
         }
     }];

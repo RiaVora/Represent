@@ -61,6 +61,7 @@
     if (!self.user) {
         self.user = [User currentUser];
     }
+    self.stateField.borderStyle = UITextBorderStyleNone;
     if ([self.user.username isEqual:[User currentUser].username]) {
         [self currentUserView];
     } else {
@@ -92,7 +93,6 @@
     self.navigationItem.leftBarButtonItem = nil;
     self.descriptionField.editable = NO;
     [self.stateField setUserInteractionEnabled:NO];
-    self.stateField.borderStyle = UITextBorderStyleNone;
     self.stateTextFieldCenterConstraint.constant += -0.5;
     if (!self.user.profileDescription) {
         self.descriptionField.text = @"No Description Written";
@@ -161,6 +161,7 @@
 #pragma mark - UITextFieldDelegate
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    [textField setBorderStyle:UITextBorderStyleRoundedRect];
     [self hideEditingButtons:NO];
     return true;
 }
@@ -195,6 +196,8 @@
 
 - (IBAction)pressedSave:(id)sender {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.stateField setBorderStyle:UITextBorderStyleNone];
+    [self.stateField endEditing:YES];
     BOOL descriptionChanged = [self setDescription];
     BOOL partyChanged = [self setParty];
     BOOL stateChanged = [self setState];
@@ -267,6 +270,8 @@
         [Utils setPartyButton:self.user.party :self.partyButton];
     }
     
+    [self.stateField setBorderStyle:UITextBorderStyleNone];
+    [self.stateField endEditing:YES];
     if (![self.stateField.text isEqualToString:self.user.state]) {
         self.stateField.text = self.user.state;
     }
