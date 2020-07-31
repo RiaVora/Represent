@@ -33,6 +33,7 @@
 
 - (void)updateValues {
     self.representativeLabel.text = [self.representative fullTitleRepresentative];
+    self.representativeLabel.font = [UIFont systemFontOfSize:17 weight:UIFontWeightLight];
 }
 
 @end

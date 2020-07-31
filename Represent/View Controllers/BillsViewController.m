@@ -36,6 +36,7 @@
 
 
 - (void)viewDidAppear:(BOOL)animated {
+    [self fetchBillsParse:YES];
     if (self.lastRefreshed.minutesAgo > 30) {
         [self updateBills];
     }
@@ -47,8 +48,10 @@
 - (void)setUpViews {
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.tableFooterView = [UIView new];
     self.tableViewFilter.delegate = self;
     self.tableViewFilter.dataSource = self;
+    self.tableViewFilter.tableFooterView = [UIView new];
     self.tableViewFilter.hidden = YES;
     self.searchBar.delegate = self;
     [self.searchBar setImage:[UIImage systemImageNamed:@"line.horizontal.3"] forSearchBarIcon:UISearchBarIconBookmark state:UIControlStateNormal];
@@ -202,6 +205,7 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SimpleCell"];
         }
         cell.textLabel.text = [Utils getFilterAt:(int)indexPath.row];
+        cell.textLabel.font = [UIFont systemFontOfSize:17 weight:UIFontWeightLight];
         return cell;
     }
 }

@@ -574,6 +574,7 @@
                                                                     <constraint firstItem="ui0-kG-5uG" firstAttribute="top" secondItem="E8C-EI-kar" secondAttribute="top" constant="-5" id="abt-qw-9Dd"/>
                                                                     <constraint firstItem="eW2-UA-bnQ" firstAttribute="top" secondItem="J74-Et-Fvl" secondAttribute="top" id="dca-qD-PK4"/>
                                                                     <constraint firstItem="E8C-EI-kar" firstAttribute="leading" secondItem="aku-p8-r6b" secondAttribute="leading" id="nSz-Os-CdD"/>
+                                                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="jIz-Ue-tu3" secondAttribute="trailing" constant="10" id="sHV-2s-LlM"/>
                                                                     <constraint firstItem="aku-p8-r6b" firstAttribute="leading" secondItem="jIz-Ue-tu3" secondAttribute="leading" id="t1r-Eg-49C"/>
                                                                     <constraint firstItem="eW2-UA-bnQ" firstAttribute="leading" secondItem="J74-Et-Fvl" secondAttribute="trailing" constant="2" id="wbZ-6k-U5o"/>
                                                                 </constraints>
@@ -637,18 +638,18 @@
                                 </prototypes>
                             </tableView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="T5c-ZT-QYM">
-                                <rect key="frame" x="254" y="128" width="150" height="150"/>
+                                <rect key="frame" x="279" y="140" width="125" height="200"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="DdM-kX-7bM"/>
-                                    <constraint firstAttribute="width" constant="150" id="Pmv-te-k2E"/>
+                                    <constraint firstAttribute="height" constant="200" id="DdM-kX-7bM"/>
+                                    <constraint firstAttribute="width" constant="125" id="Pmv-te-k2E"/>
                                 </constraints>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="g41-hx-JMQ" firstAttribute="trailing" secondItem="T5c-ZT-QYM" secondAttribute="trailing" constant="10" id="EKJ-dQ-H8Q"/>
-                            <constraint firstItem="T5c-ZT-QYM" firstAttribute="top" secondItem="g41-hx-JMQ" secondAttribute="top" constant="40" id="LEG-g0-7Ak"/>
+                            <constraint firstItem="T5c-ZT-QYM" firstAttribute="top" secondItem="g41-hx-JMQ" secondAttribute="top" constant="52" id="LEG-g0-7Ak"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="g41-hx-JMQ"/>
                     </view>

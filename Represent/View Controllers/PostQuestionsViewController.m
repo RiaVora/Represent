@@ -33,9 +33,8 @@
     self.tableViewRepresentatives.delegate = self;
     self.tableViewRepresentatives.dataSource = self;
     self.tableViewRepresentatives.hidden = YES;
-    self.tableViewRepresentatives.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.tableViewRepresentatives.tableFooterView = [UIView new];
 }
-
 - (void)setupValues {
     self.questionField.text = @"What do you want to ask?";
     self.questionField.textColor = UIColor.lightGrayColor;
