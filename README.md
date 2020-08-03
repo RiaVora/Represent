@@ -7,6 +7,7 @@ Original App Design Project - README Template
 1. [Product Spec](#Product-Spec)
 1. [Wireframes](#Wireframes)
 2. [Schema](#Schema)
+1. [Demos](#Demos)
 
 ## Overview
 ### Description
@@ -255,4 +256,37 @@ API for Bills and Votes: [ProPublica Congress API](https://projects.propublica.o
 - [AFNetworking](https://github.com/AFNetworking/AFNetworking) - networking task library
 - [DateTools](https://cocoapods.org/pods/DateTool) - formatting for Date and Time
 - [Parse](https://cocoapods.org/pods/Parse) - Parse Objects and communication
+- [FacebookUtils](https://cocoapods.org/pods/ParseFacebookUtils) - Utils for Facebook login
+- [Chameleon](https://cocoapods.org/pods/ChameleonFramework) - External library for visual polish
+
+## Demos
+
+### Questions Screen
+
+- Toggle between representatives and vote on a question to move it up
+<img src='http://g.recordit.co/6vTsS3YnNS.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+- Posting a Question and reaching a vote limit
+<img src='http://g.recordit.co/2uCbUMvt0F.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+
+### Bills Screen
+
+- Refreshing bills, scrolling through votes, viewing a details view with past votes
+<img src='http://g.recordit.co/J1PxVP19M8.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+- Searching and filtering bills
+<img src='http://g.recordit.co/fGF5BcVoun.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+### Profile/Contact Screen
+
+- Editing description, party, and profile photo, and seeing other people's profiles 
+<img src='http://g.recordit.co/LRB4ruA2mA.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+- Contacting a representative and changing your state
+<img src='http://g.recordit.co/NooDPuDZij.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+
+
+
 
