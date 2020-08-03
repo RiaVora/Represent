@@ -63,7 +63,6 @@
         self.user = [User currentUser];
     }
     self.stateField.borderStyle = UITextBorderStyleNone;
-    self.stateTextFieldCenterConstraint.constant += -0.5;
     if ([self.user.username isEqual:[User currentUser].username]) {
         [self currentUserView];
     } else {

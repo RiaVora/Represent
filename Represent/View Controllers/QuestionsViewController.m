@@ -9,7 +9,7 @@
 #import "QuestionsViewController.h"
 
 
-@interface QuestionsViewController () <UITableViewDelegate, UITableViewDataSource, QuestionCellDelegate>
+@interface QuestionsViewController () <UITableViewDelegate, UITableViewDataSource, QuestionCellDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *questions;
 @property (strong, nonatomic) User *currentUser;
@@ -43,6 +43,8 @@
 - (void)setUpTableViews {
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.emptyDataSetDelegate = self;
     self.tableViewRepresentatives.delegate = self;
     self.tableViewRepresentatives.dataSource = self;
     self.tableViewRepresentatives.hidden = YES;
@@ -226,6 +228,40 @@
 - (void)didVote:(Question *)question {
     [self fetchQuestions];
     [self.availableVotesLabel setText:[NSString stringWithFormat:@"%@", self.currentUser.availableVoteCount]];
+}
+
+#pragma mark - DZEmptyDataSetDelegate
+
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView {
+    UIImage *resizedImage = [Utils resizeImage:[UIImage systemImageNamed:@"nosign"] withSize:CGSizeMake(125, 125)];
+    resizedImage = [resizedImage imageWithTintColor:UIColor.systemGrayColor];
+    return resizedImage;
+    
+}
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"No Questions Yet!";
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:30.0f],
+                                 NSForegroundColorAttributeName: [UIColor darkGrayColor]};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
+    [self.currentRepresentative fetchIfNeeded];
+    NSString *text = [NSString stringWithFormat: @"No questions have been asked for %@. Time to be the first one!", [self.currentRepresentative fullTitleRepresentative]];
+    
+    NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
+    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraph.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:18.0f],
+                                 NSForegroundColorAttributeName: [UIColor lightGrayColor],
+                                 NSParagraphStyleAttributeName: paragraph};
+                                 
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 

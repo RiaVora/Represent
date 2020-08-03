@@ -12,6 +12,7 @@ pod 'Parse'
 pod 'MBProgressHUD'
 pod 'Parse/FacebookUtils'
 pod 'ChameleonFramework', '~> 2.1'
+pod 'DZNEmptyDataSet'
 
   target 'RepresentTests' do
     inherit! :search_paths
