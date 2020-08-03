@@ -1020,14 +1020,6 @@
                                             <action selector="pressedParty:" destination="cz8-1m-JAx" eventType="touchUpInside" id="I9q-ju-rN6"/>
                                         </connections>
                                     </button>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ycc-2F-30C">
-                                        <rect key="frame" x="75" y="492" width="200" height="150"/>
-                                        <color key="backgroundColor" red="1" green="0.57419000539999998" blue="0.68618436790000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="200" id="7cP-Za-vc6"/>
-                                            <constraint firstAttribute="height" constant="150" id="DYu-St-Vnn"/>
-                                        </constraints>
-                                    </tableView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="State: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nsM-Zk-fen">
                                         <rect key="frame" x="20" y="506.5" width="50" height="21"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
@@ -1040,6 +1032,14 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ycc-2F-30C">
+                                        <rect key="frame" x="75" y="492" width="200" height="150"/>
+                                        <color key="backgroundColor" red="1" green="0.57419000539999998" blue="0.68618436790000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="200" id="7cP-Za-vc6"/>
+                                            <constraint firstAttribute="height" constant="150" id="DYu-St-Vnn"/>
+                                        </constraints>
+                                    </tableView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sCd-Po-afR" userLabel="Spacer View">
                                         <rect key="frame" x="0.0" y="811" width="414" height="40"/>
                                         <constraints>
