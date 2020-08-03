@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *stateField;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *stateTextFieldCenterConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *editButtonsYConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *descriptionFieldHeightConstraint;
 
 @end
 
@@ -62,11 +63,14 @@
         self.user = [User currentUser];
     }
     self.stateField.borderStyle = UITextBorderStyleNone;
+    self.stateTextFieldCenterConstraint.constant += -0.5;
     if ([self.user.username isEqual:[User currentUser].username]) {
         [self currentUserView];
     } else {
         [self otherUserView];
     }
+    [self.descriptionField invalidateIntrinsicContentSize];
+    self.descriptionFieldHeightConstraint.constant = [self.descriptionField sizeThatFits:CGSizeMake(self.descriptionField.frame.size.width, CGFLOAT_MAX)].height;
     
 }
 
@@ -93,7 +97,6 @@
     self.navigationItem.leftBarButtonItem = nil;
     self.descriptionField.editable = NO;
     [self.stateField setUserInteractionEnabled:NO];
-    self.stateTextFieldCenterConstraint.constant += -0.5;
     if (!self.user.profileDescription) {
         self.descriptionField.text = @"No Description Written";
         self.descriptionField.textColor = UIColor.lightGrayColor;
@@ -150,6 +153,7 @@
         textView.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
     }
     [self hideEditingButtons:NO];
+    [textView invalidateIntrinsicContentSize];
     return true;
 }
 - (void)setPlaceholderText: (UITextView *)textView {
