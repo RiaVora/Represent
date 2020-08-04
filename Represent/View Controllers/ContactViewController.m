@@ -54,9 +54,24 @@
 - (void)fetchContactForm {
     NSString *urlString = self.currentRepresentative.contact;
     NSURL *url = [NSURL URLWithString: urlString];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
-    [self.contactWebView loadRequest:request];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error) {
+            NSLog(@"Request unsuccessful, given contact form was %@ and error is %@", self.currentRepresentative.contact, error.localizedDescription);
+            [self.contactWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]]];
+            [Utils displayAlertWithOk:@"No Contact Form Found" message:[NSString stringWithFormat: @"%@'s contact form either does not exist, or was inputted incorrectly.", [self.currentRepresentative fullTitleRepresentative]] viewController:self];
+        } else {
+            [self.contactWebView loadRequest:request];
+        }
+        
+        
+    }];
+    [task resume];
+
+
 }
+
 
 #pragma mark - Actions
 
