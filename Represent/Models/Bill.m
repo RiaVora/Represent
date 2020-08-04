@@ -91,7 +91,6 @@
         }
     }
     
-    
     self.type = dictionary[@"chamber"];
     self.title = dictionary[@"description"];
     self.result = dictionary[@"result"];
@@ -174,7 +173,6 @@
         [self setValue:@(YES) forKey:@"headBill"];
         return NO;
     }
-    
 }
 
 #pragma mark - References

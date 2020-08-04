@@ -43,7 +43,6 @@
     } else {
         self.summaryLabel.text = @"";
     }
-    
     [Utils setResultLabel:self.bill.result forLabel:self.resultLabel];
     self.timestampLabel.text = [NSString stringWithFormat:@"%@", self.bill.date.timeAgoSinceNow];
     self.votesForLabel.text = [NSString stringWithFormat:@"%ld", self.bill.votesFor.count];
@@ -65,7 +64,6 @@
             [self.tableView reloadData];
         }
     }];
-    
 }
 
 #pragma mark - UITableViewDataSource
@@ -75,12 +73,10 @@
     cell.bill = self.bills[indexPath.row];
     [cell updateValues];
     return cell;
-    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.bills.count;
-    
 }
 
 @end

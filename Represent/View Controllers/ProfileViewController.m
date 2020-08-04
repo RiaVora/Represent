@@ -8,8 +8,6 @@
 
 #import "ProfileViewController.h"
 
-
-
 @interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *profileView;
@@ -24,7 +22,6 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *partyButtonXConstraint;
 @property (weak, nonatomic) IBOutlet UITextField *stateField;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *stateTextFieldCenterConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *editButtonsYConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *descriptionFieldHeightConstraint;
 
 @end
@@ -39,8 +36,6 @@
     self.descriptionField.delegate = self;
     self.stateField.delegate = self;
     [self setUpViews];
-    self.editButtonsYConstraint.constant = 5;
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -52,8 +47,6 @@
             [self setUpViews];
         }
     }];
-
-    
 }
 
 #pragma mark - Setup
@@ -70,7 +63,6 @@
     }
     [self.descriptionField invalidateIntrinsicContentSize];
     self.descriptionFieldHeightConstraint.constant = [self.descriptionField sizeThatFits:CGSizeMake(self.descriptionField.frame.size.width, CGFLOAT_MAX)].height;
-    
 }
 
 - (void)currentUserView {
@@ -86,7 +78,6 @@
     }
 }
 
-
 - (void)otherUserView {
     self.cameraButton.hidden = YES;
     self.partyButton.imageView.alpha = 0;
@@ -100,7 +91,6 @@
         self.descriptionField.text = @"No Description Written";
         self.descriptionField.textColor = UIColor.lightGrayColor;
         self.descriptionField.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
-        
     } else {
         self.descriptionField.text = self.user.profileDescription;
         self.descriptionField.textColor = UIColor.blackColor;
@@ -140,7 +130,6 @@
     } else {
         NSLog(@"Error, no profile photo set");
     }
-    
 }
 
 #pragma mark - UITextViewDelegate
@@ -223,7 +212,6 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         }];
     }
-
 }
 
 - (BOOL)setDescription {
@@ -246,7 +234,6 @@
         return YES;
     }
     return NO;
-    
 }
 
 - (BOOL)setState {
@@ -258,7 +245,6 @@
         return YES;
     }
     return NO;
-    
 }
 
 - (IBAction)pressedCancel:(id)sender {
@@ -306,7 +292,6 @@
         }
     }];
     [alert addAction:camera];
-    
     UIAlertAction *photoLibrary = [UIAlertAction actionWithTitle:@"Photo Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
             imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
@@ -316,14 +301,10 @@
         }
     }];
     [alert addAction:photoLibrary];
-    
     [self presentViewController:alert animated:YES completion:nil];
-    
 }
 
-
 #pragma mark - UIImagePickerController
-
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     
@@ -340,9 +321,7 @@
             NSLog(@"Error saving image: %@", error.localizedDescription);
         }
     }];
-    
     [self dismissViewControllerAnimated:YES completion:nil];
-    
 }
 
 #pragma mark - Alerts
@@ -365,15 +344,10 @@
         }];
         
     }];
-    
     [alert addAction:okAction];
-    
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}];
-    
     [alert addAction:cancelAction];
-    
     [self presentViewController:alert animated:YES completion:^{}];
-    
 }
 
 #pragma mark - Navigation
@@ -388,20 +362,13 @@
 
 - (void)hideEditingButtons: (BOOL)hide {
     int alpha = 1;
-    float constant = 10;
     if (hide) {
         alpha = 0;
-        constant = -10;
     }
     [UIView animateWithDuration:0.2 animations:^{
         self.saveButton.alpha = alpha;
         self.cancelButton.alpha = alpha;
-        self.editButtonsYConstraint.constant += constant;
-
     }];
-    
-    
 }
-
 
 @end

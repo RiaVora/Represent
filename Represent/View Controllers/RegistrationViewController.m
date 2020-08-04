@@ -62,5 +62,4 @@
     return firstNameExists && emailExists && stateExists && usernameExists && passwordExists && confirmPasswordExists && stateLengthCorrect && passwordsEqual;
 }
 
-
 @end

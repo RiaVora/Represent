@@ -135,7 +135,6 @@
     QuestionCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"QuestionCell" forIndexPath:newQuestionPath];
     [self.tableView scrollToRowAtIndexPath: newQuestionPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     [cell setSelected:YES animated:YES];
-    
 }
 
 
@@ -163,9 +162,7 @@
                 [cell updateValues];
             }
         }];
-        
         return cell;
-        
     }
 }
 
@@ -210,7 +207,6 @@
         }
     }
     return UITableViewCellEditingStyleNone;
-    
 }
 
 #pragma mark - Actions
@@ -236,34 +232,23 @@
     UIImage *resizedImage = [Utils resizeImage:[UIImage systemImageNamed:@"nosign"] withSize:CGSizeMake(125, 125)];
     resizedImage = [resizedImage imageWithTintColor:UIColor.systemGrayColor];
     return resizedImage;
-    
 }
 
-- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
-{
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
     NSString *text = @"No Questions Yet!";
-    
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:30.0f],
-                                 NSForegroundColorAttributeName: [UIColor darkGrayColor]};
-    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:30.0f], NSForegroundColorAttributeName: [UIColor darkGrayColor]};
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
     [self.currentRepresentative fetchIfNeeded];
     NSString *text = [NSString stringWithFormat: @"No questions have been asked for %@. Time to be the first one!", [self.currentRepresentative fullTitleRepresentative]];
-    
     NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
     paragraph.lineBreakMode = NSLineBreakByWordWrapping;
     paragraph.alignment = NSTextAlignmentCenter;
-    
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:18.0f],
-                                 NSForegroundColorAttributeName: [UIColor lightGrayColor],
-                                 NSParagraphStyleAttributeName: paragraph};
-                                 
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:18.0f], NSForegroundColorAttributeName: [UIColor lightGrayColor], NSParagraphStyleAttributeName: paragraph};
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
-
 
 #pragma mark - Navigation
 
@@ -273,7 +258,6 @@
     } else if ([segue.identifier isEqualToString:@"profileSegue"]) {
         [self profileSegue:segue sender:sender];
     }
-    
 }
 
 - (void)postQuestionSegue: (UIStoryboardSegue *)segue sender:(id)sender {
@@ -288,7 +272,6 @@
     profileVC.user = cell.question.author;
 }
 
-
 - (IBAction) pressedPost:(UIStoryboardSegue *)unwindSegue {
     PostQuestionsViewController *postQuestionsVC = [unwindSegue sourceViewController];
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
@@ -297,7 +280,6 @@
     if (questionText) {
         [self postQuestion: questionText];
     }
-    
 }
 
 - (void)postQuestion: (NSString *)questionText {
@@ -309,7 +291,6 @@
             NSLog(@"Successfully posted Question %@ for %@!", questionText, self.currentRepresentative.username);
             [self setUpViews];
             [self fetchQuestions];
-            //            [self fetchMoreQuestions:YES];
         }
     }];
 }
@@ -328,6 +309,5 @@
         }];
     }
 }
-
 
 @end

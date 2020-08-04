@@ -8,7 +8,6 @@
 
 #import "User.h"
 
-
 @implementation User
 
 @dynamic firstName;
@@ -67,7 +66,6 @@
                 [self addObject:user forKey:@"followedRepresentatives"];
             }
             [self save];
-            
         }
     }];
 }
@@ -128,7 +126,6 @@
     self.followedRepresentatives = [[NSMutableArray alloc] init];
     [self findRepresentatives];
 }
-
 
 #pragma mark - Helpers
 

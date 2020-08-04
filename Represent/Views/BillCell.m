@@ -8,9 +8,8 @@
 
 #import "BillCell.h"
 
-
-
 @interface BillCell () <UICollectionViewDelegate, UICollectionViewDataSource>
+
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *shortSummaryLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timestampLabel;
@@ -23,7 +22,6 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSMutableArray *reccomendedReps;
-
 
 @end
 
@@ -148,7 +146,6 @@
     }];
 }
 
-
 - (BOOL)hasRep: (User *)newRep {
     for (User *rep in self.reccomendedReps) {
         if ([rep.representativeID isEqualToString:newRep.representativeID]) {
@@ -169,7 +166,6 @@
     cell.layer.cornerRadius = 10;
     [cell updateValues];
     return cell;
-    
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {

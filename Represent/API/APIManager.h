@@ -33,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*Fetches the contents of a bill given a URL.*/
 - (void)fetchSpecificBill: (NSString *)billURL :(void(^)(NSDictionary *bill, NSError *error))completion;
+
 @end
 
 NS_ASSUME_NONNULL_END

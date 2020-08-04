@@ -20,7 +20,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 @property (weak, nonatomic) IBOutlet UIButton *facebookButton;
 
-
 @end
 
 @implementation LoginViewController
@@ -33,6 +32,7 @@
 }
 
 #pragma mark - Setup
+
 - (void)setUpSenate {
     APIManager *manager = [APIManager new];
     [manager fetchSenators:^(NSArray * _Nonnull senators, NSError * _Nonnull error) {
@@ -53,7 +53,6 @@
             for (NSDictionary *rep in reps) {
                 if (rep[@"in_office"]) {
                     [User signUpRepresentative:rep];
-                    //                    NSLog(@"%@", rep);
                 }
             }
         }
@@ -82,6 +81,7 @@
         }];
     }
 }
+
 - (IBAction)pressedFacebook:(FBSDKLoginButton *)sender {
     [PFFacebookUtils logInInBackgroundWithReadPermissions:@[@"public_profile", @"email"] block:^(PFUser * _Nullable user, NSError * _Nullable error) {
         if (error) {
@@ -96,8 +96,6 @@
             [self logInFacebookUser:user];
         }
     }];
-    
-    
 }
 
 #pragma mark - Helpers
@@ -135,12 +133,8 @@
     }];
 }
 
-
 - (IBAction)pressedSignUp:(id)sender {
     [self performSegueWithIdentifier:@"signUpSegue" sender:sender];
 }
-
-
-
 
 @end

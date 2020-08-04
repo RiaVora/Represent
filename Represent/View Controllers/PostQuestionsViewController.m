@@ -66,7 +66,6 @@
     [self dismissViewControllerAnimated:true completion:nil];
 }
 
-
 - (NSString *)pressedPost {
     NSString *questionText = self.questionField.text;
     self.questionField.text = @"";

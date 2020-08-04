@@ -15,7 +15,6 @@
 @dynamic voteCount;
 @dynamic representative;
 
-
 #pragma mark - Init
 
 + (nonnull NSString *)parseClassName {
@@ -31,7 +30,6 @@
     newQuestion.author = [User currentUser];
     newQuestion.voteCount = @(0);
     newQuestion.representative = representative;
-    
     [newQuestion saveInBackgroundWithBlock: completion];
 }
 
@@ -44,8 +42,5 @@
         self.voteCount = [NSNumber numberWithInt:([self.voteCount intValue] - 1)];
     }
 }
-
-
-
 
 @end

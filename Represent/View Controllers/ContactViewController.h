@@ -13,6 +13,8 @@
 #import "MBProgressHUD.h"
 #import "WebKit/WebKit.h"
 
+/*The ContactViewController is a UIViewController class consisting of a dropdown menu and a WebKitView to display the contact form of the representative. The contact form is used to send a message to a representative, and the ContactViewController, is called from the "Contact" bar button in the ProfileViewController.*/
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ContactViewController : UIViewController

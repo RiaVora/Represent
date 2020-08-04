@@ -34,13 +34,11 @@
     [self fetchBillsParse:NO];
 }
 
-
 - (void)viewDidAppear:(BOOL)animated {
     [self fetchBillsParse:YES];
     if (self.lastRefreshed.minutesAgo > 30) {
         [self updateBills];
     }
-    
 }
 
 #pragma mark - Setup
@@ -107,7 +105,6 @@
             
             dispatch_semaphore_wait(semaphoreGroup, DISPATCH_TIME_FOREVER);
         }
-        
         dispatch_async(dispatch_get_main_queue(), ^(void){
             NSLog(@"Finished queue");
             if (uniqueCount > 0) {
@@ -118,7 +115,6 @@
                     [MBProgressHUD hideHUDForView:self.view animated:true];
                 }];
             }
-
         });
     });
 }
@@ -139,7 +135,6 @@
     if (shouldLoadMore) {
         billQuery.skip = self.bills.count;
     }
-
     [billQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable bills, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error with fetching bills from Parse: %@", error.localizedDescription);
@@ -189,7 +184,6 @@
         }
     }
 }
-
 
 #pragma mark - UITableViewDataSource
 
@@ -265,22 +259,18 @@
         NSPredicate *predicateSummary = [NSPredicate predicateWithBlock:^BOOL(Bill *bill, NSDictionary *bindings) {
             return [bill.shortSummary containsString:searchText];
         }];
-
         NSCompoundPredicate *predicateCombined = [NSCompoundPredicate orPredicateWithSubpredicates:@[predicateTitle, predicateSummary]];
-
         self.filteredBills = [NSMutableArray arrayWithArray:[self.bills filteredArrayUsingPredicate:predicateCombined]];
     } else {
         self.searchText = @"";
         self.filteredBills = self.bills;
     }
     [self.tableView reloadData];
-
 }
 
 - (void)searchBarBookmarkButtonClicked:(UISearchBar *)searchBar {
     self.tableViewFilter.hidden = !(self.tableViewFilter.hidden);
 }
-
 
 #pragma mark - Navigation
 
@@ -292,7 +282,6 @@
 
 #pragma mark - Helpers
 
-
 /*Loads in bills in 20 increments with the given @param offset, and used to convert data from the API into bills.*/
 - (void)load20Bills: (int)offset{
     [self.manager fetchRecentBills:offset :^(NSArray * _Nonnull bills, NSError * _Nonnull error) {
@@ -303,17 +292,27 @@
             [self createBillsAsync:bills];
         }
     }];
-
 }
 
+/*Used to force execution to be asynchronous (as opposed to at the same time, or synchronous). Each bill requires an operation of determining the head (newest) bill, which requires a query of other bills; therfore, I used a semaphore group to force each bill creation to finish before the next one starts, ensuring that past bills in the array have been saved and are included in the bill query.*/
 - (void)createBillsAsync: (NSArray *)bills {
+    
+    /*Creates the semaaphore group.*/
     dispatch_semaphore_t semaphoreGroup = dispatch_semaphore_create(0);
+    
+    /*Starts the asynchronous operations using the created semaphore group.*/
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         
-        for (NSDictionary *dictionary in bills) {
-            [Bill updateBills:dictionary withCompletion:^(BOOL isDuplicate, Bill *bill) {
+        /*For loop to iterate through each bill dictionary inside of the API bills data to turn each bill dictionary into a Parse bill.*/
+        for (NSDictionary *billDictionary in bills) {
+            
+            /*Assigns the dictionary values for each bill dictionary, creates a new Parse object, finds the representative sponsor, and determines whether a duplicate, a non-head bill, or a head bill.*/
+            [Bill updateBills:billDictionary withCompletion:^(BOOL isDuplicate, Bill *bill) {
+                
                 if (bill) {
                     NSLog(@"Successfully saved bill in for loop");
+                    
+                    /*If the bill is duplicate, then the bill was not saved and the operation of "updateBills" ended early.*/
                     if (!isDuplicate) {
                         NSLog(@"Found unique bill");
                     } else {
@@ -322,15 +321,21 @@
                 } else {
                     NSLog(@"Error with checking existing bills with new bills");
                 }
+                
+                /*Signals to the semaphore group that the bill has been created, or has been determined to be a duplicate.*/
                 dispatch_semaphore_signal(semaphoreGroup);
             }];
             
+            /*Tells the execution semaphore group to wait until a signal before continuing to the next iteration of the for loop (AKA the creation of the next bill).*/
             dispatch_semaphore_wait(semaphoreGroup, DISPATCH_TIME_FOREVER);
         }
         
+        /*After the entire asynchronous operation is complete, this block is performed.*/
         dispatch_async(dispatch_get_main_queue(), ^(void){
             NSLog(@"Finished queue");
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [UIView animateWithDuration:3 animations:^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+            }];
         });
     });
 }

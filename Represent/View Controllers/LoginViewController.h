@@ -10,9 +10,7 @@
 
 /*The LoginViewController is a UIViewController class that is used to faciliate login for each user, sending information to Parse. The page sends alerts for incorrect login information or blank text fields, and directs the user either to the home QuestionsViewController or to the RegistrationViewController for sign up.*/
 
-
 @interface LoginViewController : UIViewController
-
 
 @end
 
