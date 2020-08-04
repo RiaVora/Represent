@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *stateField;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *descriptionFieldHeightConstraint;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *contactButton;
+@property (weak, nonatomic) IBOutlet UIView *backgroundView;
 
 @end
 
@@ -122,11 +123,16 @@
             } else {
                 self.profileView.image = [Utils resizeImage:[UIImage imageWithData:data] withSize:(CGSizeMake(200, 200))];
                 self.profileView.layer.cornerRadius = self.profileView.frame.size.width / 2;
+                [self fillBackgroundView];
             }
         }];
     } else {
         NSLog(@"Error, no profile photo set");
     }
+}
+
+- (void)fillBackgroundView {
+    self.backgroundView.backgroundColor = [UIColor colorWithGradientStyle:UIGradientStyleTopToBottom withFrame:self.backgroundView.frame andColors:@[[UIColor colorWithAverageColorFromImage:(UIImage *)self.profileView.image], UIColor.blackColor]];
 }
 
 - (void)setPlaceholderText: (UITextView *)textView {
@@ -150,7 +156,6 @@
         textView.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
     }
     [self hideEditingButtons:NO];
-    
     return true;
 }
 
@@ -161,7 +166,6 @@
 - (void)adjustDescriptionHeight {
     self.descriptionFieldHeightConstraint.constant = [self.descriptionField sizeThatFits:CGSizeMake(self.descriptionField.frame.size.width, CGFLOAT_MAX)].height;
 }
-
 
 #pragma mark - UITextFieldDelegate
 
@@ -197,6 +201,27 @@
     }
 }
 
+#pragma mark - UIImagePickerController
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    
+    UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
+    UIImage *resizedImage = [Utils resizeImage:originalImage withSize:(CGSizeMake(200, 200))];
+    
+    self.profileView.image = nil;
+    self.profileView.image = resizedImage;
+    [self fillBackgroundView];
+    self.user.profilePhoto = [Utils getPFFileFromImage:resizedImage];
+    [self.user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+            NSLog(@"Successfully saved image");
+        } else {
+            NSLog(@"Error saving image: %@", error.localizedDescription);
+        }
+    }];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - Actions
 
 - (IBAction)pressedSave:(id)sender {
@@ -225,7 +250,6 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         }];
     }
-
 }
 
 - (BOOL)setDescription {
@@ -317,26 +341,6 @@
     }];
     [alert addAction:photoLibrary];
     [self presentViewController:alert animated:YES completion:nil];
-}
-
-#pragma mark - UIImagePickerController
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
-    
-    UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
-    UIImage *resizedImage = [Utils resizeImage:originalImage withSize:(CGSizeMake(200, 200))];
-    
-    self.profileView.image = nil;
-    self.profileView.image = resizedImage;
-    self.user.profilePhoto = [Utils getPFFileFromImage:resizedImage];
-    [self.user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (succeeded) {
-            NSLog(@"Successfully saved image");
-        } else {
-            NSLog(@"Error saving image: %@", error.localizedDescription);
-        }
-    }];
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Alerts
