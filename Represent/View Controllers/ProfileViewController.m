@@ -21,7 +21,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableViewParty;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *partyButtonXConstraint;
 @property (weak, nonatomic) IBOutlet UITextField *stateField;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *stateTextFieldCenterConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *descriptionFieldHeightConstraint;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *contactButton;
 
@@ -63,7 +62,8 @@
         [self otherUserView];
     }
     [self.descriptionField invalidateIntrinsicContentSize];
-    self.descriptionFieldHeightConstraint.constant = [self.descriptionField sizeThatFits:CGSizeMake(self.descriptionField.frame.size.width, CGFLOAT_MAX)].height;
+    [self adjustDescriptionHeight];
+
 }
 
 - (void)currentUserView {
@@ -150,8 +150,16 @@
         textView.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
     }
     [self hideEditingButtons:NO];
-    [textView invalidateIntrinsicContentSize];
+    
     return true;
+}
+
+- (void)textViewDidChange:(UITextView *)textView {
+    [self adjustDescriptionHeight];
+}
+
+- (void)adjustDescriptionHeight {
+    self.descriptionFieldHeightConstraint.constant = [self.descriptionField sizeThatFits:CGSizeMake(self.descriptionField.frame.size.width, CGFLOAT_MAX)].height;
 }
 
 
@@ -217,6 +225,7 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         }];
     }
+
 }
 
 - (BOOL)setDescription {
@@ -229,6 +238,7 @@
         self.user.profileDescription = description;
         return YES;
     }
+    [self adjustDescriptionHeight];
     return NO;
 }
 
@@ -269,7 +279,7 @@
     if (![self.stateField.text isEqualToString:self.user.state]) {
         self.stateField.text = self.user.state;
     }
-    
+    [self adjustDescriptionHeight];
     [self hideEditingButtons:YES];
     [self viewDidAppear:YES];
 }

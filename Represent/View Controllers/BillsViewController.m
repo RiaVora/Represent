@@ -34,8 +34,8 @@
     [self fetchBillsParse:NO];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [self fetchBillsParse:YES];
+- (void)viewWillAppear:(BOOL)animated {
+    [self fetchBillsParse:NO];
     if (self.lastRefreshed.minutesAgo > 30) {
         [self updateBills];
     }
@@ -126,7 +126,7 @@
 }
 
 - (void)fetchBillsParse: (BOOL)shouldLoadMore {
-    PFQuery *billQuery = [Bill query];
+    PFQuery *billQuery = [self makeQueryWithSearch];
     [billQuery orderByDescending:@"date"];
     [billQuery whereKey:@"headBill" equalTo:@(YES)];
     [self setQueryWithFilters:billQuery];
@@ -152,12 +152,36 @@
             }
             [self.tableView reloadData];
             [self.refreshControl endRefreshing];
-            self.searchText = @"";
             [UIView animateWithDuration:3 animations:^{
                 [MBProgressHUD hideHUDForView:self.view animated:true];
             }];
         }
     }];
+}
+
+- (PFQuery *)makeQueryWithSearch {
+    if (![self.searchText isEqualToString:@""]) {
+        NSMutableArray *subqueries = [[NSMutableArray alloc] init];
+        PFQuery *titleContains = [Bill query];
+        [titleContains whereKey:@"title" matchesRegex:self.searchText modifiers:@"i"];
+        PFQuery *descriptionContains = [Bill query];
+        [descriptionContains whereKey:@"shortSummary" matchesRegex:self.searchText modifiers:@"i"];
+        [subqueries addObjectsFromArray:@[titleContains, descriptionContains]];
+        if ([self.searchText containsString:@" "]) {
+            NSArray *words = [self.searchText componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+            words = [words filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF != ''"]];
+            for (NSString *word in words) {
+                PFQuery *titleContainsWord = [Bill query];
+                [titleContainsWord whereKey:@"title" matchesRegex:word modifiers:@"i"];
+                PFQuery *descriptionContainsWord = [Bill query];
+                [descriptionContainsWord whereKey:@"shortSummary" matchesRegex:word modifiers:@"i"];
+                [subqueries addObjectsFromArray:@[titleContainsWord, descriptionContainsWord]];
+            }
+        }
+        return [PFQuery orQueryWithSubqueries:subqueries];
+    } else {
+        return [Bill query];
+    }
 }
 
 - (void)setQueryWithFilters: (PFQuery *)billQuery {
@@ -253,14 +277,17 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
 
     if (searchText.length != 0) {
-        NSPredicate *predicateTitle = [NSPredicate predicateWithBlock:^BOOL(Bill *bill, NSDictionary *bindings) {
-            return [bill.title containsString:searchText];
-        }];
-        NSPredicate *predicateSummary = [NSPredicate predicateWithBlock:^BOOL(Bill *bill, NSDictionary *bindings) {
-            return [bill.shortSummary containsString:searchText];
-        }];
-        NSCompoundPredicate *predicateCombined = [NSCompoundPredicate orPredicateWithSubpredicates:@[predicateTitle, predicateSummary]];
-        self.filteredBills = [NSMutableArray arrayWithArray:[self.bills filteredArrayUsingPredicate:predicateCombined]];
+//        NSPredicate *predicateTitle = [NSPredicate predicateWithBlock:^BOOL(Bill *bill, NSDictionary *bindings) {
+//            return [bill.title containsString:searchText];
+//        }];
+//        NSPredicate *predicateSummary = [NSPredicate predicateWithBlock:^BOOL(Bill *bill, NSDictionary *bindings) {
+//            return [bill.shortSummary containsString:searchText];
+//        }];
+//        NSCompoundPredicate *predicateCombined = [NSCompoundPredicate orPredicateWithSubpredicates:@[predicateTitle, predicateSummary]];
+//        self.filteredBills = [NSMutableArray arrayWithArray:[self.bills filteredArrayUsingPredicate:predicateCombined]];
+        self.searchText  = searchText;
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [self fetchBillsParse:NO];
     } else {
         self.searchText = @"";
         self.filteredBills = self.bills;
