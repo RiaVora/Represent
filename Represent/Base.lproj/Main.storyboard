@@ -1111,6 +1111,7 @@
                     <connections>
                         <outlet property="cameraButton" destination="llI-Fo-g7r" id="lHa-zQ-CuR"/>
                         <outlet property="cancelButton" destination="fRL-yp-cOc" id="QSk-s2-BgE"/>
+                        <outlet property="contactButton" destination="8Oo-gI-OBq" id="6ma-ja-AK4"/>
                         <outlet property="descriptionField" destination="duE-Kl-Knh" id="aYD-Gz-ABh"/>
                         <outlet property="descriptionFieldHeightConstraint" destination="fzp-aB-p8i" id="AG6-mg-g5u"/>
                         <outlet property="logoutButton" destination="rtS-M3-bhf" id="QIR-Co-fNZ"/>

@@ -15,7 +15,6 @@
 @property User *currentRepresentative;
 @property (weak, nonatomic) IBOutlet WKWebView *contactWebView;
 
-
 @end
 
 @implementation ContactViewController
@@ -26,7 +25,6 @@
     [super viewDidLoad];
     [self setupTableView];
     [self setupValues];
-
 }
 
 #pragma mark - Setup
@@ -60,7 +58,6 @@
     [self.contactWebView loadRequest:request];
 }
 
-
 #pragma mark - Actions
 
 - (IBAction)pressedRepresentative:(id)sender {
@@ -70,7 +67,6 @@
 - (IBAction)pressedCancel:(id)sender {
     [self dismissViewControllerAnimated:true completion:nil];
 }
-
 
 #pragma mark - UITableViewDataSource
 
@@ -89,7 +85,6 @@
     return self.representatives.count;
 }
 
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     RepresentativeCell *cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -100,18 +95,6 @@
     [UIView animateWithDuration:3 animations:^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
-
 }
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

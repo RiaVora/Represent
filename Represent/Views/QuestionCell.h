@@ -16,7 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol QuestionCellDelegate
 
-/*Is called in the QuestionsViewController to update the voteCount when a user votes.*/
+/*Is called in the QuestionsViewController to update the voteCount when a user votes.
+ 
+ @param question is the Question represented in the QuestionCell where the vote button was tapped
+ */
 - (void)didVote:(Question *)question;
 
 @end
@@ -25,7 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*PROPERTIES*/
 
-/*Represents the question associated with this QuestionCell, and is assigned externally by the QuestionsViewController.*/
+/*Represents the question associated with this QuestionCell, and is assigned externally by the QuestionsViewController.
+ */
 @property (strong, nonatomic) Question *question;
 
 /*Represents the outside view and is used to send alerts. Is assigned externally by the QuestionsViewController.*/
@@ -34,10 +38,12 @@ NS_ASSUME_NONNULL_BEGIN
 /*Part of the QuestionCellDelegate implementation, and is assigned externally by the QuestionsViewController.*/
 @property (nonatomic, weak) id<QuestionCellDelegate> delegate;
 
-
 /*METHODS*/
 
-/*Used to update the labels, buttons, and views in the QuestionCell, and is called externally by the QuestionsViewController.*/
+/*Used to update the labels, buttons, and views in the QuestionCell, and is called externally by the QuestionsViewController.
+ 
+ @param row is the index row of the question, used to determine if the question is in the top 3 and should be highlighted
+ */
 - (void)updateValues: (NSInteger)row;
 
 @end

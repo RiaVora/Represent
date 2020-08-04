@@ -12,7 +12,6 @@
 
 /*The Bill class is a PFObject class that is used to represent one Bill object from the Parse database. The Bill object contains attributes such as title, forDescription, passed, etc. and is displayed in a BillCell. The data for each bill is populated through the APIManager from the ProPublica API.*/
 
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Bill : PFObject<PFSubclassing>
@@ -67,13 +66,20 @@ NS_ASSUME_NONNULL_BEGIN
 /*A url to a detailed description of the bill, including all past votes*/
 @property (nonatomic, strong) NSString *billURL;
 
-
 /*METHODS*/
 
-/*Creates a new bill or discards a duplicate based on the dictionary passed in, used by BillsViewController.*/
+/*Creates a new bill or discards a duplicate based on the dictionary passed in, used by BillsViewController.
+ 
+ @param dictionary is the dictionary of a given bill from the API
+ @completion gives whether the bill is a duplicate and the new bill Parse object
+ */
 + (void) updateBills: (NSDictionary *)dictionary withCompletion:(void(^)(BOOL isDuplicate, Bill *bill))completion;
 
-/*Returns the vote of a representative based off of the bill's vote arrays and the given representative ID.*/
+/*Returns the vote of a representative based off of the bill's vote arrays and the given representative ID.
+ 
+ @param repID is the ID of the representative for the vote
+ @return is the string vote of the representative with the repID
+ */
 - (NSString *)voteOfRepresentative: (NSString *)repID;
 
 @end

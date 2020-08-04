@@ -46,24 +46,6 @@ static NSString * const baseURLString = @"https://api.propublica.org/congress/v1
     [task resume];
 }
 
-- (void)fetchSearchedBills: (NSString *)query :(void(^)(NSArray *bills, NSError *error))completion {
-    NSMutableURLRequest *request = [self createRequest:[NSString stringWithFormat: @"bills/search.json?query=%@", query]];
-    [request setValue:@"PQr31zdf3ibsr3mz9neLib2acbI3FhAn4SvN1cBx" forHTTPHeaderField:@"X-API-KEY"];
-    NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (error) {
-            NSLog(@"Error fetching searched bills: %@", error.localizedDescription);
-            completion(nil, error);
-        }
-        else {
-            NSLog(@"Success fetching searched bills!");
-            NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            completion(dataDictionary[@"results"][0][@"bills"], nil);
-        }
-    }];
-    [task resume];
-    
-}
-
 #pragma mark - Representative Data
 
 - (void)fetchSenators:(void(^)(NSArray *senators, NSError *error))completion {
@@ -113,27 +95,7 @@ static NSString * const baseURLString = @"https://api.propublica.org/congress/v1
         }
     }];
     [task resume];
-    
 }
-
-- (void)fetchSpecificBill: (NSString *)billURL :(void(^)(NSDictionary *bill, NSError *error))completion {
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL: [NSURL URLWithString:billURL]];
-    [request setValue:@"PQr31zdf3ibsr3mz9neLib2acbI3FhAn4SvN1cBx" forHTTPHeaderField:@"X-API-KEY"];
-    NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (error) {
-            NSLog(@"Error fetching votes: %@", error.localizedDescription);
-            completion(nil, error);
-        }
-        else {
-            NSLog(@"Success fetching votes!");
-            NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            completion(dataDictionary[@"results"][0], nil);
-        }
-    }];
-    [task resume];
-    
-}
-
 
 #pragma mark - Helpers
 

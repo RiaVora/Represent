@@ -26,7 +26,6 @@ NS_ASSUME_NONNULL_BEGIN
 /*The bill displayed on the BillCell, assigned externally by the BillsViewController.*/
 @property (strong, nonatomic) Bill *bill;
 
-
 /*METHODS*/
 
 /*Used to update the various labels and images, called externally by the BillsViewController.*/

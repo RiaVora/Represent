@@ -25,10 +25,12 @@ NS_ASSUME_NONNULL_BEGIN
 /*The current representative on the representative menu of the QuestionsViewController, passed in to maintain consistency for the PostQuestionsViewController.*/
 @property (strong, nonatomic) User *currentRepresentative;
 
-
 /*METHODS*/
 
-/*Returns the string of the new question for the QuestionsViewController.*/
+/*Returns the string of the new question for the QuestionsViewController.
+ 
+ @return the text of the new posted question
+ */
 - (NSString *)pressedPost;
 
 @end

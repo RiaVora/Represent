@@ -67,37 +67,72 @@ NS_ASSUME_NONNULL_BEGIN
 /*If the user is a representative, then their unique representative ID assigned by Congress. If the user is a non-representative, then null.*/
 @property (nonatomic, strong) NSString *representativeID;
 
-
 /*METHODS*/
 
-/*When creating a new User, returns the correct User sub-classed of PFUser.*/
+/*When creating a new User, returns the correct User sub-classed of PFUser.
+ 
+ @return a new User
+ */
 +(User*)user;
 
-/*Creates a new User object with the given parameters.*/
+/*Creates a new User object with the given parameters.
+ 
+ @param firstName is the first name of the new user
+ @param email is the email of the new user
+ @param state is the state of the new user
+ @param username is the username of the new user
+ @param password is the password of the new user
+ @param isRepresentative is YES if the new user is a representative, and NO if the new user is not a representative
+ @completion gives whether the user was signed up successfully; error otherwise
+ */
 - (void)signUpUser: (NSString *)firstName email:(NSString *)email state:(NSString *)state username:(NSString *)username password:(NSString *)password isRepresentative:(BOOL)isRepresentative withCompletion: (PFBooleanResultBlock  _Nullable)completion;
 
-/*Creates a new Representative User with the given dictionary.*/
-+ (void) signUpRepresentative: (NSDictionary *)representative;
+/*Creates a new Representative User with the given dictionary.
+ 
+ @param representative is a dictionary containing a representative to be turned into a user
+ */
++ (void)signUpRepresentative: (NSDictionary *)representative;
 
-/*Creates the full title of a representative User with their short position, first name, and last name.*/
+/*Creates the full title of a representative User with their short position, first name, and last name.
+ 
+ @return a string combining the short position, first name, and last name of the representative; nil if the user is not a representative
+ */
 - (NSString *)fullTitleRepresentative;
 
-/*Returns whether the User has voted on a particular Question.*/
+/*Returns whether the User has voted on a particular Question.
+ 
+ @param question is the question to be checked
+ @return YES if the question has been voted on by the user, NO otherwise;
+ */
 - (BOOL)hasVoted:(Question *)question;
 
-/*Returns whether the User is following the given representative*/
+/*Returns whether the User is following the given representative
+ 
+ @param newRep is a new representative to be added to the user's followed representatives
+ @return YES if the user has this representative already; NO otherwise
+ */
 - (BOOL)hasRep:(User *)newRep;
 
-/*If possible, has the User vote on the Question by changing vote count and voted Questions array.*/
+/*If possible, has the User vote on the Question by changing vote count and voted Questions array.
+ 
+ @param question is the question to be voted on
+ @return YES if the question was voted on successfully, and NO if the question was unvoted
+ */
 - (BOOL)voteOnQuestion:(Question *)question;
 
-/*Returns whether the User has votes remaining in their available vote count.*/
+/*Returns whether the User has votes remaining in their available vote count.
+ 
+ @return YES if the User has votes remaining; NO otherwise
+ */
 - (BOOL)votesLeft;
 
 /*Checks when the user has last votes and updates their available vote count accordingly.*/
 - (void)updateAvailableVotes;
 
-/*Updates the user's representatives to reflect their new state.*/
+/*Updates the user's representatives to reflect their new state.
+ 
+ @param state is the new state to change the user's representatives to.
+ */
 - (void)changeState: (NSString *)state;
 
 @end

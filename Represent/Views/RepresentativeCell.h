@@ -21,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 /*Is the RepresentativeCell's given representative, assigned externally by the QuestionsViewController and PostQuestionsViewController.*/
 @property (strong, nonatomic) User *representative;
 
-
 /*METHODS*/
 
 /*Used to update the name label in the RepresentativeCell, called externally by the QuestionsViewController and the PostQuestionsViewController.*/

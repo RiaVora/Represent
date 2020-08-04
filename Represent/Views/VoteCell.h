@@ -24,7 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
 /*The specific representative that this VoteCell displays, assigned externally by the BillCell.*/
 @property (strong, nonatomic) User *representative;
 
-
 /*METHODS*/
 
 /*Used to update the various labels and images, called externally by the BillCell.*/

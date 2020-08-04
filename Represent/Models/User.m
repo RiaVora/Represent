@@ -89,7 +89,6 @@
 
 #pragma mark - Actions
 
-
 - (BOOL)voteOnQuestion:(Question *)newQuestion {
     BOOL hasVoted = [self hasVoted:newQuestion];
     if (hasVoted) {

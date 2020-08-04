@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *stateField;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *stateTextFieldCenterConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *descriptionFieldHeightConstraint;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *contactButton;
 
 @end
 
@@ -69,12 +70,11 @@
     self.cameraButton.hidden = NO;
     self.cameraButton.layer.cornerRadius = self.cameraButton.frame.size.width / 2;
     self.navigationItem.leftBarButtonItem = self.logoutButton;
+    self.navigationItem.rightBarButtonItem = self.contactButton;
     if (!self.user.profileDescription) {
         [self setPlaceholderText:self.descriptionField];
     } else {
-        self.descriptionField.text = self.user.profileDescription;
-        self.descriptionField.textColor = UIColor.blackColor;
-        self.descriptionField.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
+        [self setDescriptionText];
     }
 }
 
@@ -82,9 +82,9 @@
     self.cameraButton.hidden = YES;
     self.partyButton.imageView.alpha = 0;
     [self.partyButtonXConstraint setConstant:-23];
-    
     self.partyButton.enabled = NO;
     self.navigationItem.leftBarButtonItem = nil;
+    self.navigationItem.rightBarButtonItem = nil;
     self.descriptionField.editable = NO;
     [self.stateField setUserInteractionEnabled:NO];
     if (!self.user.profileDescription) {
@@ -92,9 +92,7 @@
         self.descriptionField.textColor = UIColor.lightGrayColor;
         self.descriptionField.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
     } else {
-        self.descriptionField.text = self.user.profileDescription;
-        self.descriptionField.textColor = UIColor.blackColor;
-        self.descriptionField.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
+        [self setDescriptionText];
     }
 }
 
@@ -104,7 +102,6 @@
     self.tableViewParty.hidden = YES;
     self.usernameLabel.text = self.user.username;
     self.stateField.text = self.user.state;
-
     [self setProfilePhoto];
     if (!self.user.party) {
         [self.partyButton setTitle:[Utils getPartyAt:0] forState:UIControlStateNormal];
@@ -132,6 +129,18 @@
     }
 }
 
+- (void)setPlaceholderText: (UITextView *)textView {
+    textView.font = [UIFont systemFontOfSize:17 weight:UIFontWeightMedium];
+    textView.text = @"Tell everyone a little bit about yourself...";
+    textView.textColor = UIColor.lightGrayColor;
+}
+
+- (void)setDescriptionText {
+    self.descriptionField.text = self.user.profileDescription;
+    self.descriptionField.textColor = UIColor.blackColor;
+    self.descriptionField.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
+}
+
 #pragma mark - UITextViewDelegate
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
@@ -144,11 +153,7 @@
     [textView invalidateIntrinsicContentSize];
     return true;
 }
-- (void)setPlaceholderText: (UITextView *)textView {
-    textView.font = [UIFont systemFontOfSize:17 weight:UIFontWeightMedium];
-    textView.text = @"Tell everyone a little bit about yourself...";
-    textView.textColor = UIColor.lightGrayColor;
-}
+
 
 #pragma mark - UITextFieldDelegate
 

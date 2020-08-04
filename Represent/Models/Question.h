@@ -31,13 +31,20 @@ NS_ASSUME_NONNULL_BEGIN
 /*The representative that the question is written for.*/
 @property (nonatomic, strong) User *representative;
 
-
 /*METHODS*/
 
-/*Is used externally to create a Question with the given arguments.*/
-+ (void) postUserQuestion: ( NSString * _Nullable )question forRepresentative: ( User * _Nullable )representative withCompletion: (PFBooleanResultBlock  _Nullable)completion;
+/*Is used externally to create a Question with the given arguments.
+ 
+ @param question is the text of the question to be posted
+ @param representative is the representative that the question is for
+ @completion checks where the creation of the Question was completed successfully
+ */
++ (void) postUserQuestion: (NSString * _Nullable )question forRepresentative: (User * _Nullable )representative withCompletion: (PFBooleanResultBlock  _Nullable)completion;
 
-/*Is used to increase the voteCount of a Question.*/
+/*Is used to increase the voteCount of a Question.
+ 
+ @param vote is YES if the voteCount of the Question is to be increased by one, and NO if the voteCount of the Question is to be decreased by one
+ */
 - (void)vote:(BOOL)vote;
 
 @end
