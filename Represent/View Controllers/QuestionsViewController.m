@@ -19,7 +19,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *bottomNumberLabel;
 @property (weak, nonatomic) IBOutlet UILabel *bottomDescriptionLabel;
 @property (strong, nonatomic) User *currentRepresentative;
+@property (nonatomic) NSInteger questionsLeft;
 @property (nonatomic) BOOL repView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *composeButton;
 
 @end
 
@@ -36,7 +38,7 @@
     [self initRefreshControl];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     [self setUpViews];
 }
 
@@ -66,6 +68,8 @@
 }
 
 - (void)setUpViewsUser {
+    [self.navigationItem setTitle:@"Questions"];
+    self.navigationItem.rightBarButtonItem = self.composeButton;
     [self.currentUser updateAvailableVotes];
     [self.bottomDescriptionLabel setText:@"Votes Remaining: "];
     NSLog(@"count is %@", self.currentUser.availableVoteCount);
@@ -85,19 +89,15 @@
 }
 
 - (void)setUpViewsRep {
+    [self.navigationItem setTitle:@"My Questions"];
+    self.navigationItem.rightBarButtonItem = nil;
     [self.bottomDescriptionLabel setText:@"Questions Remaining: "];
+    self.questionsLeft = 0;
     self.currentRepresentative = self.currentUser;
-    self.currentUser.questionsLeftCount = [NSNumber numberWithInt:0];
-    [self.currentRepresentative fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"Error with fetching representative %@", error.localizedDescription);
-        } else {
-            [self.representativeButton setTitle:@"My Questions" forState:UIControlStateNormal];
-            [self.representativeButton setEnabled:false];
-            [self.representativeButton setImage:nil forState:UIControlStateNormal];
-            [self fetchQuestions];
-        }
-    }];
+    [self.representativeButton setTitle:[NSString stringWithFormat:@"Questions for %@", [self.currentUser fullTitleRepresentative]] forState:UIControlStateNormal];
+    [self.representativeButton setEnabled:false];
+    [self.representativeButton setImage:nil forState:UIControlStateNormal];
+    [self fetchQuestions];
 }
 
 
@@ -124,13 +124,7 @@
             self.questions = [NSMutableArray arrayWithArray:questions];
             [self.tableView reloadData];
             if (self.repView) {
-                [self.currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                    if (error) {
-                        NSLog(@"Error with saving representative to updated questions count: %@", error.localizedDescription);
-                    } else {
-                        [self.bottomNumberLabel setText:[NSString stringWithFormat:@"%@", self.currentUser.questionsLeftCount]];
-                    }
-                }];
+                [self.bottomNumberLabel setText:[NSString stringWithFormat:@"%lu", self.questionsLeft]];
             }
             [self.refreshControl endRefreshing];
             [UIView animateWithDuration:3 animations:^{
@@ -185,7 +179,7 @@
         QuestionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QuestionCell"];
         cell.question = self.questions[indexPath.row];
         if (indexPath.row < [Utils getLimit] && !(cell.question.answered)) {
-            [self.currentUser incrementKey:@"questionsLeftCount"];
+            self.questionsLeft++;
         }
         cell.controllerDelegate = self;
         cell.delegate = self;

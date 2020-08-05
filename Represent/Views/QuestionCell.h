@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Question.h"
 #import "DateTools.h"
+#import <ChameleonFramework/Chameleon.h>
 
 /*The QuestionCell class is a UITableViewCell class that is used to represent one question on the TableView in the QuestionsViewController. The QuestionCell sets it's labels, photo, etc. to the respective values from the Question passed in from the QuestionsViewController. The QuestionCell also interacts with the Vote button to save voting.*/
 

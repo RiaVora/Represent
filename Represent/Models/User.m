@@ -25,7 +25,6 @@
 @dynamic lastVoted;
 @dynamic availableVoteCount;
 @dynamic representativeID;
-@dynamic questionsLeftCount;
 
 #pragma mark - Init
 
@@ -160,13 +159,5 @@
 - (BOOL)votesLeft {
     return [self.availableVoteCount intValue] > 0;
 }
-
-//- (BOOL)getQuestionsLeft {
-//    if (self.isRepresentative) {
-//        if (
-//    } else {
-//        NSLog(@"User is not representative, incorrectly calling questions to answer for a normal user");
-//    }
-//}
 
 @end

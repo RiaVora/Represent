@@ -17,7 +17,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *timestampLabel;
 @property (weak, nonatomic) IBOutlet UILabel *voteCountLabel;
 @property (weak, nonatomic) IBOutlet UIButton *voteButton;
-@property (weak, nonatomic) IBOutlet UIImageView *checkmarkImage;
+@property (weak, nonatomic) IBOutlet UIImageView *votedView;
+@property (weak, nonatomic) IBOutlet UIImageView *topQuestionView;
+@property (weak, nonatomic) IBOutlet UIImageView *numberQuestionView;
 
 @end
 
@@ -40,19 +42,42 @@
     self.questionLabel.text = self.question.text;
     [self.usernameButton setTitle:self.question.author.username forState:UIControlStateNormal];
     [self setProfilePhoto];
+    [self setNumber:row];
     if (row < [Utils getLimit]) {
-        [self setBackgroundColor:UIColor.systemGray3Color];
+        NSLog(@"row is %ld", row);
+        [self setTopQuestion];
     } else {
-        [self setBackgroundColor:UIColor.whiteColor];
-        
+        [self setNormalQuestion];
     }
+    self.timestampLabel.text = self.question.createdAt.shortTimeAgoSinceNow;
     User *user = [User currentUser];
     if (user.isRepresentative) {
-        [self updateVoteButton:[user hasVoted:self.question]];
-        self.timestampLabel.text = self.question.createdAt.shortTimeAgoSinceNow;
-    } else {
         [self.voteButton setTitle:@"Answer" forState:UIControlStateNormal];
         self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
+    } else {
+        [self updateVoteButton:[user hasVoted:self.question]];
+    }
+}
+
+- (void)setTopQuestion{
+//    [self setBackgroundColor:UIColor.systemGray3Color];
+    [self.topQuestionView setHidden:false];
+    [self.numberQuestionView setTintColor:UIColor.systemGreenColor];
+//    [self.topQuestionView setBackgroundColor:UIColor.whiteColor];
+//    self.topQuestionView.layer.cornerRadius = self.topQuestionView.frame.size.width / 2;
+}
+
+- (void)setNormalQuestion {
+    [self setBackgroundColor:UIColor.whiteColor];
+    [self.topQuestionView setHidden:true];
+}
+
+- (void)setNumber: (NSInteger)row {
+    if (row <= 50) {
+        [self.numberQuestionView setHidden:false];
+        [self.numberQuestionView setImage:[UIImage systemImageNamed:[NSString stringWithFormat:@"%ld.square.fill", (long)row + 1]]];
+    } else {
+        [self.numberQuestionView setHidden:true];
     }
 
 }
@@ -76,12 +101,12 @@
     if (addingVote) {
         [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
         [self.voteButton setTitle:@"Voted" forState:UIControlStateNormal];
-        [self.checkmarkImage setHighlighted:NO];
+        [self.votedView setHighlighted:NO];
         
     } else {
         [self.voteButton setTitleColor:UIColor.systemYellowColor forState:UIControlStateNormal];
         [self.voteButton setTitle:@"Vote" forState:UIControlStateNormal];
-        [self.checkmarkImage setHighlighted:YES];
+        [self.votedView setHighlighted:YES];
         
     }
     self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
