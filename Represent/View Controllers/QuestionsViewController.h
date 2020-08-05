@@ -15,7 +15,7 @@
 #import "RepresentativeCell.h"
 #import "ProfileViewController.h"
 #import "UIScrollView+EmptyDataSet.h"
-
+#import "AnswerViewController.h"
 
 /*The QuestionsViewController is a UIViewController class that is used to display questions for the user to vote on. The page has a dropdown menu to toggle through representatives, and consists of a main TableView that displays QuestionCells. The view also implements UIRefreshControl.*/
 

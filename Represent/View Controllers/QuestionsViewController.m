@@ -92,7 +92,6 @@
     [self.navigationItem setTitle:@"My Questions"];
     self.navigationItem.rightBarButtonItem = nil;
     [self.bottomDescriptionLabel setText:@"Questions Remaining: "];
-    self.questionsLeft = 0;
     self.currentRepresentative = self.currentUser;
     [self.representativeButton setTitle:[NSString stringWithFormat:@"Questions for %@", [self.currentUser fullTitleRepresentative]] forState:UIControlStateNormal];
     [self.representativeButton setEnabled:false];
@@ -122,6 +121,7 @@
         if (questions) {
             NSLog(@"Successfully received questions!");
             self.questions = [NSMutableArray arrayWithArray:questions];
+            self.questionsLeft = 0;
             [self.tableView reloadData];
             if (self.repView) {
                 [self.bottomNumberLabel setText:[NSString stringWithFormat:@"%lu", self.questionsLeft]];
@@ -295,6 +295,8 @@
         [self postQuestionSegue:segue sender:sender];
     } else if ([segue.identifier isEqualToString:@"profileSegue"]) {
         [self profileSegue:segue sender:sender];
+    } else if ([segue.identifier isEqualToString:@"answerSegue"]) {
+        [self answerSegue:segue sender:sender];
     }
 }
 
@@ -308,6 +310,12 @@
     ProfileViewController *profileVC = [segue destinationViewController];
     QuestionCell *cell = (QuestionCell*)[[sender superview] superview];
     profileVC.user = cell.question.author;
+}
+
+- (void)answerSegue: (UIStoryboardSegue *)segue sender:(id)sender {
+    QuestionCell *cell = sender;
+    AnswerViewController *answerVC = [segue destinationViewController];
+    answerVC.question = cell.question;
 }
 
 - (IBAction) pressedPost:(UIStoryboardSegue *)unwindSegue {

@@ -31,6 +31,7 @@
 		5864A72D24BD07E2008EB431 /* Question.m in Sources */ = {isa = PBXBuildFile; fileRef = 5864A72C24BD07E2008EB431 /* Question.m */; };
 		5864A73024BD094C008EB431 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 5864A72F24BD094C008EB431 /* User.m */; };
 		58A0181A24D3777F00B2C275 /* ContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58A0181924D3777F00B2C275 /* ContactViewController.m */; };
+		58AC2C5324DB609700B0E067 /* AnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58AC2C5224DB609700B0E067 /* AnswerViewController.m */; };
 		58D42D8D24CB9EDE00376E64 /* VoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D42D8C24CB9EDE00376E64 /* VoteCell.m */; };
 		58E9B91C24BD199300263BF6 /* Bill.m in Sources */ = {isa = PBXBuildFile; fileRef = 58E9B91B24BD199300263BF6 /* Bill.m */; };
 		58E9B91F24BD1EB300263BF6 /* Utils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 58E9B91E24BD1EB300263BF6 /* Utils.mm */; };
@@ -104,6 +105,8 @@
 		5864A72F24BD094C008EB431 /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		58A0181824D3777F00B2C275 /* ContactViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactViewController.h; sourceTree = "<group>"; };
 		58A0181924D3777F00B2C275 /* ContactViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactViewController.m; sourceTree = "<group>"; };
+		58AC2C5124DB609700B0E067 /* AnswerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnswerViewController.h; sourceTree = "<group>"; };
+		58AC2C5224DB609700B0E067 /* AnswerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnswerViewController.m; sourceTree = "<group>"; };
 		58D42D8B24CB9EDE00376E64 /* VoteCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VoteCell.h; sourceTree = "<group>"; };
 		58D42D8C24CB9EDE00376E64 /* VoteCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VoteCell.m; sourceTree = "<group>"; };
 		58E9B91A24BD199300263BF6 /* Bill.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bill.h; sourceTree = "<group>"; };
@@ -224,6 +227,8 @@
 				5845E73824BEB57D00D46103 /* ProfileViewController.m */,
 				58A0181824D3777F00B2C275 /* ContactViewController.h */,
 				58A0181924D3777F00B2C275 /* ContactViewController.m */,
+				58AC2C5124DB609700B0E067 /* AnswerViewController.h */,
+				58AC2C5224DB609700B0E067 /* AnswerViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -551,6 +556,7 @@
 				5864A72D24BD07E2008EB431 /* Question.m in Sources */,
 				5864A70524BCC8BF008EB431 /* main.m in Sources */,
 				5845E73924BEB57D00D46103 /* ProfileViewController.m in Sources */,
+				58AC2C5324DB609700B0E067 /* AnswerViewController.m in Sources */,
 				5845E72D24BE0D4D00D46103 /* RegistrationViewController.m in Sources */,
 				5845E73324BE8DC700D46103 /* QuestionsViewController.m in Sources */,
 				5864A6F724BCC8BD008EB431 /* SceneDelegate.m in Sources */,

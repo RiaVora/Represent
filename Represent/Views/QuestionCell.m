@@ -44,27 +44,23 @@
     [self setProfilePhoto];
     [self setNumber:row];
     if (row < [Utils getLimit]) {
-        NSLog(@"row is %ld", row);
         [self setTopQuestion];
     } else {
         [self setNormalQuestion];
     }
     self.timestampLabel.text = self.question.createdAt.shortTimeAgoSinceNow;
+    self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
     User *user = [User currentUser];
     if (user.isRepresentative) {
-        [self.voteButton setTitle:@"Answer" forState:UIControlStateNormal];
-        self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
+        [self updateAnswer];
     } else {
         [self updateVoteButton:[user hasVoted:self.question]];
     }
 }
 
 - (void)setTopQuestion{
-//    [self setBackgroundColor:UIColor.systemGray3Color];
     [self.topQuestionView setHidden:false];
     [self.numberQuestionView setTintColor:UIColor.systemGreenColor];
-//    [self.topQuestionView setBackgroundColor:UIColor.whiteColor];
-//    self.topQuestionView.layer.cornerRadius = self.topQuestionView.frame.size.width / 2;
 }
 
 - (void)setNormalQuestion {
@@ -79,7 +75,6 @@
     } else {
         [self.numberQuestionView setHidden:true];
     }
-
 }
 
 - (void)setProfilePhoto {
@@ -101,15 +96,25 @@
     if (addingVote) {
         [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
         [self.voteButton setTitle:@"Voted" forState:UIControlStateNormal];
-        [self.votedView setHighlighted:NO];
+        [self.votedView setImage:[UIImage systemImageNamed:@"checkmark.circle.fill"]];
         
     } else {
         [self.voteButton setTitleColor:UIColor.systemYellowColor forState:UIControlStateNormal];
         [self.voteButton setTitle:@"Vote" forState:UIControlStateNormal];
-        [self.votedView setHighlighted:YES];
+        [self.votedView setImage:nil];
         
     }
-    self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
+}
+
+- (void)updateAnswer {
+    if (self.question.answered) {
+        [self.voteButton setHidden:NO];
+        [self.voteButton setTitle:@"Answered" forState:UIControlStateNormal];
+        [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
+    } else {
+        [self.voteButton setHidden:YES];
+        [self.votedView setHidden:YES];
+    }
 }
 
 #pragma mark - Actions
@@ -140,6 +145,7 @@
     }
     [self.question vote:addingVote];
     [self updateVoteButton:addingVote];
+    self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
     
     [self.question saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (!succeeded) {
