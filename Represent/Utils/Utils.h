@@ -136,6 +136,12 @@ NS_ASSUME_NONNULL_BEGIN
 */
 + (NSInteger)getFilterLength;
 
+/*Returns the limit for the number of questions to be highlighted
+ 
+ @return the topQuestionsLimit constant
+*/
++ (NSInteger)getLimit;
+
 /*Returns whether the value in a dictionary exists by checking for both [NSNull null] and nil
  
  @param dictionary is the given dictionary to check

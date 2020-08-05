@@ -40,16 +40,21 @@
     self.questionLabel.text = self.question.text;
     [self.usernameButton setTitle:self.question.author.username forState:UIControlStateNormal];
     [self setProfilePhoto];
-    NSInteger limit = 3;
-    if (row < limit) {
+    if (row < [Utils getLimit]) {
         [self setBackgroundColor:UIColor.systemGray3Color];
     } else {
         [self setBackgroundColor:UIColor.whiteColor];
         
     }
     User *user = [User currentUser];
-    [self updateVoteButton:[user hasVoted:self.question]];
-    self.timestampLabel.text = self.question.createdAt.shortTimeAgoSinceNow;
+    if (user.isRepresentative) {
+        [self updateVoteButton:[user hasVoted:self.question]];
+        self.timestampLabel.text = self.question.createdAt.shortTimeAgoSinceNow;
+    } else {
+        [self.voteButton setTitle:@"Answer" forState:UIControlStateNormal];
+        self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
+    }
+
 }
 
 - (void)setProfilePhoto {

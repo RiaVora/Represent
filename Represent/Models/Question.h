@@ -31,6 +31,9 @@ NS_ASSUME_NONNULL_BEGIN
 /*The representative that the question is written for.*/
 @property (nonatomic, strong) User *representative;
 
+/*Whether the question has been answered by the given representative.*/
+@property (nonatomic) BOOL answered;
+
 /*METHODS*/
 
 /*Is used externally to create a Question with the given arguments.

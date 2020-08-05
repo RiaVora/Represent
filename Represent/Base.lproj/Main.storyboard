@@ -312,7 +312,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="availableVotesLabel" destination="DJt-kU-Qsb" id="qmJ-zK-Mv8"/>
+                        <outlet property="bottomDescriptionLabel" destination="PPm-dT-mFr" id="dEn-uZ-UPb"/>
+                        <outlet property="bottomNumberLabel" destination="DJt-kU-Qsb" id="qmJ-zK-Mv8"/>
                         <outlet property="representativeButton" destination="cnZ-R1-Lm9" id="JUm-Zc-sAG"/>
                         <outlet property="tableView" destination="FcF-BM-1xi" id="BGr-aa-nnN"/>
                         <outlet property="tableViewRepresentatives" destination="WM2-y8-OuM" id="LvX-Gy-I5i"/>

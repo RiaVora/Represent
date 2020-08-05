@@ -64,6 +64,9 @@ NS_ASSUME_NONNULL_BEGIN
 /*The current amount of votes the user can use. Resets every new Calendar day to 5 votes, and cannot exceed 5.*/
 @property (nonatomic, strong) NSNumber *availableVoteCount;
 
+/*The number of questions remaining for the representative to answer. If the user is a non-representative, then null.*/
+@property (nonatomic, strong) NSNumber *questionsLeftCount;
+
 /*If the user is a representative, then their unique representative ID assigned by Congress. If the user is a non-representative, then null.*/
 @property (nonatomic, strong) NSString *representativeID;
 

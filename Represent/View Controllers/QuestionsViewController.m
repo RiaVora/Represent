@@ -16,8 +16,10 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableViewRepresentatives;
 @property (weak, nonatomic) IBOutlet UIButton *representativeButton;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
-@property (weak, nonatomic) IBOutlet UILabel *availableVotesLabel;
+@property (weak, nonatomic) IBOutlet UILabel *bottomNumberLabel;
+@property (weak, nonatomic) IBOutlet UILabel *bottomDescriptionLabel;
 @property (strong, nonatomic) User *currentRepresentative;
+@property (nonatomic) BOOL repView;
 
 @end
 
@@ -54,8 +56,20 @@
 
 - (void)setUpViews {
     self.currentUser = [User currentUser];
+    if (self.currentUser.isRepresentative) {
+        self.repView = true;
+        [self setUpViewsRep];
+    } else {
+        self.repView = false;
+        [self setUpViewsUser];
+    }
+}
+
+- (void)setUpViewsUser {
     [self.currentUser updateAvailableVotes];
-    [self.availableVotesLabel setText:[NSString stringWithFormat:@"%@", self.currentUser.availableVoteCount]];
+    [self.bottomDescriptionLabel setText:@"Votes Remaining: "];
+    NSLog(@"count is %@", self.currentUser.availableVoteCount);
+    [self.bottomNumberLabel setText:[NSString stringWithFormat:@"%@", self.currentUser.availableVoteCount]];
     if (!self.currentRepresentative || ![self.currentUser hasRep:self.currentRepresentative]) {
         self.currentRepresentative = self.currentUser.followedRepresentatives[0];
     }
@@ -69,6 +83,23 @@
         }
     }];
 }
+
+- (void)setUpViewsRep {
+    [self.bottomDescriptionLabel setText:@"Questions Remaining: "];
+    self.currentRepresentative = self.currentUser;
+    self.currentUser.questionsLeftCount = [NSNumber numberWithInt:0];
+    [self.currentRepresentative fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error with fetching representative %@", error.localizedDescription);
+        } else {
+            [self.representativeButton setTitle:@"My Questions" forState:UIControlStateNormal];
+            [self.representativeButton setEnabled:false];
+            [self.representativeButton setImage:nil forState:UIControlStateNormal];
+            [self fetchQuestions];
+        }
+    }];
+}
+
 
 - (void)initRefreshControl {
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -92,6 +123,15 @@
             NSLog(@"Successfully received questions!");
             self.questions = [NSMutableArray arrayWithArray:questions];
             [self.tableView reloadData];
+            if (self.repView) {
+                [self.currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                    if (error) {
+                        NSLog(@"Error with saving representative to updated questions count: %@", error.localizedDescription);
+                    } else {
+                        [self.bottomNumberLabel setText:[NSString stringWithFormat:@"%@", self.currentUser.questionsLeftCount]];
+                    }
+                }];
+            }
             [self.refreshControl endRefreshing];
             [UIView animateWithDuration:3 animations:^{
                 [MBProgressHUD hideHUDForView:self.view animated:true];
@@ -144,10 +184,14 @@
     if ([tableView isEqual:self.tableView]) {
         QuestionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QuestionCell"];
         cell.question = self.questions[indexPath.row];
+        if (indexPath.row < [Utils getLimit] && !(cell.question.answered)) {
+            [self.currentUser incrementKey:@"questionsLeftCount"];
+        }
         cell.controllerDelegate = self;
         cell.delegate = self;
         [cell updateValues: indexPath.row];
         return cell;
+
     } else {
         RepresentativeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RepresentativeCell"];
         if (cell == nil) {
@@ -223,7 +267,7 @@
 
 - (void)didVote:(Question *)question {
     [self fetchQuestions];
-    [self.availableVotesLabel setText:[NSString stringWithFormat:@"%@", self.currentUser.availableVoteCount]];
+    [self.bottomNumberLabel setText:[NSString stringWithFormat:@"%@", self.currentUser.availableVoteCount]];
 }
 
 #pragma mark - DZEmptyDataSetDelegate

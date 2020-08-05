@@ -12,6 +12,8 @@ static const NSArray *passed = [NSArray arrayWithObjects: @"Passed", @"Agreed to
 static const NSArray *failed = [NSArray arrayWithObjects: @"Failed", @"Amendment Rejected", @"Cloture Motion Rejected", @"Motion Rejected", @"Motion to Proceed Rejected", @"Motion to Table Rejected", @"Cloture on the Motion to Proceed Rejected", @"Bill Failed", @"Veto Sustained", @"Motion Rejected", nil];
 static const NSArray *parties = [NSArray arrayWithObjects: @"No Party Chosen", @"Democrat", @"Republican", @"Independent", @"Non-Affiliated", nil];
 static const NSArray *filters = [NSArray arrayWithObjects: @"Senate", @"House", @"Passed", @"Failed", nil];
+NSInteger const topQuestionsLimit = 3;
+
 
 @implementation Utils
 
@@ -146,7 +148,7 @@ static const NSArray *filters = [NSArray arrayWithObjects: @"Senate", @"House", 
     label.text = partyString;
 }
 
-#pragma mark - Dropdown TableView
+#pragma mark - Constants
 
 + (NSString *)getPartyAt: (int)index {
     return parties[index];
@@ -163,6 +165,12 @@ static const NSArray *filters = [NSArray arrayWithObjects: @"Senate", @"House", 
 + (NSInteger)getFilterLength {
     return filters.count;
 }
+
++ (NSInteger)getLimit {
+    return topQuestionsLimit;
+}
+
+#pragma mark - Helpers
 
 + (BOOL)valueExists: (NSDictionary *)dictionary forKey:(NSString *)key {
     return ([dictionary objectForKey:key] != nil && [dictionary objectForKey:key] != [NSNull null]);
