@@ -101,7 +101,11 @@
     self.tableViewParty.delegate = self;
     self.tableViewParty.dataSource = self;
     self.tableViewParty.hidden = YES;
-    self.usernameLabel.text = self.user.username;
+    if (self.user.isRepresentative) {
+        self.usernameLabel.text = [self.user fullTitleRepresentative];
+    } else {
+        self.usernameLabel.text = self.user.username;
+    }
     self.stateField.text = self.user.state;
     [self setProfilePhoto];
     if (!self.user.party) {

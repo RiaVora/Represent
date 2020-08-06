@@ -178,7 +178,7 @@
     if ([tableView isEqual:self.tableView]) {
         QuestionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QuestionCell"];
         cell.question = self.questions[indexPath.row];
-        if (indexPath.row < [Utils getLimit] && !(cell.question.answered)) {
+        if (indexPath.row < [Utils getLimit] && !(cell.question.answer)) {
             self.questionsLeft++;
         }
         cell.controllerDelegate = self;

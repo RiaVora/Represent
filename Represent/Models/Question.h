@@ -31,8 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 /*The representative that the question is written for.*/
 @property (nonatomic, strong) User *representative;
 
-/*Whether the question has been answered by the given representative.*/
-@property (nonatomic) BOOL answered;
+/*If answered, the answer that the given representative gave to the question. If not, then null.*/
+@property (nonatomic, strong) NSString *answer;
 
 /*METHODS*/
 

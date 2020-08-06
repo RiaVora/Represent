@@ -14,7 +14,7 @@
 @dynamic text;
 @dynamic voteCount;
 @dynamic representative;
-@dynamic answered;
+@dynamic answer;
 
 #pragma mark - Init
 

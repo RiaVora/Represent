@@ -107,10 +107,11 @@
 }
 
 - (void)updateAnswer {
-    if (self.question.answered) {
+    if (self.question.answer) {
         [self.voteButton setHidden:NO];
         [self.voteButton setTitle:@"Answered" forState:UIControlStateNormal];
         [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
+        [self setAccessoryType:UITableViewCellAccessoryNone];
     } else {
         [self.voteButton setHidden:YES];
         [self.votedView setHidden:YES];

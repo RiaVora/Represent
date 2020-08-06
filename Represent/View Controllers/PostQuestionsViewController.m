@@ -9,7 +9,7 @@
 #import "PostQuestionsViewController.h"
 
 @interface PostQuestionsViewController () <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate>
-@property (weak, nonatomic) IBOutlet UITextView *questionField;
+@property (weak, nonatomic) IBOutlet UITextView *questionTextView;
 @property (weak, nonatomic) IBOutlet UIButton *representativeButton;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewRepresentatives;
 @property (strong, nonatomic) NSArray *representatives;
@@ -23,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupTableView];
-    self.questionField.delegate = self;
+    self.questionTextView.delegate = self;
     [self setupValues];
 }
 
@@ -36,8 +36,7 @@
     self.tableViewRepresentatives.tableFooterView = [UIView new];
 }
 - (void)setupValues {
-    self.questionField.text = @"What do you want to ask?";
-    self.questionField.textColor = UIColor.lightGrayColor;
+    [self setPlaceholderText];
     self.representatives = [User currentUser].followedRepresentatives;
     [self.currentRepresentative fetch];
     [self.representativeButton setTitle:[self.currentRepresentative fullTitleRepresentative] forState:UIControlStateNormal];
@@ -55,9 +54,13 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
     if ([textView.text isEqualToString:@""]) {
-        textView.text = @"What do you want to ask?";
-        textView.textColor = UIColor.lightGrayColor;
+        [self setPlaceholderText];
     }
+}
+
+- (void)setPlaceholderText {
+    self.questionTextView.text = @"What do you want to ask?";
+    self.questionTextView.textColor = UIColor.lightGrayColor;
 }
 
 #pragma mark - Actions
@@ -67,8 +70,8 @@
 }
 
 - (NSString *)pressedPost {
-    NSString *questionText = self.questionField.text;
-    self.questionField.text = @"";
+    NSString *questionText = self.questionTextView.text;
+    self.questionTextView.text = @"";
     BOOL questionExists = [Utils checkExists: questionText:@"Question" :self];
     if (questionExists) {
         return questionText;
