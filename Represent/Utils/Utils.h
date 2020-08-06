@@ -50,6 +50,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (BOOL)checkLength:(NSString *)text :(NSNumber *)length :(NSString *)field :(UIViewController *)viewController;
 
+/*Returns whether the text is at or below certain length, and creates and displays an alert if the text is not meeting the requirements
+
+@param text is the text from the user input (the method checks length)
+@param length is the desired length of the text
+@param field is the name of the field to display in the alert
+@param viewController is the view controller to display the alert on
+@return YES if text's length is less than or equal to length; NO otherwise
+*/
++ (BOOL)checkLengthLessOrEquals:(NSString *)text :(NSInteger)length :(NSString *)field :(UIViewController *)viewController;
+
 /*Creates and displays an alert with the given title and message, and only an OK button
  
  @param title is the title to display in the alert

@@ -49,7 +49,7 @@
     self.questionLabel.text = self.question.text;
     [self.usernameButton setTitle:self.question.author.username forState:UIControlStateNormal];
     [self setProfilePhoto];
-    self.timestampLabel.text = self.question.createdAt.shortTimeAgoSinceNow;
+    self.timestampLabel.text = [NSString stringWithFormat: @"%@ ago", self.question.createdAt.shortTimeAgoSinceNow];
     self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
     self.user = [User currentUser];
 }

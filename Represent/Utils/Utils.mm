@@ -35,10 +35,21 @@ NSInteger const topQuestionsLimit = 3;
     return YES;
 }
 
+
 + (BOOL)checkLength:(NSString *)text :(NSNumber *)length :(NSString *)field :(UIViewController *)viewController {
     NSNumber *currentLength = [NSNumber numberWithLong:text.length];
     if (![currentLength isEqualToNumber:length]){
         [self displayAlertWithOk:[NSString stringWithFormat: @"Incorrect %@", field] message:[NSString stringWithFormat: @"%@ should be %@ letters long", field, length] viewController:viewController];
+        return NO;
+    }
+    return YES;
+}
+
++ (BOOL)checkLengthLessOrEquals:(NSString *)text :(NSInteger)length :(NSString *)field :(UIViewController *)viewController {
+    NSInteger currentLength = text.length;
+    NSLog(@"Current length is %ld and length is %ld", currentLength, length);
+    if (currentLength > length){
+        [self displayAlertWithOk:[NSString stringWithFormat: @"%@ is too long", field] message:[NSString stringWithFormat: @"%@ should be %ld characters or less long", field, (long)length] viewController:viewController];
         return NO;
     }
     return YES;

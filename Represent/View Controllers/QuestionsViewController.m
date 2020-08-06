@@ -9,7 +9,7 @@
 #import "QuestionsViewController.h"
 
 
-@interface QuestionsViewController () <UITableViewDelegate, UITableViewDataSource, QuestionCellDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@interface QuestionsViewController () <UITableViewDelegate, UITableViewDataSource, QuestionCellDelegate, PostQuestionsDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *questions;
 @property (strong, nonatomic) User *currentUser;
@@ -272,6 +272,20 @@
     [self.bottomNumberLabel setText:[NSString stringWithFormat:@"%@", self.currentUser.availableVoteCount]];
 }
 
+#pragma mark - PostQuestionsDelegate
+
+- (void)didPost:(NSString *)questionText :(User *)currrentRepresentative {
+    [MBProgressHUD showHUDAddedTo:self.view animated:true];
+    self.currentRepresentative = currrentRepresentative;
+    if (questionText) {
+        [self postQuestion: questionText];
+    } else {
+        [UIView animateWithDuration:3 animations:^{
+            [MBProgressHUD hideHUDForView:self.view animated:true];
+        }];
+    }
+}
+
 #pragma mark - DZEmptyDataSetDelegate
 
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView {
@@ -310,6 +324,7 @@
     UINavigationController *navigationController = [segue destinationViewController];
     PostQuestionsViewController *postQuestionsVC = (PostQuestionsViewController*)navigationController.topViewController;
     postQuestionsVC.currentRepresentative = self.currentRepresentative;
+    postQuestionsVC.delegate = self;
 }
 
 - (void)profileSegue: (UIStoryboardSegue *)segue sender:(id)sender {
@@ -319,15 +334,19 @@
 }
 
 
-- (IBAction) pressedPost:(UIStoryboardSegue *)unwindSegue {
-    PostQuestionsViewController *postQuestionsVC = [unwindSegue sourceViewController];
-    [MBProgressHUD showHUDAddedTo:self.view animated:true];
-    NSString *questionText = [postQuestionsVC pressedPost];
-    self.currentRepresentative = postQuestionsVC.currentRepresentative;
-    if (questionText) {
-        [self postQuestion: questionText];
-    }
-}
+//- (IBAction) pressedPost:(UIStoryboardSegue *)unwindSegue {
+//    PostQuestionsViewController *postQuestionsVC = [unwindSegue sourceViewController];
+//    [MBProgressHUD showHUDAddedTo:self.view animated:true];
+//    NSString *questionText = [postQuestionsVC pressedPost];
+//    self.currentRepresentative = postQuestionsVC.currentRepresentative;
+//    if (questionText) {
+//        [self postQuestion: questionText];
+//    } else {
+//        [UIView animateWithDuration:3 animations:^{
+//            [MBProgressHUD hideHUDForView:self.view animated:true];
+//        }];
+//    }
+//}
 
 - (void)postQuestion: (NSString *)questionText {
     [Question postUserQuestion:questionText forRepresentative:self.currentRepresentative withCompletion:^(BOOL succeeded, NSError * _Nullable error) {

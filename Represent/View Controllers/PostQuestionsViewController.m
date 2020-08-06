@@ -13,6 +13,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *representativeButton;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewRepresentatives;
 @property (strong, nonatomic) NSArray *representatives;
+@property (weak, nonatomic) IBOutlet UILabel *characterCountLabel;
+@property (nonatomic) NSInteger characterLimit;
 
 @end
 
@@ -24,6 +26,7 @@
     [super viewDidLoad];
     [self setupTableView];
     self.questionTextView.delegate = self;
+    self.characterLimit = 250;
     [self setupValues];
 }
 
@@ -63,20 +66,35 @@
     self.questionTextView.textColor = UIColor.lightGrayColor;
 }
 
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)string {
+    if (range.length + range.location > textView.text.length) {
+        return NO;
+    }
+    NSInteger newLength = [textView.text length] + [string length] - range.length;
+    self.characterCountLabel.text = [NSString stringWithFormat:@"%ld out of %ld", newLength, self.characterLimit];
+    if (newLength > self.characterLimit) {
+        [textView setTextColor:UIColor.systemRedColor];
+        [self.characterCountLabel setTextColor:UIColor.systemRedColor];
+    } else if ([textView.textColor isEqual:UIColor.systemRedColor]){
+        [textView setTextColor:UIColor.blackColor];
+        [self.characterCountLabel setTextColor:UIColor.blackColor];
+    }
+    return YES;
+}
+
 #pragma mark - Actions
 
 - (IBAction)pressedCancel:(id)sender {
     [self dismissViewControllerAnimated:true completion:nil];
 }
-
-- (NSString *)pressedPost {
+- (IBAction)pressedPost:(id)sender {
     NSString *questionText = self.questionTextView.text;
-    self.questionTextView.text = @"";
     BOOL questionExists = [Utils checkExists: questionText:@"Question" :self];
-    if (questionExists) {
-        return questionText;
-    } else {
-        return nil;
+    BOOL metLimit = [Utils checkLengthLessOrEquals:questionText :self.characterLimit :@"Question" :self];
+    if (questionExists && metLimit) {
+        [self dismissViewControllerAnimated:true completion:nil];
+        self.questionTextView.text = @"";
+        [self.delegate didPost:questionText:self.currentRepresentative];
     }
 }
 

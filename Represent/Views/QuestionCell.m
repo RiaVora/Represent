@@ -48,7 +48,7 @@
     } else {
         [self setNormalQuestion];
     }
-    self.timestampLabel.text = self.question.createdAt.shortTimeAgoSinceNow;
+    self.timestampLabel.text = [NSString stringWithFormat: @"%@ ago", self.question.createdAt.shortTimeAgoSinceNow];
     self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
     User *user = [User currentUser];
     if (user.isRepresentative) {
@@ -72,6 +72,7 @@
     if (row <= 50) {
         [self.numberQuestionView setHidden:false];
         [self.numberQuestionView setImage:[UIImage systemImageNamed:[NSString stringWithFormat:@"%ld.square.fill", (long)row + 1]]];
+        [self.numberQuestionView setTintColor:UIColor.lightGrayColor];
     } else {
         [self.numberQuestionView setHidden:true];
     }
@@ -98,7 +99,6 @@
         [self setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
         [self.voteButton setTitle:@"Answered" forState:UIControlStateNormal];
         [self.voteButton setTitleColor:UIColor.systemGreenColor forState:UIControlStateNormal];
-        [self.votedView setHidden:NO];
         [self.votedView setImage:[UIImage systemImageNamed:@"checkmark.seal.fill"]];
         [self.votedView setTintColor:UIColor.systemGreenColor];
 
@@ -108,23 +108,15 @@
         if (addingVote) {
             [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
             [self.voteButton setTitle:@"Voted" forState:UIControlStateNormal];
-            [self.votedView setImage:[UIImage systemImageNamed:@"checkmark.circle.fill"]];
-            [self.votedView setTintColor:UIColor.systemGrayColor];
-//            [self.votedView setHidden:YES];
+//            [self.votedView setImage:[UIImage systemImageNamed:@"checkmark.square.fill"]];
+//            [self.votedView setTintColor:UIColor.systemGrayColor];
             
         } else {
             [self.voteButton setTitleColor:UIColor.systemYellowColor forState:UIControlStateNormal];
             [self.voteButton setTitle:@"Vote" forState:UIControlStateNormal];
-            [self.votedView setHidden:YES];
+//            [self.votedView setImage:[UIImage systemImageNamed:@"square"]];
+//            [self.votedView setTintColor:UIColor.systemYellowColor];
         }
-    }
-}
-
-- (void)updateAnswerUser {
-    if (self.question.answer) {
-
-    } else {
-
     }
 }
 
