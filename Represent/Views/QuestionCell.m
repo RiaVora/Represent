@@ -98,7 +98,8 @@
         [self setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
         [self.voteButton setTitle:@"Answered" forState:UIControlStateNormal];
         [self.voteButton setTitleColor:UIColor.systemGreenColor forState:UIControlStateNormal];
-        [self.votedView setImage:[UIImage systemImageNamed:@"checkmark.circle.fill"]];
+        [self.votedView setHidden:NO];
+        [self.votedView setImage:[UIImage systemImageNamed:@"checkmark.seal.fill"]];
         [self.votedView setTintColor:UIColor.systemGreenColor];
 
     } else {
@@ -109,12 +110,12 @@
             [self.voteButton setTitle:@"Voted" forState:UIControlStateNormal];
             [self.votedView setImage:[UIImage systemImageNamed:@"checkmark.circle.fill"]];
             [self.votedView setTintColor:UIColor.systemGrayColor];
+//            [self.votedView setHidden:YES];
             
         } else {
             [self.voteButton setTitleColor:UIColor.systemYellowColor forState:UIControlStateNormal];
             [self.voteButton setTitle:@"Vote" forState:UIControlStateNormal];
-            [self.votedView setImage:nil];
-            
+            [self.votedView setHidden:YES];
         }
     }
 }
