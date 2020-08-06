@@ -14,10 +14,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *usernameButton;
 @property (weak, nonatomic) IBOutlet UILabel *timestampLabel;
 @property (weak, nonatomic) IBOutlet UILabel *voteCountLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *topQuestionView;
 @property (weak, nonatomic) IBOutlet UILabel *questionLabel;
 @property (weak, nonatomic) IBOutlet UITextView *answerTextView;
 @property (weak, nonatomic) IBOutlet UIButton *answerButton;
+@property (weak, nonatomic) IBOutlet User *user;
 
 @end
 
@@ -37,11 +37,24 @@
 #pragma mark - Setup
 
 - (void)updateValues {
+    [self setDetails];
+    if ([self.user.username isEqualToString:self.question.representative.username]) {
+        [self setRepView];
+    } else {
+        [self setUserView];
+    }
+
+}
+- (void)setDetails {
     self.questionLabel.text = self.question.text;
     [self.usernameButton setTitle:self.question.author.username forState:UIControlStateNormal];
     [self setProfilePhoto];
     self.timestampLabel.text = self.question.createdAt.shortTimeAgoSinceNow;
     self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
+    self.user = [User currentUser];
+}
+
+- (void)setRepView {
     if (self.question.answer) {
         [self.answerButton setTitle:@"Change Answer" forState:UIControlStateNormal];
         [self.answerTextView setText:self.question.answer];
@@ -50,12 +63,14 @@
     }
 }
 
-- (void)setTopQuestion{
-    [self.topQuestionView setHidden:false];
-}
-
-- (void)setNormalQuestion {
-    [self.topQuestionView setHidden:true];
+- (void)setUserView {
+    if (self.question.answer) {
+        [self.answerButton setHidden:YES];
+        [self.answerTextView setEditable:NO];
+        [self.answerTextView setText:self.question.answer];
+    } else {
+        [Utils displayAlertWithOk:@"Error" message:@"Should not be able to see answer screen if there is no answer" viewController:self];
+    }
 }
 
 - (void)setProfilePhoto {
@@ -64,7 +79,7 @@
             if (error) {
                 NSLog(@"Error with getting data from Image: %@", error.localizedDescription);
             } else {
-                self.profileView.image = [Utils resizeImage:[UIImage imageWithData:data] withSize:(CGSizeMake(35, 35))];
+                self.profileView.image = [Utils resizeImage:[UIImage imageWithData:data] withSize:(CGSizeMake(40, 40))];
                 self.profileView.layer.cornerRadius = self.profileView.frame.size.width / 2;
             }
         }];

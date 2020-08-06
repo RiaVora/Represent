@@ -83,7 +83,7 @@
             if (error) {
                 NSLog(@"Error with getting data from Image: %@", error.localizedDescription);
             } else {
-                self.profileView.image = [Utils resizeImage:[UIImage imageWithData:data] withSize:(CGSizeMake(35, 35))];
+                self.profileView.image = [Utils resizeImage:[UIImage imageWithData:data] withSize:(CGSizeMake(40, 40))];
                 self.profileView.layer.cornerRadius = self.profileView.frame.size.width / 2;
             }
         }];
@@ -93,16 +93,33 @@
 }
 
 - (void)updateVoteButton:(BOOL)addingVote {
-    if (addingVote) {
+    if (self.question.answer) {
+        self.userInteractionEnabled = YES;
+        [self setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+        [self.voteButton setTitle:@"Answered" forState:UIControlStateNormal];
         [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
-        [self.voteButton setTitle:@"Voted" forState:UIControlStateNormal];
-        [self.votedView setImage:[UIImage systemImageNamed:@"checkmark.circle.fill"]];
-        
     } else {
-        [self.voteButton setTitleColor:UIColor.systemYellowColor forState:UIControlStateNormal];
-        [self.voteButton setTitle:@"Vote" forState:UIControlStateNormal];
-        [self.votedView setImage:nil];
-        
+        self.userInteractionEnabled = NO;
+        [self setAccessoryType:UITableViewCellAccessoryNone];
+        if (addingVote) {
+            [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
+            [self.voteButton setTitle:@"Voted" forState:UIControlStateNormal];
+            [self.votedView setImage:[UIImage systemImageNamed:@"checkmark.circle.fill"]];
+            
+        } else {
+            [self.voteButton setTitleColor:UIColor.systemYellowColor forState:UIControlStateNormal];
+            [self.voteButton setTitle:@"Vote" forState:UIControlStateNormal];
+            [self.votedView setImage:nil];
+            
+        }
+    }
+}
+
+- (void)updateAnswerUser {
+    if (self.question.answer) {
+
+    } else {
+
     }
 }
 
