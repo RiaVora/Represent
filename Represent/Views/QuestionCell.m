@@ -97,14 +97,18 @@
         self.userInteractionEnabled = YES;
         [self setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
         [self.voteButton setTitle:@"Answered" forState:UIControlStateNormal];
-        [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
+        [self.voteButton setTitleColor:UIColor.systemGreenColor forState:UIControlStateNormal];
+        [self.votedView setImage:[UIImage systemImageNamed:@"checkmark.circle.fill"]];
+        [self.votedView setTintColor:UIColor.systemGreenColor];
+
     } else {
-        self.userInteractionEnabled = NO;
+        [self setSelectionStyle:UITableViewCellSelectionStyleNone];
         [self setAccessoryType:UITableViewCellAccessoryNone];
         if (addingVote) {
             [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
             [self.voteButton setTitle:@"Voted" forState:UIControlStateNormal];
             [self.votedView setImage:[UIImage systemImageNamed:@"checkmark.circle.fill"]];
+            [self.votedView setTintColor:UIColor.systemGrayColor];
             
         } else {
             [self.voteButton setTitleColor:UIColor.systemYellowColor forState:UIControlStateNormal];

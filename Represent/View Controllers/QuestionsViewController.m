@@ -219,6 +219,14 @@
         self.currentRepresentative = cell.representative;
         self.tableViewRepresentatives.hidden = YES;
         [self fetchQuestions];
+    } else {
+        QuestionCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        if (cell.question.answer) {
+            AnswerViewController *answerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AnswerViewController"];
+            answerVC.question = cell.question;
+            [self.navigationController pushViewController:answerVC animated:YES];
+        }
+
     }
 }
 
@@ -295,8 +303,6 @@
         [self postQuestionSegue:segue sender:sender];
     } else if ([segue.identifier isEqualToString:@"profileSegue"]) {
         [self profileSegue:segue sender:sender];
-    } else if ([segue.identifier isEqualToString:@"answerSegue"]) {
-        [self answerSegue:segue sender:sender];
     }
 }
 
@@ -312,11 +318,6 @@
     profileVC.user = cell.question.author;
 }
 
-- (void)answerSegue: (UIStoryboardSegue *)segue sender:(id)sender {
-    QuestionCell *cell = sender;
-    AnswerViewController *answerVC = [segue destinationViewController];
-    answerVC.question = cell.question;
-}
 
 - (IBAction) pressedPost:(UIStoryboardSegue *)unwindSegue {
     PostQuestionsViewController *postQuestionsVC = [unwindSegue sourceViewController];
