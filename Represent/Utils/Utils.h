@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "User.h"
 #import <Parse/Parse.h>
+#import <ChameleonFramework/Chameleon.h>
 
 /*The Utils file is a NSObject class that is used to collect helper methods to be used across classes. The Utils method contains various types of methods for displaying Alerts on ViewControllers and creating custom alerts, as well as converting an Image into a PFFFile for transfer into Parse and resizing the image.*/
 
@@ -151,6 +152,20 @@ NS_ASSUME_NONNULL_BEGIN
  @return the topQuestionsLimit constant
 */
 + (NSInteger)getLimit;
+
+/*Returns a UIColor of light yellow used as background and behind buttons
+ 
+ @return a UIColor based on a hex yellow value
+*/
+
++ (UIColor *)getYellow;
+
+/*Returns a UIColor of dark yellow used as background and behind buttons
+ 
+ @return a UIColor based on a hex darkYellow value
+*/
+
++ (UIColor *)getDarkYellow;
 
 /*Returns whether the value in a dictionary exists by checking for both [NSNull null] and nil
  

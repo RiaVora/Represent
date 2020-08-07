@@ -13,6 +13,8 @@ static const NSArray *failed = [NSArray arrayWithObjects: @"Failed", @"Amendment
 static const NSArray *parties = [NSArray arrayWithObjects: @"No Party Chosen", @"Democrat", @"Republican", @"Independent", @"Non-Affiliated", nil];
 static const NSArray *filters = [NSArray arrayWithObjects: @"Senate", @"House", @"Passed", @"Failed", nil];
 NSInteger const topQuestionsLimit = 3;
+NSString *yellowHex = @"F8F8C4";
+NSString *darkYellowHex = @"B68603";
 
 
 @implementation Utils
@@ -180,6 +182,15 @@ NSInteger const topQuestionsLimit = 3;
 + (NSInteger)getLimit {
     return topQuestionsLimit;
 }
+
++ (UIColor *)getYellow {
+    return [UIColor colorWithHexString: yellowHex];
+}
+
++ (UIColor *)getDarkYellow {
+    return [UIColor colorWithHexString: darkYellowHex];
+}
+
 
 #pragma mark - Helpers
 

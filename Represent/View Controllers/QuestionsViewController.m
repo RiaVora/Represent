@@ -126,6 +126,7 @@
             [self.refreshControl endRefreshing];
             [UIView animateWithDuration:3 animations:^{
                 [MBProgressHUD hideHUDForView:self.view animated:true];
+                [self goToCell:2];
             }];
         } else {
             NSLog(@"There was a problem fetching Questions: %@", error.localizedDescription);
@@ -160,9 +161,7 @@
 
 - (void)goToCell: (int)row {
     NSIndexPath *newQuestionPath = [NSIndexPath indexPathForRow:row inSection:0];
-    QuestionCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"QuestionCell" forIndexPath:newQuestionPath];
     [self.tableView scrollToRowAtIndexPath: newQuestionPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    [cell setSelected:YES animated:YES];
 }
 
 

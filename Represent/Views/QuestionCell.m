@@ -93,6 +93,7 @@
 }
 
 - (void)updateVoteButton:(BOOL)addingVote {
+    self.voteButton.layer.cornerRadius = 10;
     if (self.question.answer) {
         [self showAnswered];
         [self setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
@@ -103,12 +104,19 @@
         if (addingVote) {
             [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
             [self.voteButton setTitle:@"Voted" forState:UIControlStateNormal];
+            [self.voteButton setBackgroundColor:UIColor.systemGray4Color];
+            [self.voteButton.layer setBorderWidth:0.5];
+            [self.voteButton.layer setBorderColor:UIColor.darkGrayColor.CGColor];
+//            [self.voteButton.layer setBorderWidth:1];
 //            [self.votedView setImage:[UIImage systemImageNamed:@"checkmark.square.fill"]];
 //            [self.votedView setTintColor:UIColor.systemGrayColor];
             
         } else {
-            [self.voteButton setTitleColor:UIColor.systemYellowColor forState:UIControlStateNormal];
+            [self.voteButton setTitleColor:[Utils getDarkYellow] forState:UIControlStateNormal];
             [self.voteButton setTitle:@"Vote" forState:UIControlStateNormal];
+            [self.voteButton setBackgroundColor:[Utils getYellow]];
+            [self.voteButton.layer setBorderWidth:0.5];
+            [self.voteButton.layer setBorderColor:[Utils getDarkYellow].CGColor];
 //            [self.votedView setImage:[UIImage systemImageNamed:@"square"]];
 //            [self.votedView setTintColor:UIColor.systemYellowColor];
         }
@@ -135,6 +143,9 @@
     [self.votedView setHidden:NO];
     [self.votedView setImage:[UIImage systemImageNamed:@"checkmark.seal.fill"]];
     [self.votedView setTintColor:UIColor.systemGreenColor];
+    [self.voteButton setBackgroundColor:nil];
+    [self.voteButton.layer setBorderWidth:0];
+
 }
 
 #pragma mark - Actions

@@ -57,11 +57,11 @@
 
 - (void)setRepView {
     [self.answerTitleLabel setText:@"Answer Below:"];
+    self.answerTextView.font = [UIFont systemFontOfSize:20 weight:UIFontWeightLight];
     if (self.question.answer) {
         [self.answerButton setAlpha:0];
         [self.answerButton setTitle:@"Update Answer" forState:UIControlStateNormal];
         [self.answerTextView setText:self.question.answer];
-        self.answerTextView.font = [UIFont systemFontOfSize:20 weight:UIFontWeightLight];
     } else {
         [self setPlaceholderText];
     }
