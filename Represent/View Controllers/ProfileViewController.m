@@ -91,7 +91,6 @@
     if (!self.user.profileDescription) {
         self.descriptionField.text = @"No Description Written";
         self.descriptionField.textColor = UIColor.lightGrayColor;
-        self.descriptionField.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
     } else {
         [self setDescriptionText];
     }

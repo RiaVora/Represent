@@ -18,7 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *answerTextView;
 @property (weak, nonatomic) IBOutlet UIButton *answerButton;
 @property (weak, nonatomic) IBOutlet UILabel *answerTitleLabel;
-@property (weak, nonatomic) IBOutlet User *user;
+@property (weak, nonatomic) User *user;
 
 @end
 
@@ -48,17 +48,20 @@
 - (void)setDetails {
     self.questionLabel.text = self.question.text;
     [self.usernameButton setTitle:self.question.author.username forState:UIControlStateNormal];
-    [self.answerTitleLabel setText:[NSString stringWithFormat:@"%@ answered: ", [self.question.representative fullTitleRepresentative]]];
+
     [self setProfilePhoto];
-    self.timestampLabel.text = [NSString stringWithFormat: @"%@ ago", self.question.createdAt.shortTimeAgoSinceNow];
+    self.timestampLabel.text = [NSString stringWithFormat: @"%@", self.question.createdAt.timeAgoSinceNow];
     self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
     self.user = [User currentUser];
 }
 
 - (void)setRepView {
+    [self.answerTitleLabel setText:@"Answer Below:"];
     if (self.question.answer) {
-        [self.answerButton setTitle:@"Change Answer" forState:UIControlStateNormal];
+        [self.answerButton setAlpha:0];
+        [self.answerButton setTitle:@"Update Answer" forState:UIControlStateNormal];
         [self.answerTextView setText:self.question.answer];
+        self.answerTextView.font = [UIFont systemFontOfSize:20 weight:UIFontWeightLight];
     } else {
         [self setPlaceholderText];
     }
@@ -69,6 +72,7 @@
         [self.answerButton setHidden:YES];
         [self.answerTextView setEditable:NO];
         [self.answerTextView setText:self.question.answer];
+        [self.answerTitleLabel setText:[NSString stringWithFormat:@"%@ answered: ", [self.question.representative fullTitleRepresentative]]];
     } else {
         [Utils displayAlertWithOk:@"Error" message:@"Should not be able to see answer screen if there is no answer" viewController:self];
     }
@@ -95,6 +99,9 @@
         textView.text = @"";
         textView.textColor = UIColor.blackColor;
     }
+    [UIView animateWithDuration:0.5 animations:^{
+        [self.answerButton setAlpha:1];
+    }];
     return true;
 }
 
@@ -105,8 +112,9 @@
 }
 
 - (void)setPlaceholderText {
-    self.answerTextView.text = @"What's your answer?";
+    self.answerTextView.text = @"What's your response?";
     self.answerTextView.textColor = UIColor.lightGrayColor;
+    self.answerTextView.font = [UIFont systemFontOfSize:20 weight:UIFontWeightSemibold];
 }
 
 #pragma mark - Actions
@@ -123,7 +131,8 @@
                 [UIView animateWithDuration:3 animations:^{
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                 }];
-                [self.answerButton setTitle:@"Change Answer" forState:UIControlStateNormal];
+                [self.answerButton setTitle:@"Update Answer" forState:UIControlStateNormal];
+                [self.answerButton setAlpha:0];
                 [Utils displayAlertWithOk:@"Answer Saved" message:[NSString stringWithFormat: @"Thank you for answering %@'s question!", self.question.author.username] viewController:self];
             }
         }];

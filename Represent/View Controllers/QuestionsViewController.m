@@ -123,9 +123,6 @@
             self.questions = [NSMutableArray arrayWithArray:questions];
             self.questionsLeft = 0;
             [self.tableView reloadData];
-            if (self.repView) {
-                [self.bottomNumberLabel setText:[NSString stringWithFormat:@"%lu", self.questionsLeft]];
-            }
             [self.refreshControl endRefreshing];
             [UIView animateWithDuration:3 animations:^{
                 [MBProgressHUD hideHUDForView:self.view animated:true];
@@ -154,9 +151,6 @@
                 [self.questions addObject:question];
             }
             [self.tableView reloadData];
-            //            if (justPosted) {
-            //                [self goToCell:(int)self.questions.count - 1];
-            //            }
             [UIView animateWithDuration:3 animations:^{
                 [MBProgressHUD hideHUDForView:self.view animated:true];
             }];
@@ -178,8 +172,10 @@
     if ([tableView isEqual:self.tableView]) {
         QuestionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QuestionCell"];
         cell.question = self.questions[indexPath.row];
-        if (indexPath.row < [Utils getLimit] && !(cell.question.answer)) {
+        if (indexPath.row < [Utils getLimit] && !(cell.question.answer) && self.repView) {
             self.questionsLeft++;
+            [self.bottomNumberLabel setText:[NSString stringWithFormat:@"%lu", self.questionsLeft]];
+
         }
         cell.controllerDelegate = self;
         cell.delegate = self;
@@ -221,7 +217,7 @@
         [self fetchQuestions];
     } else {
         QuestionCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        if (cell.question.answer) {
+        if (self.repView || (cell.question.answer && !self.repView)) {
             AnswerViewController *answerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AnswerViewController"];
             answerVC.question = cell.question;
             [self.navigationController pushViewController:answerVC animated:YES];

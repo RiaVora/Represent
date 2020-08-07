@@ -60,7 +60,7 @@
 
 - (void)setTopQuestion{
     [self.topQuestionView setHidden:false];
-    [self.numberQuestionView setTintColor:UIColor.systemGreenColor];
+//    [self.numberQuestionView setTintColor:UIColor.systemGreenColor];
 }
 
 - (void)setNormalQuestion {
@@ -94,16 +94,12 @@
 
 - (void)updateVoteButton:(BOOL)addingVote {
     if (self.question.answer) {
-        self.userInteractionEnabled = YES;
+        [self showAnswered];
         [self setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-        [self.voteButton setTitle:@"Answered" forState:UIControlStateNormal];
-        [self.voteButton setTitleColor:UIColor.systemGreenColor forState:UIControlStateNormal];
-        [self.votedView setImage:[UIImage systemImageNamed:@"checkmark.seal.fill"]];
-        [self.votedView setTintColor:UIColor.systemGreenColor];
-
     } else {
         [self setSelectionStyle:UITableViewCellSelectionStyleNone];
         [self setAccessoryType:UITableViewCellAccessoryNone];
+        [self.votedView setHidden:YES];
         if (addingVote) {
             [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
             [self.voteButton setTitle:@"Voted" forState:UIControlStateNormal];
@@ -121,14 +117,24 @@
 
 - (void)updateAnswer {
     if (self.question.answer) {
-        [self.voteButton setHidden:NO];
-        [self.voteButton setTitle:@"Answered" forState:UIControlStateNormal];
-        [self.voteButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateNormal];
+        [self showAnswered];
         [self setAccessoryType:UITableViewCellAccessoryNone];
     } else {
+        self.userInteractionEnabled = YES;
         [self.voteButton setHidden:YES];
         [self.votedView setHidden:YES];
+        [self setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     }
+}
+
+- (void)showAnswered {
+    self.userInteractionEnabled = YES;
+    [self.voteButton setHidden:NO];
+    [self.voteButton setTitle:@"Answered" forState:UIControlStateNormal];
+    [self.voteButton setTitleColor:UIColor.systemGreenColor forState:UIControlStateNormal];
+    [self.votedView setHidden:NO];
+    [self.votedView setImage:[UIImage systemImageNamed:@"checkmark.seal.fill"]];
+    [self.votedView setTintColor:UIColor.systemGreenColor];
 }
 
 #pragma mark - Actions
