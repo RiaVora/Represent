@@ -107,7 +107,8 @@
         self.usernameLabel.text = self.user.username;
     }
     self.stateField.text = self.user.state;
-    [self setProfilePhoto];
+    [self getProfilePhoto];
+    self.profileView.layer.cornerRadius = self.profileView.frame.size.width / 2;
     if (!self.user.party) {
         [self.partyButton setTitle:[Utils getPartyAt:0] forState:UIControlStateNormal];
         self.user.party = [Utils getPartyAt:0];
@@ -119,19 +120,19 @@
     self.cancelButton.alpha = 0;
 }
 
-- (void)setProfilePhoto {
+- (void)getProfilePhoto {
     if (self.user.profilePhoto) {
         [self.user.profilePhoto getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {
             if (error) {
                 NSLog(@"Error with getting data from Image: %@", error.localizedDescription);
             } else {
                 self.profileView.image = [Utils resizeImage:[UIImage imageWithData:data] withSize:(CGSizeMake(200, 200))];
-                self.profileView.layer.cornerRadius = self.profileView.frame.size.width / 2;
+                [self.profileView setBackgroundColor:nil];
                 [self fillBackgroundView];
             }
         }];
     } else {
-        NSLog(@"Error, no profile photo set");
+        [self fillBackgroundView];
     }
 }
 
