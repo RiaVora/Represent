@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *questionLabel;
 @property (weak, nonatomic) IBOutlet UITextView *answerTextView;
 @property (weak, nonatomic) IBOutlet UIButton *answerButton;
+@property (weak, nonatomic) IBOutlet UILabel *answerTitleLabel;
 @property (weak, nonatomic) IBOutlet User *user;
 
 @end
@@ -29,7 +30,6 @@
     [super viewDidLoad];
     self.answerTextView.delegate = self;
 //    self.answerTextView.backgroundColor = UIColor.flatLimeColor;
-    
 //    self.answerTextView.layer.cornerRadius = 10;
     [self updateValues];
 }
@@ -48,6 +48,7 @@
 - (void)setDetails {
     self.questionLabel.text = self.question.text;
     [self.usernameButton setTitle:self.question.author.username forState:UIControlStateNormal];
+    [self.answerTitleLabel setText:[NSString stringWithFormat:@"%@ answered: ", [self.question.representative fullTitleRepresentative]]];
     [self setProfilePhoto];
     self.timestampLabel.text = [NSString stringWithFormat: @"%@ ago", self.question.createdAt.shortTimeAgoSinceNow];
     self.voteCountLabel.text = [NSString stringWithFormat:@"%@", self.question.voteCount];
