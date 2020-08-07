@@ -13,6 +13,7 @@
 #import "DateTools.h"
 #import "MBProgressHUD.h"
 #import <ChameleonFramework/Chameleon.h>
+#import "ProfileViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

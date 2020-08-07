@@ -333,21 +333,6 @@
     profileVC.user = cell.question.author;
 }
 
-
-//- (IBAction) pressedPost:(UIStoryboardSegue *)unwindSegue {
-//    PostQuestionsViewController *postQuestionsVC = [unwindSegue sourceViewController];
-//    [MBProgressHUD showHUDAddedTo:self.view animated:true];
-//    NSString *questionText = [postQuestionsVC pressedPost];
-//    self.currentRepresentative = postQuestionsVC.currentRepresentative;
-//    if (questionText) {
-//        [self postQuestion: questionText];
-//    } else {
-//        [UIView animateWithDuration:3 animations:^{
-//            [MBProgressHUD hideHUDForView:self.view animated:true];
-//        }];
-//    }
-//}
-
 - (void)postQuestion: (NSString *)questionText {
     [Question postUserQuestion:questionText forRepresentative:self.currentRepresentative withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (!succeeded) {

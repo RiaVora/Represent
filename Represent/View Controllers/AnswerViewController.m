@@ -131,6 +131,17 @@
     }
 }
 
+- (IBAction)pressedUsername:(id)sender {
+    [self performSegueWithIdentifier:@"profileSegue" sender:sender];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"profileSegue"]) {
+        ProfileViewController *profileVC = [segue destinationViewController];
+        profileVC.user = self.question.author;
+    }
+}
+
 
 
 @end
