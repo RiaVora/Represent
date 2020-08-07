@@ -22,18 +22,18 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="P13-JJ-jBT">
-                                <rect key="frame" x="100" y="350" width="214" height="34"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="P13-JJ-jBT">
+                                <rect key="frame" x="100" y="318" width="214" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" textContentType="username"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fWx-J1-lRg">
-                                <rect key="frame" x="100" y="434" width="214" height="34"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fWx-J1-lRg">
+                                <rect key="frame" x="100" y="402" width="214" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GR8-30-yuk">
-                                <rect key="frame" x="171" y="508" width="72" height="48"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GR8-30-yuk">
+                                <rect key="frame" x="171" y="476" width="72" height="48"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <state key="normal" title="Login"/>
                                 <connections>
@@ -85,8 +85,8 @@
                             <constraint firstItem="fWx-J1-lRg" firstAttribute="trailing" secondItem="P13-JJ-jBT" secondAttribute="trailing" id="lVd-qa-mEe"/>
                             <constraint firstItem="3nH-rO-Eof" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="p3i-Gm-Keu"/>
                             <constraint firstItem="fWx-J1-lRg" firstAttribute="leading" secondItem="P13-JJ-jBT" secondAttribute="leading" id="pl6-Xd-Bs9"/>
+                            <constraint firstItem="jGT-Z9-fSN" firstAttribute="top" secondItem="GR8-30-yuk" secondAttribute="bottom" constant="42" id="tr7-S7-TGK"/>
                             <constraint firstItem="P13-JJ-jBT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vl8-yv-AwA"/>
-                            <constraint firstItem="jGT-Z9-fSN" firstAttribute="top" secondItem="GR8-30-yuk" secondAttribute="bottom" constant="10" id="wIw-zq-5wu"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
