@@ -32,8 +32,8 @@
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
     self.tableView.tableFooterView = [UIView new];
-    [self.tableView.layer setBorderWidth:1];
-    [self.tableView.layer setBorderColor:UIColor.darkGrayColor.CGColor];
+    [self.tableView setBackgroundView:nil];
+
     self.bills = [[NSMutableArray alloc] init];
     [self updateValues];
     [self fetchBills];
@@ -76,6 +76,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     BillCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BillCell"];
     cell.bill = self.bills[indexPath.row];
+//    cell.layer.borderColor =  UIColor.lightGrayColor.CGColor;
+//    cell.layer.borderWidth = 0.5;
+//    cell.layer.cornerRadius = 10;
     [cell updateValues];
     return cell;
 }
@@ -83,6 +86,19 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.bills.count;
 }
+//
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+//    return self.bills.count;
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+//    return 15;
+//}
+//
+//- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+//    view.tintColor = [UIColor whiteColor];
+//}
+
 
 #pragma mark - DZEmptyDataSetDelegate
 

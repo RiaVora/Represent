@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *votesAbstainLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *resultImageView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSMutableArray *reccomendedReps;
 
@@ -31,7 +32,6 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-
 }
 
 #pragma mark - Setup
@@ -39,6 +39,10 @@
 - (void)updateValues {
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
+    if (self.containerView) {
+        self.containerView.backgroundColor = UIColor.systemGray5Color;
+        self.containerView.layer.cornerRadius = 10;
+    }
     self.user = [User currentUser];
     self.titleLabel.text = self.bill.title;
     if (self.bill.shortSummary) {
