@@ -167,6 +167,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (UIColor *)getDarkYellow;
 
+/*Returns a UIColor of light green used as background and behind buttons
+ 
+ @return a UIColor based on a hex green value
+*/
+
++ (UIColor *)getGreen;
+
 /*Returns whether the value in a dictionary exists by checking for both [NSNull null] and nil
  
  @param dictionary is the given dictionary to check

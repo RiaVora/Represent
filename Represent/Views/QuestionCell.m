@@ -19,7 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *voteButton;
 @property (weak, nonatomic) IBOutlet UIImageView *votedView;
 @property (weak, nonatomic) IBOutlet UIImageView *topQuestionView;
-@property (weak, nonatomic) IBOutlet UIImageView *numberQuestionView;
+@property (weak, nonatomic) IBOutlet UILabel *numberLabel;
 
 @end
 
@@ -60,7 +60,6 @@
 
 - (void)setTopQuestion{
     [self.topQuestionView setHidden:false];
-//    [self.numberQuestionView setTintColor:UIColor.systemGreenColor];
 }
 
 - (void)setNormalQuestion {
@@ -69,13 +68,15 @@
 }
 
 - (void)setNumber: (NSInteger)row {
-    if (row <= 50) {
-        [self.numberQuestionView setHidden:false];
-        [self.numberQuestionView setImage:[UIImage systemImageNamed:[NSString stringWithFormat:@"%ld.square.fill", (long)row + 1]]];
-        [self.numberQuestionView setTintColor:UIColor.lightGrayColor];
+    [self.numberLabel setText:[NSString stringWithFormat:@"%ld", (long)row + 1]];
+    [self.numberLabel setTextColor:UIColor.systemGray2Color];
+    if (row <= 98) {
+        [self.numberLabel setFont:[UIFont systemFontOfSize:20]];
     } else {
-        [self.numberQuestionView setHidden:true];
+        [self.numberLabel setFont:[UIFont systemFontOfSize:16]];
+
     }
+
 }
 
 - (void)setProfilePhoto {

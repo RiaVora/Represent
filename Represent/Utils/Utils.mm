@@ -15,7 +15,7 @@ static const NSArray *filters = [NSArray arrayWithObjects: @"Senate", @"House", 
 NSInteger const topQuestionsLimit = 3;
 NSString *yellowHex = @"F8F8C4";
 NSString *darkYellowHex = @"B68603";
-
+NSString *greenHex = @"D9F8D1";
 
 @implementation Utils
 
@@ -190,6 +190,12 @@ NSString *darkYellowHex = @"B68603";
 + (UIColor *)getDarkYellow {
     return [UIColor colorWithHexString: darkYellowHex];
 }
+
++ (UIColor *)getGreen {
+    return [UIColor colorWithHexString: greenHex];
+}
+
+
 
 
 #pragma mark - Helpers

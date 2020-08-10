@@ -8,7 +8,7 @@
 
 #import "BillDetailsViewController.h"
 
-@interface BillDetailsViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface BillDetailsViewController () <UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *resultLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timestampLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -29,6 +29,11 @@
     [super viewDidLoad];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.emptyDataSetDelegate = self;
+    self.tableView.tableFooterView = [UIView new];
+    [self.tableView.layer setBorderWidth:1];
+    [self.tableView.layer setBorderColor:UIColor.darkGrayColor.CGColor];
     self.bills = [[NSMutableArray alloc] init];
     [self updateValues];
     [self fetchBills];
@@ -77,6 +82,29 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.bills.count;
+}
+
+#pragma mark - DZEmptyDataSetDelegate
+
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView {
+    UIImage *resizedImage = [Utils resizeImage:[UIImage systemImageNamed:@"book"] withSize:CGSizeMake(100, 100)];
+    resizedImage = [resizedImage imageWithTintColor:UIColor.systemGrayColor];
+    return resizedImage;
+}
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    NSString *text = @"No Past Actions";
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:25.0f], NSForegroundColorAttributeName: [UIColor darkGrayColor]};
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
+    NSString *text = @"This bill doesn't have any past actions!";
+    NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
+    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraph.alignment = NSTextAlignmentCenter;
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:18.0f], NSForegroundColorAttributeName: [UIColor lightGrayColor], NSParagraphStyleAttributeName: paragraph};
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 @end

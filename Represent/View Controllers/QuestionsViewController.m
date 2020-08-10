@@ -72,7 +72,6 @@
     self.navigationItem.rightBarButtonItem = self.composeButton;
     [self.currentUser updateAvailableVotes];
     [self.bottomDescriptionLabel setText:@"Votes Remaining: "];
-    NSLog(@"count is %@", self.currentUser.availableVoteCount);
     [self.bottomNumberLabel setText:[NSString stringWithFormat:@"%@", self.currentUser.availableVoteCount]];
     if (!self.currentRepresentative || ![self.currentUser hasRep:self.currentRepresentative]) {
         self.currentRepresentative = self.currentUser.followedRepresentatives[0];
