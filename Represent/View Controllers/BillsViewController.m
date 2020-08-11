@@ -34,7 +34,7 @@
     [self fetchBillsParse:NO];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
     [self fetchBillsParse:NO];
     if (self.lastRefreshed.minutesAgo > 30) {
         [self updateBills];

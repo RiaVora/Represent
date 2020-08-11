@@ -143,6 +143,8 @@
     [self performSegueWithIdentifier:@"profileSegue" sender:sender];
 }
 
+#pragma mark - Navigation
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"profileSegue"]) {
         ProfileViewController *profileVC = [segue destinationViewController];

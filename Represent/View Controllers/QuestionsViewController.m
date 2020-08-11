@@ -38,7 +38,7 @@
     [self initRefreshControl];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
     [self setUpViews];
 }
 
@@ -115,7 +115,6 @@
     [questionQuery includeKey:@"representative"];
     [questionQuery whereKey:@"representative" equalTo:self.currentRepresentative];
     questionQuery.limit = 40;
-    
     [questionQuery findObjectsInBackgroundWithBlock:^(NSArray<Question *> * _Nullable questions, NSError * _Nullable error) {
         if (questions) {
             NSLog(@"Successfully received questions!");
@@ -125,7 +124,6 @@
             [self.refreshControl endRefreshing];
             [UIView animateWithDuration:3 animations:^{
                 [MBProgressHUD hideHUDForView:self.view animated:true];
-                [self goToCell:2];
             }];
         } else {
             NSLog(@"There was a problem fetching Questions: %@", error.localizedDescription);
@@ -171,15 +169,14 @@
         QuestionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QuestionCell"];
         cell.question = self.questions[indexPath.row];
         if (indexPath.row < [Utils getLimit] && !(cell.question.answer) && self.repView) {
+            NSLog(@"Happening for question %@ with a self.questions of %ld", cell.question, (long)self.questionsLeft);
             self.questionsLeft++;
             [self.bottomNumberLabel setText:[NSString stringWithFormat:@"%lu", self.questionsLeft]];
-
         }
         cell.controllerDelegate = self;
         cell.delegate = self;
         [cell updateValues: indexPath.row];
         return cell;
-
     } else {
         RepresentativeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RepresentativeCell"];
         if (cell == nil) {
@@ -220,7 +217,6 @@
             answerVC.question = cell.question;
             [self.navigationController pushViewController:answerVC animated:YES];
         }
-
     }
 }
 

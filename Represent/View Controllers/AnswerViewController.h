@@ -15,6 +15,8 @@
 #import <ChameleonFramework/Chameleon.h>
 #import "ProfileViewController.h"
 
+/*The AnswerViewController is a UIViewController class consisting of a section where the Question is displayed and either an area for the representative to answer (if the user is the representative that the question is directed to) or a static view of the answer from the representative. The segue from QuestionsViewController to AnswerViewController is given to the representative at all times, and to other users only if the question has been answered.*/
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface AnswerViewController : UIViewController
