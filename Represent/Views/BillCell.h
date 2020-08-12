@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*METHODS*/
 
 /*Used to update the various labels and images, called externally by the BillsViewController.*/
-- (void)updateValues;
+- (void)updateValues :(void(^)(BOOL success))completion;
 
 @end
 

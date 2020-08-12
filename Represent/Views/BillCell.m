@@ -34,9 +34,10 @@
     [super awakeFromNib];
 }
 
+
 #pragma mark - Setup
 
-- (void)updateValues {
+- (void)updateValues :(void(^)(BOOL success))completion {
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     if (self.containerView) {
@@ -79,6 +80,7 @@
         } else {
             [self.collectionView reloadData];
         }
+        completion(success);
     }];
 }
 
@@ -164,7 +166,15 @@
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     VoteCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"VoteCell" forIndexPath:indexPath];
     cell.bill = self.bill;
-    cell.representative = self.reccomendedReps[indexPath.row];
+    if (self.reccomendedReps.count < 10) {
+        [self updateValues:^(BOOL success) {
+            if (success) {
+                cell.representative = self.reccomendedReps[indexPath.row];
+            }
+        }];
+    } else {
+        cell.representative = self.reccomendedReps[indexPath.row];
+    }
     cell.layer.borderColor =  UIColor.lightGrayColor.CGColor;
     cell.layer.borderWidth = 1;
     cell.layer.cornerRadius = 10;

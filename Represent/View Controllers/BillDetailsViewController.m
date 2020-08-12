@@ -76,7 +76,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     BillCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BillCell"];
     cell.bill = self.bills[indexPath.row];
-    [cell updateValues];
+    [cell updateValues:^(BOOL success) {}];
     return cell;
 }
 

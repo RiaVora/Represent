@@ -215,7 +215,7 @@
     if ([tableView isEqual: self.tableView]) {
         BillCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BillCell"];
         cell.bill = self.filteredBills[indexPath.row];
-        [cell updateValues];
+        [cell updateValues:^(BOOL success) {}];
         return cell;
     } else {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleCell"];
@@ -244,7 +244,6 @@
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [self fetchBillsParse:NO];
     }
-
 }
 
 - (void)updateFilters: (NSString *)filter forCell:(UITableViewCell *)cell {
@@ -277,14 +276,6 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
 
     if (searchText.length != 0) {
-//        NSPredicate *predicateTitle = [NSPredicate predicateWithBlock:^BOOL(Bill *bill, NSDictionary *bindings) {
-//            return [bill.title containsString:searchText];
-//        }];
-//        NSPredicate *predicateSummary = [NSPredicate predicateWithBlock:^BOOL(Bill *bill, NSDictionary *bindings) {
-//            return [bill.shortSummary containsString:searchText];
-//        }];
-//        NSCompoundPredicate *predicateCombined = [NSCompoundPredicate orPredicateWithSubpredicates:@[predicateTitle, predicateSummary]];
-//        self.filteredBills = [NSMutableArray arrayWithArray:[self.bills filteredArrayUsingPredicate:predicateCombined]];
         self.searchText  = searchText;
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [self fetchBillsParse:NO];
