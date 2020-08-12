@@ -40,7 +40,7 @@
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     if (self.containerView) {
-        self.containerView.backgroundColor = UIColor.systemGray5Color;
+        self.containerView.backgroundColor = UIColor.systemGray6Color;
         self.containerView.layer.cornerRadius = 10;
     }
     self.user = [User currentUser];
