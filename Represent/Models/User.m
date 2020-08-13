@@ -40,18 +40,22 @@
     self.state = state.uppercaseString;
     self.username = username;
     self.password = password;
-    self.profilePhoto = [Utils getPFFileFromImage: [UIImage imageNamed:@"profile_tab"]];
     self.followedRepresentatives = [[NSMutableArray alloc] init];
     self.votedQuestions = [[NSMutableArray alloc] init];
     self.availableVoteCount = [NSNumber numberWithInt:5];
     if (!isRepresentative) {
         self.email = email;
-        [self findRepresentatives];
+        [self findRepresentatives:^(BOOL success) {
+            if (success) {
+                [self signUpInBackgroundWithBlock: completion];
+            }
+        }];
+    } else {
+        [self signUpInBackgroundWithBlock: completion];
     }
-    [self signUpInBackgroundWithBlock: completion];
 }
 
-- (void)findRepresentatives {
+- (void)findRepresentatives :(void(^)(BOOL success))completion  {
     NSString *state = self.state;
     PFQuery *userQuery = [User query];
     [userQuery whereKey:@"state" matchesText:state];
@@ -60,12 +64,14 @@
     [userQuery findObjectsInBackgroundWithBlock:^(NSArray <User *>* _Nullable users, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error with fetching representatives: %@", error.localizedDescription);
+            completion(false);
         } else {
             NSLog(@"Successfully fetched Users to get representatives! Found %lu reps", users.count);
             for (User *user in users) {
                 [self addObject:user forKey:@"followedRepresentatives"];
             }
-            [self save];
+            completion(true);
+//            [self save];
         }
     }];
 }
@@ -123,7 +129,7 @@
 - (void)changeState: (NSString *)state {
     self.state = state;
     self.followedRepresentatives = [[NSMutableArray alloc] init];
-    [self findRepresentatives];
+    [self findRepresentatives:^(BOOL success) {}];
 }
 
 #pragma mark - Helpers

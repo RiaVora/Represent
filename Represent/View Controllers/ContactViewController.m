@@ -63,6 +63,9 @@
             [Utils displayAlertWithOk:@"No Contact Form Found" message:[NSString stringWithFormat: @"%@'s contact form either does not exist, or was inputted incorrectly.", [self.currentRepresentative fullTitleRepresentative]] viewController:self];
         } else {
             [self.contactWebView loadRequest:request];
+            [UIView animateWithDuration:3 animations:^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+            }];
         }
         
         
@@ -107,9 +110,7 @@
     self.currentRepresentative = cell.representative;
     tableView.hidden = YES;
     [self fetchContactForm];
-    [UIView animateWithDuration:3 animations:^{
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-    }];
+    
 }
 
 @end
