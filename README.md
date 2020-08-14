@@ -27,45 +27,47 @@ Government and Politics isn't for a specific group of people; it affects every c
 ### 1. User Stories (Required and Optional)
 
 **Required Must-have Stories**
-* Connect to Parse
-* Connect to ProPublica API
-* The user can log in to an account with their username and password
-* The user can create an account with their first name, email, username, password, and zipcode
-* The user's profile is linked to relevant Representatives (they can choose to share their location or choose Representatives)
-* The TableView is setup to show basic Questions
-* Each Question has a user, a vote button, a timestamp, a vote count, and the question
-* The user can vote on a question
-* The user can swipe down on the screen to refresh
-* The question the user votes for, if the vote count changes to be higher than the above question, moves up on the screen without the user refreshing
-* The user can toggle between Representatives and their questions
-* Prevent the user from voting more than three times a day with a pop-up message
-* The user can submit a question
-* The question the user posts shows up on the screen without the user refreshing
-* The TableView is setup to show basic Bills
-* Each bill has the name of the bill, the scope (Senate, House of Reps, etc.), and whether it passed
-* Each bill displays the votes of relevant/top representatives
-* The user can swipe down on the screen to refresh
-* The user can view a basic version of their profile on the tab (the segue is set up)
-* The user can view a detailed version of their profile with the parameters description, party, etc.
-* The user can edit their description
-* The user can click on profile pictures in the Questions Screen to view a user's profile (without the edit option)
-* The user can swipe down on the screen to refresh their or others' profile
-* At the top of their profile, the user can choose to directly contact their Representatives
-* The user can choose which representative to contact
-* The user can see a detailed view of inputting their last name, email, etc.
-* The user can send a message
+- [x] Connect to Parse
+- [x] Connect to ProPublica API
+- [x] The user can log in to an account with their username and password
+- [x] The user can create an account with their first name, email, username, password, and zipcode
+- [x] The user's profile is linked to relevant Representatives (they can choose to share their location or choose Representatives)
+- [x] The TableView is setup to show basic Questions
+- [x] Each Question has a user, a vote button, a timestamp, a vote count, and the question
+- [x] The user can vote on a question
+- [x] The user can swipe down on the screen to refresh
+- [x] The question the user votes for, if the vote count changes to be higher than the above question, moves up on the screen without the user refreshing
+- [x] The user can toggle between Representatives and their questions
+- [x] Prevent the user from voting more than three times a day with a pop-up message
+- [x] The user can submit a question
+- [x] The question the user posts shows up on the screen without the user refreshing
+- [x] The TableView is setup to show basic Bills
+- [x] Each bill has the name of the bill, the scope (Senate, House of Reps, etc.), and whether it passed
+- [x] Each bill displays the votes of relevant/top representatives
+- [x] The user can swipe down on the screen to refresh
+- [x] The user can view a basic version of their profile on the tab (the segue is set up)
+- [x] The user can view a detailed version of their profile with the parameters description, party, etc.
+- [x] The user can edit their description
+- [x] The user can click on profile pictures in the Questions Screen to view a user's profile (without the edit option)
+- [x] The user's profiles and other's profiles are refreshed when necessary
+- [x] At the top of their profile, the user can choose to directly contact their Representatives
+- [x] The user can choose which representative to contact
+- [x] The user can see a detailed view of inputting their last name, email, etc.
+- [x] The user can send a message
 
 **Optional Nice-to-have Stories**
 
-* Top-notch UI with animations
+- [x] Top-notch UI with animations (work in progress)
+- [x] The user can edit their party
+- [x] The user is limited by characters on their question
+- [x] The user can view a detailed version of the Bills in a DetailsViewController
+- [x] The bills and underlying database has up-to-date information
+- [x] The bill can be clicked on to view a detailed view
 * The user can follow Representatives that are not their relevant Representatives, and it adds them to their toggle menu in View - Questions and allows them to contact them
-* The user's profile dispalys interests
-* The user can edit their party and interests
-* The user can view a detailed version of the Bills in a DetailsViewController
+* The user's profile displays interests and can edit interests
 * The detail view of the bill has arguments for each side
 * The user can view their posted questions through a toggle menu on their profile
 * The user cannot vote on their own question
-* The user is limited by characters on their question
 * The user cannot post hate speech on their question
 * The user can comment on Bills
 * The user can comment on Questions
@@ -78,8 +80,6 @@ Government and Politics isn't for a specific group of people; it affects every c
 * The user can click on the # of votes label to see who publicly voted and the number of private votes
 * When the user uses "@" they can tag a representative
 * When the user uses "+" they can tag a bill
-* The bills and underlying database has up-to-date information
-* The bill can be clicked on to view a detailed view
 * The user can choose to directly send a chat to a representative instead of email
 
 ### 2. Screen Archetypes
@@ -264,27 +264,29 @@ API for Bills and Votes: [ProPublica Congress API](https://projects.propublica.o
 ### Questions Screen
 
 - Toggle between representatives and vote on a question to move it up
-<img src='http://g.recordit.co/6vTsS3YnNS.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://g.recordit.co/c0W5yNQQpM.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 - Posting a Question and reaching a vote limit
-<img src='http://g.recordit.co/2uCbUMvt0F.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-
+<img src='http://g.recordit.co/TDWioQmBEL.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 ### Bills Screen
 
 - Refreshing bills, scrolling through votes, viewing a details view with past votes
-<img src='http://g.recordit.co/J1PxVP19M8.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://g.recordit.co/keoakUDgMr.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 - Searching and filtering bills
-<img src='http://g.recordit.co/fGF5BcVoun.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://g.recordit.co/PbmSvadhvM.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 ### Profile/Contact Screen
 
 - Editing description, party, and profile photo, and seeing other people's profiles 
-<img src='http://g.recordit.co/LRB4ruA2mA.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://g.recordit.co/eCboC8SER0.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-- Contacting a representative and changing your state
-<img src='http://g.recordit.co/NooDPuDZij.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+- Contacting a representative and switching between representatives
+<img src='http://g.recordit.co/G1ASNX0P5W.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+- Changing your state and the questions, bills, and contact screen updating
+<img src='http://g.recordit.co/1cGyryAPKh.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 
 
