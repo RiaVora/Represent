@@ -13,7 +13,7 @@
 #import "APIManager.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
-#import "PFFacebookUtils.h"
+//#import "PFFacebookUtils.h"
 
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
@@ -83,19 +83,19 @@
 }
 
 - (IBAction)pressedFacebook:(FBSDKLoginButton *)sender {
-    [PFFacebookUtils logInInBackgroundWithReadPermissions:@[@"public_profile", @"email"] block:^(PFUser * _Nullable user, NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"Error with logging in given Facebook user with Parse: %@", error.localizedDescription);
-        } else if (!user) {
-            NSLog(@"User cancelled!");
-        } else if (user.isNew){
-            NSLog(@"Successfully logged in new Facebook user with Parse! %@", user.username);
-            [self signUpFacebookUser:user];
-        } else {
-            NSLog(@"Successfully logged in new Facebook user with Parse! %@", user.username);
-            [self logInFacebookUser:user];
-        }
-    }];
+//    [PFFacebookUtils logInInBackgroundWithReadPermissions:@[@"public_profile", @"email"] block:^(PFUser * _Nullable user, NSError * _Nullable error) {
+//        if (error) {
+//            NSLog(@"Error with logging in given Facebook user with Parse: %@", error.localizedDescription);
+//        } else if (!user) {
+//            NSLog(@"User cancelled!");
+//        } else if (user.isNew){
+//            NSLog(@"Successfully logged in new Facebook user with Parse! %@", user.username);
+//            [self signUpFacebookUser:user];
+//        } else {
+//            NSLog(@"Successfully logged in new Facebook user with Parse! %@", user.username);
+//            [self logInFacebookUser:user];
+//        }
+//    }];
 }
 
 #pragma mark - Helpers

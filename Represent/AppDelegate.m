@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
-#import "PFFacebookUtils.h"
+//#import "PFFacebookUtils.h"
 
 
 @interface AppDelegate ()
@@ -28,7 +28,7 @@
     }];
     
     [Parse initializeWithConfiguration:config];
-    [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
+//    [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
     [FBSDKApplicationDelegate.sharedInstance application:application didFinishLaunchingWithOptions:launchOptions];
 
     return YES;

@@ -53,7 +53,6 @@
 #import "PFUser+Synchronous.h"
 #import "PFUser.h"
 #import "PFUserAuthenticationDelegate.h"
-#import "PFFacebookUtils.h"
 
 FOUNDATION_EXPORT double ParseVersionNumber;
 FOUNDATION_EXPORT const unsigned char ParseVersionString[];
