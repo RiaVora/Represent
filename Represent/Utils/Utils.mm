@@ -13,8 +13,8 @@ static const NSArray *failed = [NSArray arrayWithObjects: @"Failed", @"Amendment
 static const NSArray *parties = [NSArray arrayWithObjects: @"No Party Chosen", @"Democrat", @"Republican", @"Independent", @"Non-Affiliated", nil];
 static const NSArray *filters = [NSArray arrayWithObjects: @"Senate", @"House", @"Passed", @"Failed", nil];
 NSInteger const topQuestionsLimit = 3;
-NSString *yellowHex = @"F8F8C4";
-NSString *darkYellowHex = @"B68603";
+NSString *yellowHex = @"D5B744";
+NSString *darkYellowHex = @"FFFFFF";
 NSString *greenHex = @"D9F8D1";
 
 @implementation Utils

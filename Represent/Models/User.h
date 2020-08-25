@@ -132,8 +132,9 @@ NS_ASSUME_NONNULL_BEGIN
 /*Updates the user's representatives to reflect their new state.
  
  @param state is the new state to change the user's representatives to.
+ @completion gives whether the state was changed successfully; error otherwise
  */
-- (void)changeState: (NSString *)state;
+- (void)changeState: (NSString *)state :(void(^)(BOOL success))completion;
 
 @end
 

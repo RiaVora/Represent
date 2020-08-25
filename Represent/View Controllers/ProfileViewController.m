@@ -234,7 +234,12 @@
     [self.stateField endEditing:YES];
     BOOL descriptionChanged = [self setDescription];
     BOOL partyChanged = [self setParty];
-    BOOL stateChanged = [self setState];
+    [self setState:^(BOOL stateChanged) {
+        [self checkChanged:descriptionChanged :partyChanged :stateChanged];
+    }];
+}
+
+- (void)checkChanged:(BOOL)descriptionChanged :(BOOL)partyChanged :(BOOL)stateChanged {
     if (descriptionChanged || partyChanged || stateChanged) {
         [self.user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             if (!succeeded) {
@@ -279,15 +284,20 @@
     return NO;
 }
 
-- (BOOL)setState {
+- (void)setState: (void(^)(BOOL changed))completion {
     NSString *state = self.stateField.text;
     BOOL stateExists = [Utils checkExists:state :@"State" :self];
     BOOL stateLengthCorrect = [Utils checkLength:state :@(2) :@"State" :self];
     if (stateExists && stateLengthCorrect && ![self.user.state isEqualToString:state]) {
-        [self.user changeState:state];
-        return YES;
+        [self.user changeState:state :^(BOOL success) {
+            if (success) {
+                completion(YES);
+            } else {
+                completion(NO);
+            }
+        }];
     }
-    return NO;
+    completion(NO);
 }
 
 - (IBAction)pressedCancel:(id)sender {

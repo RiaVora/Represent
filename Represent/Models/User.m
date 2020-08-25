@@ -126,10 +126,12 @@
     }
 }
 
-- (void)changeState: (NSString *)state {
+- (void)changeState: (NSString *)state :(void(^)(BOOL success))completion   {
     self.state = state;
     self.followedRepresentatives = [[NSMutableArray alloc] init];
-    [self findRepresentatives:^(BOOL success) {}];
+    [self findRepresentatives:^(BOOL success) {
+        completion(success);
+    }];
 }
 
 #pragma mark - Helpers

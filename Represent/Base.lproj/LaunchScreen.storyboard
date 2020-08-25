@@ -27,8 +27,12 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x1u-X9-e9i">
+                                <rect key="frame" x="70" y="392" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="0.80000000000000004" blue="0.80784313725490198" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" red="0.83529411764705885" green="0.71764705882352942" blue="0.26666666666666666" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="Ntz-Yi-WUv" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="200" id="46O-nY-aSg"/>
                             <constraint firstItem="Ntz-Yi-WUv" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Bvx-zs-lOL"/>

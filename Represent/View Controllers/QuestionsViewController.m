@@ -74,8 +74,24 @@
     [self.bottomDescriptionLabel setText:@"Votes Remaining: "];
     [self.bottomNumberLabel setText:[NSString stringWithFormat:@"%@", self.currentUser.availableVoteCount]];
     if (!self.currentRepresentative || ![self.currentUser hasRep:self.currentRepresentative]) {
-        self.currentRepresentative = self.currentUser.followedRepresentatives[0];
+        if (self.currentUser.followedRepresentatives.count == 0) {
+            [self.currentUser changeState:self.currentUser.state :^(BOOL success) {
+                if (success) {
+                    self.currentRepresentative = self.currentUser.followedRepresentatives[0];
+                    [self setUpQuestionsForRep];
+                }
+            }];
+        } else {
+            self.currentRepresentative = self.currentUser.followedRepresentatives[0];
+            [self setUpQuestionsForRep];
+        }
+    } else {
+        [self setUpQuestionsForRep];
     }
+
+}
+
+- (void)setUpQuestionsForRep {
     [self.currentRepresentative fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error with fetching representative %@", error.localizedDescription);
