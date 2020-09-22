@@ -12,6 +12,7 @@
 
 @interface RegistrationViewController ()
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UITextField *firstNameField;
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
 @property (weak, nonatomic) IBOutlet UITextField *stateField;
@@ -26,9 +27,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setUpScrollView];
 }
 
 #pragma mark - Actions
+
+- (void)setUpScrollView {
+    self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+//    CGFloat contentWidth = self.scrollView.bounds.size.width;
+//    CGFloat contentHeight = self.scrollView.bounds.size.height * 1.5;
+//    self.scrollView.contentSize = CGSizeMake(contentWidth, contentHeight);
+}
 
 - (IBAction)pressedSignUp:(id)sender {
     if ([self checkAllCorrect]) {

@@ -28,7 +28,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.facebookButton.layer.cornerRadius = 10;
+//    self.facebookButton.hidden = YES;
+//    self.facebookButtonBottomConstraint.constant = 0;
+    [self.facebookButton removeFromSuperview];
+//   self.facebookButton.layer.cornerRadius = 10;
 }
 
 #pragma mark - Setup
